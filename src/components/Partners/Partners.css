@@ -299,3 +299,23 @@
     padding: 1.5rem;
   }
 }
+
+@media (max-width: 600px) {
+  .partners-section {
+    padding: 4.5rem 1rem 4rem;
+  }
+
+  .partner-card {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .partner-brand-name {
+    font-size: 1.55rem;
+  }
+
+  .partner-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

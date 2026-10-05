@@ -833,3 +833,63 @@
     border-radius: 12px;
   }
 }
+
+@media (max-width: 600px) {
+  .timeline-section {
+    padding: 4.5rem 1rem 3.5rem;
+  }
+
+  .timeline-center-spine {
+    left: 14px;
+  }
+
+  .timeline-node {
+    left: 14px;
+    top: 1.8rem;
+  }
+
+  .node-outer-ring {
+    width: 22px;
+    height: 22px;
+  }
+
+  .node-inner-core {
+    width: 8px;
+    height: 8px;
+  }
+
+  .timeline-branch-connector {
+    top: calc(1.8rem + 11px) !important;
+    left: 14px !important;
+    width: 26px !important;
+  }
+
+  .timeline-item.item-left,
+  .timeline-item.item-right {
+    padding-left: 42px;
+  }
+
+  .timeline-card {
+    padding: 1.4rem 1.1rem;
+    border-radius: 12px;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+  }
+
+  .card-description {
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+  }
+
+  .highlight-tag {
+    font-size: 0.74rem;
+  }
+
+  .filter-btn {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}
+

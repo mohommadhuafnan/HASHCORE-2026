@@ -380,8 +380,41 @@
 }
 
 @media (max-width: 600px) {
+  .team-section {
+    padding: 4.5rem 1rem 4rem;
+  }
+
   .tier-members {
     grid-template-columns: 1fr;
-    max-width: 360px;
+    max-width: 340px;
+    gap: 1.4rem;
+  }
+
+  .leader-card {
+    padding: 1.8rem 1.4rem 1.6rem;
+    max-width: 340px;
+  }
+
+  .tree-node-card {
+    padding: 1.6rem 1.2rem 1.5rem;
+  }
+
+  .avatar-frame {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 0.9rem;
+  }
+
+  .avatar-frame.small {
+    width: 80px;
+    height: 80px;
+  }
+
+  .member-name {
+    font-size: 1.08rem;
+  }
+
+  .leader-card .member-name {
+    font-size: 1.18rem;
   }
 }

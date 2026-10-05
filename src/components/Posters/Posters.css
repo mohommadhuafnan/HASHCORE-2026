@@ -410,11 +410,51 @@
 }
 
 @media (max-width: 640px) {
+  .posters-section {
+    padding: 4.5rem 1rem 4rem;
+  }
+
   .posters-grid {
     grid-template-columns: 1fr;
   }
 
   .share-hub-bar {
     flex-direction: column;
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .share-link-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .social-quick-shares {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .social-share-pill {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .poster-lightbox-modal {
+    padding: 0.8rem;
+  }
+
+  .lightbox-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.2rem;
+    gap: 0.8rem;
+  }
+
+  .btn-download-poster.primary {
+    width: 100%;
+    justify-content: center;
   }
 }
