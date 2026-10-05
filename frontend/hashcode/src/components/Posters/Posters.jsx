@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import posterMainImg from '../../frame/00240.png';
-import posterCtfImg from '../../frame/00001.png';
-import posterWebDevImg from '../../frame/00120.png';
+import posterMainImg from '../../frame/00240.webp';
+import posterCtfImg from '../../frame/00001.webp';
+import posterWebDevImg from '../../frame/00120.webp';
 import './Posters.css';
 
 const POSTERS_DATA = [

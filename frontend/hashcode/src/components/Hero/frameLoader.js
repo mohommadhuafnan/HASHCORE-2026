@@ -8,8 +8,8 @@
  * - Hardware decode acceleration where supported
  */
 
-// Dynamically import all 240 frame asset URLs via Vite
-const frameModules = import.meta.glob('/src/frame/*.png', {
+// Dynamically import all 240 frame asset URLs via Vite (optimized WebP format)
+const frameModules = import.meta.glob('/src/frame/*.webp', {
   eager: true,
   query: '?url',
   import: 'default'
@@ -20,8 +20,8 @@ export const TOTAL_FRAMES = 240;
 // Resolve ordered array of frame URLs (0 to 239)
 export const FRAME_URLS = Array.from({ length: TOTAL_FRAMES }, (_, i) => {
   const padded = String(i + 1).padStart(5, '0');
-  const key = `/src/frame/${padded}.png`;
-  return frameModules[key] || `/src/frame/${padded}.png`;
+  const key = `/src/frame/${padded}.webp`;
+  return frameModules[key] || `/src/frame/${padded}.webp`;
 });
 
 class FrameLoader {

@@ -1,5 +1,5 @@
 import React from 'react';
-import footerKnightImg from '../../frame/00148.png';
+import footerKnightImg from '../../frame/00148.webp';
 import './Footer.css';
 
 export default function Footer() {
