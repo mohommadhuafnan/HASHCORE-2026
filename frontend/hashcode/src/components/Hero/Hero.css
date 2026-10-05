@@ -1,0 +1,565 @@
+/* ==========================================================================
+   HERO COMPONENT STYLES — SEUSL HASHCODE '26
+   ========================================================================== */
+
+.hero-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 280vh; /* Dedicated scroll runway for 240-frame flight before content scrolls */
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* Fixed Viewport pinned continuously — Frame 240 remains as the background */
+.hero-sticky-viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #040806;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Hardware-accelerated Canvas for 240-frame sequence — subtle small dark tint */
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+  background: #040806;
+  filter: brightness(0.82) contrast(1.06); /* Small dark — pristine clarity with gentle depth */
+}
+
+/* Dynamic Smoke & Atmospheric Mist Canvas (Reacts to user scroll & idle) */
+.hero-smoke-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Atmospheric Overlays (Soft natural vignette — small dark without color distortion)
+   ========================================================================== */
+.hero-overlay-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse 90% 80% at 50% 50%, transparent 45%, rgba(3, 7, 5, 0.35) 90%),
+    linear-gradient(to bottom, rgba(4, 8, 6, 0.5) 0%, transparent 14%, transparent 84%, rgba(4, 8, 6, 0.5) 100%);
+}
+
+.hero-cyber-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, rgba(0, 245, 155, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 245, 155, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 10%, transparent 75%);
+  opacity: 0.3;
+}
+
+.hero-atmospheric-fog {
+  display: none;
+}
+
+/* Subtle Scroll Progress Line at Bottom */
+.hero-scroll-indicator-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hero-scroll-indicator-bar .scroll-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #00f59b, #06b6d4);
+  transform-origin: left;
+  transform: scaleX(0);
+  box-shadow: 0 0 10px rgba(0, 245, 155, 0.8);
+  transition: transform 0.08s linear;
+}
+
+/* ==========================================================================
+   Text Moments / Stages (Interpolated via rAF)
+   ========================================================================== */
+.hero-text-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4.5rem 2rem 2rem;
+  opacity: 0;
+  pointer-events: none; /* Must NOT block scroll gestures */
+  will-change: opacity, transform;
+  text-align: center;
+}
+
+.hero-text-stage.stage-1 {
+  opacity: 1;
+}
+
+.stage-content {
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  pointer-events: none;
+}
+
+.stage-content.wide {
+  max-width: 1180px;
+}
+
+/* Enable pointer events ONLY on clickable interactive elements */
+.stage-content a,
+.stage-content button,
+.track-card {
+  pointer-events: auto;
+}
+
+/* Pill Badges */
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 1.1rem;
+  background: rgba(0, 245, 155, 0.08);
+  border: 1px solid rgba(0, 245, 155, 0.3);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent-emerald);
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hero-pill-badge.cyan {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: var(--accent-cyan);
+}
+
+.hero-pill-badge.glow {
+  box-shadow: 0 0 20px rgba(0, 245, 155, 0.25);
+}
+
+.badge-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
+
+.badge-pulse.active {
+  background: #34d399;
+}
+
+/* Headings & Typography */
+.hero-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 7.5vw, 6.8rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 245, 155, 0.25);
+}
+
+.title-highlight {
+  color: var(--accent-emerald);
+  text-shadow: 0 0 30px rgba(0, 245, 155, 0.7);
+}
+
+.hero-subtitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  font-weight: 400;
+  color: #cbd5e1;
+  max-width: 640px;
+  line-height: 1.5;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+}
+
+.stage-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 5.2vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+}
+
+.stage-heading.compact {
+  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+  margin-bottom: 0.5rem;
+}
+
+.stage-heading.large {
+  font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+}
+
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #00f59b 0%, #4efbc1 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(0, 245, 155, 0.4));
+}
+
+.stage-description {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  color: #94a3b8;
+  max-width: 680px;
+  line-height: 1.65;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.9);
+}
+
+/* Scroll Hint Indicator */
+.hero-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  opacity: 0.85;
+}
+
+.mouse-icon {
+  width: 22px;
+  height: 36px;
+  border: 2px solid rgba(0, 245, 155, 0.6);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  box-shadow: 0 0 12px rgba(0, 245, 155, 0.2);
+}
+
+.mouse-wheel {
+  width: 3px;
+  height: 7px;
+  background: var(--accent-emerald);
+  border-radius: 2px;
+  animation: mouse-scroll 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes mouse-scroll {
+  0% { transform: translateY(0); opacity: 1; }
+  60% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+.scroll-hint-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--accent-emerald);
+}
+
+/* ==========================================================================
+   STAGE 3: Two Tracks Cards Grid
+   ========================================================================== */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.8rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.track-card {
+  position: relative;
+  background: rgba(6, 14, 10, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 245, 155, 0.2);
+  border-radius: 16px;
+  padding: 2.2rem 2rem;
+  text-align: left;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.track-card.dev-card {
+  border-color: rgba(6, 182, 212, 0.25);
+  background: rgba(6, 13, 16, 0.75);
+}
+
+.track-card-glow {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dev-card .track-card-glow {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, transparent 70%);
+}
+
+.track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.track-num {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-emerald);
+}
+
+.dev-card .track-num {
+  color: var(--accent-cyan);
+}
+
+.track-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(0, 245, 155, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-emerald);
+}
+
+.dev-card .track-badge-icon {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--accent-cyan);
+}
+
+.track-badge-icon .icon-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.track-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+}
+
+.track-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  margin-bottom: 1.4rem;
+}
+
+.track-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.track-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.25rem 0.65rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  color: #94a3b8;
+}
+
+.ctf-card:hover {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 20px 45px rgba(0, 245, 155, 0.2);
+  transform: translateY(-2px);
+}
+
+.dev-card:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 20px 45px rgba(6, 182, 212, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   STAGE 4: Destination Actions & CTAs
+   ========================================================================== */
+.stage-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.btn-hero-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 2rem;
+  background: #00f59b;
+  color: #040806;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 245, 155, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+.btn-hero-primary .btn-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.25s ease;
+}
+
+.btn-hero-primary:hover {
+  background: #4efbc1;
+  box-shadow: 0 0 45px rgba(0, 245, 155, 0.7);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-hero-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 1.8rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(0, 245, 155, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Future Content Anchor (Architecture Extension Point)
+   ========================================================================== */
+.hero-future-anchor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero-scroll-container {
+    height: 440vh;
+  }
+
+  .tracks-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-height: 52vh;
+    overflow-y: auto;
+  }
+
+  .track-card {
+    padding: 1.4rem 1.25rem;
+  }
+
+  .track-title {
+    font-size: 1.2rem;
+  }
+
+  .track-desc {
+    font-size: 0.88rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .stage-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    gap: 0.8rem;
+  }
+
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-main-title {
+    font-size: 2.8rem;
+  }
+
+  .hero-pill-badge {
+    font-size: 0.68rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .stage-heading {
+    font-size: 1.9rem;
+  }
+}

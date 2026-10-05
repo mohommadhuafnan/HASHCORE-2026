@@ -1,0 +1,102 @@
+/* ==========================================================================
+   APP CITADEL MASTER LAYOUT & SCROLLING ARCHITECTURE
+   SEUSL HASHCODE '26 — South Eastern University of Sri Lanka
+   ========================================================================== */
+
+.app-citadel-root {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  overflow-x: clip;
+}
+
+/* ==========================================================================
+   Content Stream — Glides smoothly from top to bottom over fixed Frame 240
+   ========================================================================== */
+.citadel-scrolling-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Precision Scroll Anchors for Navbar Links */
+#home,
+#timeline,
+#team,
+#posters,
+#partners,
+#register {
+  scroll-margin-top: 85px;
+}
+
+/* Luminous Cyber Section Dividers */
+.section-cyber-divider {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(0, 245, 155, 0.08) 20%, 
+    rgba(0, 245, 155, 0.35) 50%, 
+    rgba(0, 245, 155, 0.08) 80%, 
+    transparent 100%
+  );
+}
+
+.section-cyber-divider::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 7px;
+  background: radial-gradient(ellipse at center, rgba(0, 245, 155, 0.6) 0%, transparent 80%);
+}
+
+/* ==========================================================================
+   Global Cyber Animations & Section Enhancements
+   ========================================================================== */
+
+/* Shimmering pulse effect */
+@keyframes cyber-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Ambient glow pulsation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 245, 155, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 245, 155, 0.5);
+  }
+}
+
+/* Subtle card lift on hover for all modern cards */
+.timeline-card,
+.team-card,
+.poster-card,
+.partner-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Ensure text readability over natural citadel background */
+.section-title {
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.85);
+}
+
+.section-desc {
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+}

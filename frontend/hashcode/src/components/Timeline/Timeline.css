@@ -1,0 +1,835 @@
+/* ==========================================================================
+   TIMELINE COMPONENT STYLES — SEUSL HASHCODE '26
+   Dual-Track Chronological Event Matrix with Scroll-Driven Electric Lighting
+   ========================================================================== */
+
+.timeline-section {
+  position: relative;
+  width: 100%;
+  padding: 7rem 2rem 6rem;
+  z-index: 10;
+}
+
+.section-container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Section Header
+   ========================================================================== */
+.section-header {
+  margin-bottom: 4.5rem;
+}
+
+.section-header.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 1rem;
+  background: rgba(0, 245, 155, 0.08);
+  border: 1px solid rgba(0, 245, 155, 0.28);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent-emerald);
+  margin-bottom: 1.2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.badge-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.85);
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #00f59b 0%, #4efbc1 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(0, 245, 155, 0.35));
+}
+
+.section-desc {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: #94a3b8;
+  max-width: 680px;
+  line-height: 1.6;
+  margin-bottom: 2.2rem;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+}
+
+/* Filter Tabs */
+.timeline-filter-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem;
+  background: rgba(4, 15, 10, 0.75);
+  border: 1px solid rgba(0, 245, 155, 0.25);
+  border-radius: 9999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.filter-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+.filter-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.filter-btn.active {
+  color: #040806;
+  background: #00f59b;
+  box-shadow: 0 0 20px rgba(0, 245, 155, 0.4);
+}
+
+.filter-btn.active .filter-count {
+  background: rgba(0, 0, 0, 0.2);
+  color: #040806;
+  font-weight: 700;
+}
+
+.tab-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.ctf-dot { background: #00f59b; box-shadow: 0 0 6px #00f59b; }
+.webdev-dot { background: #06b6d4; box-shadow: 0 0 6px #06b6d4; }
+
+/* ==========================================================================
+   Timeline Track Structure & Scroll-Driven Laser Spine
+   ========================================================================== */
+.timeline-track-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+/* Center Laser Spine */
+.timeline-center-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spine-base-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Active Scroll-Driven Lighting Beam */
+.spine-lighting-beam {
+  position: absolute;
+  top: 0;
+  left: -0.5px;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 245, 155, 0.4) 0%,
+    #00f59b 50%,
+    #06b6d4 85%,
+    #ffffff 100%
+  );
+  box-shadow: 0 0 16px #00f59b, 0 0 30px #06b6d4;
+  transition: height 0.08s linear;
+  will-change: height;
+}
+
+/* Plasma Spark Head crackling at the tip of the beam */
+.lighting-plasma-head {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.plasma-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff, 0 0 20px #00f59b, 0 0 35px #06b6d4;
+}
+
+.plasma-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #00f59b;
+  animation: plasma-pulse 1.4s infinite ease-out;
+}
+
+.plasma-flare {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.5) 0%, transparent 70%);
+}
+
+@keyframes plasma-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.timeline-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left / Right Alternating Positioning */
+.timeline-item.item-left {
+  justify-content: flex-start;
+  padding-right: 54%;
+}
+
+.timeline-item.item-right {
+  justify-content: flex-end;
+  padding-left: 54%;
+}
+
+/* ==========================================================================
+   Central Node on the Spine (Interactive Lighting State)
+   ========================================================================== */
+.timeline-node {
+  position: absolute;
+  left: 50%;
+  top: 2.2rem;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  transition: transform 0.35s ease;
+}
+
+.node-outer-ring {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #040806;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.track-ctf .node-outer-ring {
+  border-color: rgba(0, 245, 155, 0.4);
+}
+
+.track-webdev .node-outer-ring {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.node-inner-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #64748b;
+  transition: all 0.35s ease;
+}
+
+.track-ctf .node-inner-core {
+  background: var(--accent-emerald);
+}
+
+.track-webdev .node-inner-core {
+  background: var(--accent-cyan);
+}
+
+/* Node Active Illuminated by Scroll Lighting */
+.node-illuminated .node-outer-ring {
+  transform: scale(1.22);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 25px rgba(0, 245, 155, 0.95), 0 0 45px rgba(0, 245, 155, 0.4);
+}
+
+.track-webdev .node-illuminated .node-outer-ring {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.95), 0 0 45px rgba(6, 182, 212, 0.4);
+}
+
+.node-energy-pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 245, 155, 0.75);
+  display: none;
+  animation: energy-burst 1.8s infinite ease-out;
+}
+
+.node-illuminated .node-energy-pulse {
+  display: block;
+}
+
+.track-webdev .node-energy-pulse {
+  border-color: rgba(6, 182, 212, 0.75);
+}
+
+@keyframes energy-burst {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.node-date-stamp {
+  position: absolute;
+  top: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(4, 15, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: all 0.35s ease;
+}
+
+.node-illuminated .node-date-stamp {
+  border-color: rgba(0, 245, 155, 0.5);
+  background: rgba(4, 18, 12, 0.95);
+  box-shadow: 0 0 18px rgba(0, 245, 155, 0.35);
+}
+
+.track-webdev .node-illuminated .node-date-stamp {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.35);
+}
+
+.stamp-day {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.stamp-month {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  transition: color 0.3s ease;
+}
+
+.node-illuminated .stamp-month {
+  color: var(--accent-emerald);
+}
+
+.track-webdev .node-illuminated .stamp-month {
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Horizontal Branch Connector (Shoots Laser from Spine to Left & Right Cards)
+   ========================================================================== */
+.timeline-branch-connector {
+  position: absolute;
+  top: calc(2.2rem + 14px);
+  height: 2px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.timeline-branch-connector.branch-left {
+  right: 50%;
+  width: 4%;
+  transform: translateY(-50%);
+}
+
+.timeline-branch-connector.branch-right {
+  left: 50%;
+  width: 4%;
+  transform: translateY(-50%);
+}
+
+.branch-line-track {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.branch-line-laser {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #00f59b, #06b6d4);
+  box-shadow: 0 0 10px #00f59b, 0 0 20px #06b6d4;
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.branch-left .branch-line-laser {
+  right: 0;
+  transform-origin: right;
+}
+
+.branch-right .branch-line-laser {
+  left: 0;
+  transform-origin: left;
+}
+
+.is-lit .branch-left .branch-line-laser,
+.is-lit .branch-right .branch-line-laser {
+  width: 100%;
+}
+
+.branch-line-spark {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px #00f59b;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.branch-left .branch-line-spark {
+  left: -3px;
+}
+
+.branch-right .branch-line-spark {
+  right: -3px;
+}
+
+.is-lit .branch-line-spark {
+  opacity: 1;
+  animation: spark-flare 1.5s infinite alternate;
+}
+
+@keyframes spark-flare {
+  0% { transform: translateY(-50%) scale(0.8); box-shadow: 0 0 6px #00f59b; }
+  100% { transform: translateY(-50%) scale(1.4); box-shadow: 0 0 14px #06b6d4; }
+}
+
+/* ==========================================================================
+   Timeline Card (Electric Lighting Entrance & Left/Right Slide In)
+   ========================================================================== */
+.timeline-card {
+  position: relative;
+  width: 100%;
+  background: rgba(6, 15, 11, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(0, 245, 155, 0.18);
+  border-radius: 16px;
+  padding: 2.2rem;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* Left Section: Starts off translated to the LEFT */
+.item-left .timeline-card {
+  opacity: 0.12;
+  transform: translateX(-70px) scale(0.96);
+  filter: brightness(0.85);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.5s ease, 
+              border-color 0.4s ease, 
+              box-shadow 0.4s ease, 
+              filter 0.4s ease;
+}
+
+/* Right Section: Starts off translated to the RIGHT */
+.item-right .timeline-card {
+  opacity: 0.12;
+  transform: translateX(70px) scale(0.96);
+  filter: brightness(0.85);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.5s ease, 
+              border-color 0.4s ease, 
+              box-shadow 0.4s ease, 
+              filter 0.4s ease;
+}
+
+.track-webdev .timeline-card {
+  border-color: rgba(6, 182, 212, 0.2);
+  background: rgba(5, 14, 18, 0.78);
+}
+
+/* Activated / Illuminated by Scroll Beam: Slides smoothly into its suitable place! */
+.item-left .timeline-card.card-illuminated,
+.item-right .timeline-card.card-illuminated {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: brightness(1);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 245, 155, 0.3);
+}
+
+.track-webdev .timeline-card.card-illuminated {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(6, 182, 212, 0.3);
+}
+
+.card-ambient-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.timeline-card.card-illuminated .card-ambient-glow {
+  opacity: 1;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.24) 0%, transparent 70%);
+}
+
+.track-webdev .timeline-card.card-illuminated .card-ambient-glow {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.26) 0%, transparent 70%);
+}
+
+/* Electric Neon Trace around border when lit */
+.card-neon-trace {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  opacity: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.7) 0%,
+    transparent 45%,
+    rgba(6, 182, 212, 0.7) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: trace-shimmer 4s infinite linear;
+  transition: opacity 0.4s ease;
+}
+
+.timeline-card.card-illuminated .card-neon-trace {
+  opacity: 1;
+}
+
+@keyframes trace-shimmer {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  border-color: var(--accent-emerald) !important;
+  box-shadow: 0 30px 65px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 245, 155, 0.35) !important;
+}
+
+.track-webdev .timeline-card:hover {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 30px 65px rgba(0, 0, 0, 0.85), 0 0 35px rgba(6, 182, 212, 0.35) !important;
+}
+
+/* Card Content Details */
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1.1rem;
+}
+
+.track-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+}
+
+.pill-ctf {
+  background: rgba(0, 245, 155, 0.12);
+  border: 1px solid rgba(0, 245, 155, 0.35);
+  color: var(--accent-emerald);
+}
+
+.pill-webdev {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: var(--accent-cyan);
+}
+
+.status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-opening {
+  background: rgba(0, 245, 155, 0.08);
+  color: #4efbc1;
+  border: 1px solid rgba(0, 245, 155, 0.25);
+}
+
+.status-deadline {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-event {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.card-date-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-bottom: 0.7rem;
+}
+
+.calendar-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--accent-emerald);
+}
+
+.track-webdev .calendar-icon {
+  color: var(--accent-cyan);
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+.card-description {
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 1.3rem;
+}
+
+.card-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+}
+
+.highlight-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.tag-check {
+  color: var(--accent-emerald);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.track-webdev .tag-check {
+  color: var(--accent-cyan);
+}
+
+.card-footer-action {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.1rem;
+}
+
+.card-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.card-action-btn .arrow-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.card-action-btn:hover {
+  color: var(--accent-emerald);
+}
+
+.track-webdev .card-action-btn:hover {
+  color: var(--accent-cyan);
+}
+
+.card-action-btn:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 900px) {
+  .timeline-center-spine {
+    left: 24px;
+    transform: none;
+  }
+
+  .timeline-node {
+    left: 24px;
+    transform: translate(-50%, 0);
+  }
+
+  .node-date-stamp {
+    display: none;
+  }
+
+  .timeline-item.item-left,
+  .timeline-item.item-right {
+    padding-left: 60px;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .timeline-branch-connector {
+    left: 24px !important;
+    right: auto !important;
+    width: 36px !important;
+  }
+
+  .branch-left .branch-line-laser,
+  .branch-right .branch-line-laser {
+    left: 0 !important;
+    right: auto !important;
+    transform-origin: left !important;
+  }
+
+  .item-left .timeline-card,
+  .item-right .timeline-card {
+    transform: translateY(30px) scale(0.97);
+  }
+
+  .item-left .timeline-card.card-illuminated,
+  .item-right .timeline-card.card-illuminated {
+    transform: translateY(0) scale(1);
+  }
+
+  .timeline-filter-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 12px;
+  }
+}

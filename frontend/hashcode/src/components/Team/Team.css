@@ -1,0 +1,387 @@
+/* ==========================================================================
+   TEAM COMPONENT STYLES — SEUSL HASHCODE '26
+   Interactive Cyber Organizational Tree with Scroll Lighting Animation
+   ========================================================================== */
+
+.team-section {
+  position: relative;
+  width: 100%;
+  padding: 6.5rem 2rem 7.5rem;
+  z-index: 10;
+}
+
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Tree Wrapper & Hierarchy Tiers
+   ========================================================================== */
+.cyber-tree-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tier 1: Leaders (Top) */
+.tier-leaders {
+  display: flex;
+  justify-content: center;
+  gap: 3.5rem;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Tree Circuit Junction (Trunk, Bus & Drop Lasers)
+   ========================================================================== */
+.tree-circuit-junction {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 90px;
+  pointer-events: none;
+}
+
+/* Vertical Trunk coming down from the leadership tier */
+.vertical-trunk-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 38px;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.trunk-energy-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0%;
+  background: linear-gradient(to bottom, #00f59b, #06b6d4);
+  box-shadow: 0 0 10px #00f59b, 0 0 20px #06b6d4;
+  transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tree-illuminated .trunk-energy-laser {
+  height: 100%;
+}
+
+/* Central Junction Node */
+.trunk-junction-core {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #64748b;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+  z-index: 5;
+}
+
+.tree-illuminated .trunk-junction-core {
+  background: #ffffff;
+  border-color: #00f59b;
+  box-shadow: 0 0 15px #00f59b, 0 0 25px #06b6d4;
+}
+
+.junction-pulse-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 245, 155, 0.6);
+  opacity: 0;
+}
+
+.tree-illuminated .junction-pulse-ring {
+  opacity: 1;
+  animation: junction-burst 1.8s infinite ease-out;
+}
+
+@keyframes junction-burst {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Horizontal Circuit Bus Line */
+.horizontal-bus-line {
+  position: absolute;
+  top: 38px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.bus-energy-laser {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #06b6d4, #00f59b, #06b6d4);
+  box-shadow: 0 0 12px #00f59b;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.tree-illuminated .bus-energy-laser {
+  width: 100%;
+}
+
+/* 4 Drop Lines into the 4 Member Cards */
+.bus-drop-lines {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.drop-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.drop-1 { left: 12.5%; transform: translateX(-50%); }
+.drop-2 { left: 37.5%; transform: translateX(-50%); }
+.drop-3 { left: 62.5%; transform: translateX(-50%); }
+.drop-4 { left: 87.5%; transform: translateX(-50%); }
+
+.drop-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0%;
+  background: linear-gradient(to bottom, #00f59b, #06b6d4);
+  box-shadow: 0 0 8px #00f59b;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+}
+
+.tree-illuminated .drop-laser {
+  height: 100%;
+}
+
+/* Tier 2: Member Branches (4 Leads) */
+.tier-members {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Clean Cyber Tree Node Card
+   ========================================================================== */
+.tree-node-card {
+  position: relative;
+  background: rgba(6, 15, 11, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(0, 245, 155, 0.18);
+  border-radius: 18px;
+  padding: 2.2rem 1.6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  opacity: 0.65;
+  transform: translateY(12px) scale(0.98);
+  filter: brightness(0.9);
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.leader-card {
+  padding: 2.4rem 2rem 2.2rem;
+  flex: 1;
+  max-width: 360px;
+}
+
+/* When illuminated by scroll lighting */
+.tree-node-card.node-lit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: brightness(1);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 155, 0.28);
+}
+
+.member-card.track-webdev.node-lit {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 30px rgba(6, 182, 212, 0.28);
+}
+
+.tree-node-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  border-color: var(--accent-emerald) !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 245, 155, 0.35) !important;
+}
+
+.member-card.track-webdev:hover {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(6, 182, 212, 0.35) !important;
+}
+
+/* Card Ambient Background Reflection */
+.card-glass-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.member-card.track-webdev .card-glass-glow {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+}
+
+/* Avatar Frame & Hologram Ring */
+.avatar-frame {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, rgba(0, 245, 155, 0.7) 0%, rgba(6, 182, 212, 0.4) 100%);
+  box-shadow: 0 0 22px rgba(0, 245, 155, 0.35);
+  margin-bottom: 1.2rem;
+}
+
+.avatar-frame.small {
+  width: 94px;
+  height: 94px;
+  margin-bottom: 1rem;
+}
+
+.member-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-hologram-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 245, 155, 0.45);
+  animation: rotate-ring 24s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotate-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Position Badge */
+.member-position-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.22rem 0.65rem;
+  background: rgba(0, 245, 155, 0.1);
+  border: 1px solid rgba(0, 245, 155, 0.35);
+  border-radius: 9999px;
+  color: var(--accent-emerald);
+  margin-bottom: 0.75rem;
+}
+
+.member-card.track-webdev .member-position-badge {
+  background: rgba(6, 182, 212, 0.1);
+  border-color: rgba(6, 182, 212, 0.35);
+  color: var(--accent-cyan);
+}
+
+/* Member Name & Details */
+.member-name {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 0.35rem;
+}
+
+.leader-card .member-name {
+  font-size: 1.3rem;
+}
+
+.member-position {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-emerald);
+  line-height: 1.35;
+  margin-bottom: 0.25rem;
+}
+
+.member-card.track-webdev .member-position {
+  color: var(--accent-cyan);
+}
+
+.member-division {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Responsive Tree Adaptations
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .tier-members {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+
+  .tree-circuit-junction {
+    display: none; /* Mobile switches to sleek vertical stack */
+  }
+
+  .tier-leaders {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .leader-card {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tier-members {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+}

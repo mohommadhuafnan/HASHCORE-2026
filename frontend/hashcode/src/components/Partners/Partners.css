@@ -1,0 +1,301 @@
+/* ==========================================================================
+   PARTNERS COMPONENT STYLES — SEUSL HASHCODE '26
+   Organizers (SICT) & Media Partner (Agni Vision)
+   ========================================================================== */
+
+.partners-section {
+  position: relative;
+  width: 100%;
+  padding: 6rem 2rem 6.5rem;
+  z-index: 10;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.partner-card {
+  position: relative;
+  background: rgba(6, 15, 11, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 245, 155, 0.22);
+  border-radius: 20px;
+  padding: 2.8rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.partner-card.media-card {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(14, 11, 6, 0.82);
+}
+
+.partner-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 155, 0.2);
+}
+
+.media-card:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.25);
+}
+
+/* Card Top Tag */
+.card-top-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(0, 245, 155, 0.1);
+  border: 1px solid rgba(0, 245, 155, 0.3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent-emerald);
+  margin-bottom: 2rem;
+}
+
+.card-top-tag.media-tag {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.emerald-pulse {
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
+
+.amber-pulse {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
+
+/* Logo Box */
+.partner-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.6rem;
+}
+
+.sict-emblem,
+.agni-emblem {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sict-svg,
+.agni-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(0, 245, 155, 0.4));
+  transition: transform 0.4s ease;
+}
+
+.agni-svg {
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+}
+
+.partner-card:hover .sict-svg,
+.partner-card:hover .agni-svg {
+  transform: scale(1.06);
+}
+
+.emblem-ambient-glow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 245, 155, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.emblem-ambient-glow.amber-glow {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, transparent 70%);
+}
+
+.partner-text-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.agni-name {
+  background: linear-gradient(135deg, #ffffff 40%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.partner-sub-title {
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--accent-emerald);
+  margin-top: 0.2rem;
+}
+
+.media-card .partner-sub-title {
+  color: #f59e0b;
+}
+
+.partner-affil {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  margin-top: 0.2rem;
+}
+
+.partner-statement {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+}
+
+/* Card Footer */
+.partner-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.2rem;
+}
+
+.cred-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.1em;
+}
+
+.partner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.partner-link .ext-icon {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.partner-card:hover .partner-link {
+  color: var(--accent-emerald);
+}
+
+.media-card:hover .partner-link {
+  color: #f59e0b;
+}
+
+.partner-link:hover .ext-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Institutional Host Endorsement Banner */
+.host-endorsement-banner {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 1.6rem 2.2rem;
+  background: rgba(4, 15, 10, 0.6);
+  border: 1px solid rgba(0, 245, 155, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.host-crest-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(0, 245, 155, 0.1);
+  border: 1px solid rgba(0, 245, 155, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.host-svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-emerald);
+}
+
+.host-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.host-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.host-campus {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 860px) {
+  .partners-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .host-endorsement-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+}

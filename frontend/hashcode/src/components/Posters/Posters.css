@@ -1,0 +1,420 @@
+/* ==========================================================================
+   POSTERS COMPONENT STYLES — SEUSL HASHCODE '26
+   Shareable Transmission Archives & Lightbox
+   ========================================================================== */
+
+.posters-section {
+  position: relative;
+  width: 100%;
+  padding: 6.5rem 2rem 7rem;
+  z-index: 10;
+}
+
+/* Quick Share Hub Bar */
+.share-hub-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.share-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 1.6rem;
+  background: rgba(0, 245, 155, 0.12);
+  border: 1px solid rgba(0, 245, 155, 0.4);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 245, 155, 0.2);
+}
+
+.share-link-btn .share-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-emerald);
+}
+
+.share-link-btn:hover {
+  background: #00f59b;
+  color: #040806;
+  box-shadow: 0 0 30px rgba(0, 245, 155, 0.5);
+  transform: translateY(-2px);
+}
+
+.share-link-btn:hover .share-icon {
+  color: #040806;
+}
+
+.social-quick-shares {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.social-share-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.2rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.25s ease;
+}
+
+.social-share-pill:hover {
+  background: rgba(0, 245, 155, 0.15);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Posters Grid
+   ========================================================================== */
+.posters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.2rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.poster-card {
+  position: relative;
+  background: rgba(6, 15, 11, 0.8);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(0, 245, 155, 0.22);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.poster-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 155, 0.2);
+}
+
+/* Poster Image Box */
+.poster-image-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  cursor: pointer;
+  background: #040806;
+}
+
+.poster-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.poster-card:hover .poster-preview-img {
+  transform: scale(1.05);
+}
+
+.poster-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 15, 10, 0.65);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.poster-image-box:hover .poster-hover-overlay {
+  opacity: 1;
+}
+
+.zoom-btn-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #00f59b;
+  color: #040806;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 245, 155, 0.6);
+}
+
+.zoom-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.hover-click-hint {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.poster-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 0.22rem 0.65rem;
+  background: rgba(4, 15, 10, 0.85);
+  border: 1px solid rgba(0, 245, 155, 0.4);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-emerald);
+}
+
+/* Card Body */
+.poster-card-body {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.poster-category {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent-emerald);
+  margin-bottom: 0.4rem;
+}
+
+.poster-title {
+  font-family: var(--font-heading);
+  font-size: 1.22rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #ffffff;
+  margin-bottom: 0.6rem;
+}
+
+.poster-description {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #94a3b8;
+  margin-bottom: 1.2rem;
+  flex-grow: 1;
+}
+
+.poster-specs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-bottom: 1.4rem;
+}
+
+.spec-dot {
+  color: var(--accent-emerald);
+}
+
+.poster-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.2rem;
+}
+
+.btn-download-poster {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 1;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  background: rgba(0, 245, 155, 0.1);
+  border: 1px solid rgba(0, 245, 155, 0.4);
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-download-poster .btn-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent-emerald);
+}
+
+.btn-download-poster:hover {
+  background: #00f59b;
+  color: #040806;
+  border-color: #00f59b;
+  box-shadow: 0 0 20px rgba(0, 245, 155, 0.4);
+}
+
+.btn-download-poster:hover .btn-icon {
+  color: #040806;
+}
+
+.btn-preview-poster {
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-preview-poster:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Lightbox Modal
+   ========================================================================== */
+.poster-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(2, 6, 4, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: modal-fade-in 0.3s ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  background: rgba(6, 15, 11, 0.95);
+  border: 1px solid rgba(0, 245, 155, 0.3);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 245, 155, 0.2);
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(4, 15, 10, 0.85);
+  border: 1px solid rgba(0, 245, 155, 0.4);
+  color: #ffffff;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.lightbox-close-btn:hover {
+  background: #00f59b;
+  color: #040806;
+}
+
+.lightbox-img {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  background: #000;
+  display: block;
+}
+
+.lightbox-footer {
+  padding: 1.4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lightbox-titles h4 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.lightbox-titles p {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-emerald);
+}
+
+.btn-download-poster.primary {
+  background: #00f59b;
+  color: #040806;
+  font-weight: 700;
+  padding: 0.75rem 1.6rem;
+  flex-grow: 0;
+}
+
+.btn-download-poster.primary:hover {
+  background: #4efbc1;
+  box-shadow: 0 0 25px rgba(0, 245, 155, 0.6);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .posters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .posters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .share-hub-bar {
+    flex-direction: column;
+  }
+}
