@@ -2,7 +2,7 @@ import React from 'react';
 import footerKnightImg from '../../frame/00148.webp';
 import './Footer.css';
 
-export default function Footer() {
+export default function Footer({ onNavigateRegister }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -37,9 +37,18 @@ export default function Footer() {
           </p>
 
           <div id="register" className="cta-button-group">
-            <a href="https://forms.gle" target="_blank" rel="noreferrer" className="btn-cta-main">
+            <a 
+              href="#register" 
+              className="btn-cta-main"
+              onClick={(e) => {
+                if (onNavigateRegister) {
+                  e.preventDefault();
+                  onNavigateRegister();
+                }
+              }}
+            >
               <span className="btn-glow-flare" />
-              <span>Pre-Register Your Squad</span>
+              <span>Register Now</span>
               <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -88,7 +97,7 @@ export default function Footer() {
                 <li><a href="#team">03 // Organizing Committee</a></li>
                 <li><a href="#posters">04 // Posters & Share</a></li>
                 <li><a href="#partners">05 // Organizers & Partners</a></li>
-                <li><a href="#register">06 // Registration Portal</a></li>
+                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister(); } }}>06 // Registration Portal</a></li>
               </ul>
             </div>
 
@@ -96,8 +105,8 @@ export default function Footer() {
             <div className="footer-col">
               <h4 className="col-heading">Flagship Tracks</h4>
               <ul className="footer-nav-links">
-                <li><a href="#timeline">Track 01: CTF & Cybersecurity</a></li>
-                <li><a href="#timeline">Track 02: Software Dev & Hackathon</a></li>
+                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('CTF'); } }}>Track 01: CTF Competition Awareness</a></li>
+                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('WEB'); } }}>Track 02: Web Development Competition Awareness</a></li>
                 <li><a href="#timeline">Oct 24: Hands-on Cyber Masterclass</a></li>
                 <li><a href="#timeline">Oct 31: 24H Fullstack Sprint</a></li>
                 <li><a href="#posters">Official Media Press Kit</a></li>

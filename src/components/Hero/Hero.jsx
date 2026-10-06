@@ -3,7 +3,7 @@ import { frameLoader, TOTAL_FRAMES } from './frameLoader';
 import SmokeCanvas from './SmokeCanvas';
 import './Hero.css';
 
-export default function Hero() {
+export default function Hero({ onNavigateRegister }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const textStage1Ref = useRef(null);
@@ -370,7 +370,7 @@ export default function Hero() {
             </h2>
             
             <div className="tracks-grid">
-              {/* Track 1: CTF & Cybersecurity */}
+              {/* Track 1: CTF Competition Awareness */}
               <div className="track-card ctf-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
@@ -382,19 +382,36 @@ export default function Hero() {
                     </svg>
                   </div>
                 </div>
-                <h3 className="track-title">CTF & CYBERSECURITY</h3>
+                <h3 className="track-title">CTF COMPETITION AWARENESS</h3>
                 <p className="track-desc">
-                  Offensive penetration testing, binary exploitation, cryptographic puzzles, 
-                  reverse engineering & active network defense protocols.
+                  Offensive security drills, penetration testing, binary exploitation, cryptographic puzzles, 
+                  and SEUSL CTF championship preparation.
                 </p>
                 <div className="track-tags">
-                  <span>Reverse Eng</span>
+                  <span>Ethical Hacking</span>
                   <span>Cryptography</span>
-                  <span>Network Defense</span>
+                  <span>CTF Platform Drills</span>
+                </div>
+                <div className="track-card-action">
+                  <a 
+                    href="#register" 
+                    className="track-enroll-btn ctf"
+                    onClick={(e) => {
+                      if (onNavigateRegister) {
+                        e.preventDefault();
+                        onNavigateRegister('CTF');
+                      }
+                    }}
+                  >
+                    <span>Register for CTF</span>
+                    <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
                 </div>
               </div>
 
-              {/* Track 2: Software Dev & Hackathon */}
+              {/* Track 2: Web Development Competition */}
               <div className="track-card dev-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
@@ -405,15 +422,32 @@ export default function Hero() {
                     </svg>
                   </div>
                 </div>
-                <h3 className="track-title">SOFTWARE & HACKATHON</h3>
+                <h3 className="track-title">WEB DEVELOPMENT COMPETITION</h3>
                 <p className="track-desc">
-                  High-throughput architectures, fullstack systems, AI-driven applications, 
-                  rapid prototyping & world-class product design.
+                  High-throughput architectures, modern fullstack engineering, cutting-edge UI/UX, 
+                  and SEUSL Hackathon championship preparation.
                 </p>
                 <div className="track-tags">
                   <span>Fullstack Systems</span>
-                  <span>AI Engineering</span>
                   <span>UI/UX Innovation</span>
+                  <span>24H Hackathon Sprint</span>
+                </div>
+                <div className="track-card-action">
+                  <a 
+                    href="#register" 
+                    className="track-enroll-btn web"
+                    onClick={(e) => {
+                      if (onNavigateRegister) {
+                        e.preventDefault();
+                        onNavigateRegister('WEB');
+                      }
+                    }}
+                  >
+                    <span>Register for Web Development</span>
+                    <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
                 </div>
               </div>
             </div>
@@ -438,9 +472,18 @@ export default function Hero() {
               and visionaries. Registrations commencing soon.
             </p>
             <div className="stage-actions">
-              <a href="#register" className="btn-hero-primary">
+              <a 
+                href="#register" 
+                className="btn-hero-primary"
+                onClick={(e) => {
+                  if (onNavigateRegister) {
+                    e.preventDefault();
+                    onNavigateRegister();
+                  }
+                }}
+              >
                 <span className="btn-glow-ring" />
-                <span className="btn-text">Pre-Register Team</span>
+                <span className="btn-text">Register Now</span>
                 <svg viewBox="0 0 24 24" fill="none" className="btn-arrow">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>

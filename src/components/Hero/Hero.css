@@ -426,6 +426,61 @@
   transform: translateY(-2px);
 }
 
+.track-card-action {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.track-enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.track-enroll-btn.ctf {
+  background: rgba(0, 245, 155, 0.12);
+  border: 1px solid rgba(0, 245, 155, 0.35);
+  color: var(--accent-emerald-light);
+}
+
+.track-enroll-btn.ctf:hover {
+  background: var(--accent-emerald);
+  color: #040806;
+  box-shadow: 0 0 15px rgba(0, 245, 155, 0.4);
+  transform: translateX(3px);
+}
+
+.track-enroll-btn.web {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: var(--accent-cyan);
+}
+
+.track-enroll-btn.web:hover {
+  background: var(--accent-cyan);
+  color: #040806;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+  transform: translateX(3px);
+}
+
+.enroll-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.track-enroll-btn:hover .enroll-arrow {
+  transform: translateX(4px);
+}
+
 /* ==========================================================================
    STAGE 4: Destination Actions & CTAs
    ========================================================================== */
