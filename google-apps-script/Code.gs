@@ -38,8 +38,25 @@ function doPost(e) {
       return jsonResponse({ success: false, error: 'Malformed JSON payload' });
     }
 
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getActiveSheet();
+    var ss = null;
+    try {
+      ss = SpreadsheetApp.getActiveSpreadsheet();
+    } catch (ssErr) {}
+
+    if (!ss) {
+      // Official Google Sheet ID linked to Google Form
+      var SPREADSHEET_ID = '1KBL8I-24O27PKY6I6-IrkkbTfLx8bKQ4hT_9GyJY';
+      try {
+        ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      } catch (openErr) {
+        return jsonResponse({ success: false, error: 'Could not access Google Sheet: ' + openErr.message });
+      }
+    }
+
+    var sheet = (ss && ss.getActiveSheet()) || (ss && ss.getSheets()[0]);
+    if (!sheet) {
+      return jsonResponse({ success: false, error: 'Could not find active worksheet' });
+    }
 
     // 1. Validate & Normalize fields
     var participantName = (data.initialsWithName || '').trim();
