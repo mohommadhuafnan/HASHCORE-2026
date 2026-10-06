@@ -45,7 +45,7 @@ function doPost(e) {
 
     if (!ss) {
       // Official Google Sheet ID linked to Google Form
-      var SPREADSHEET_ID = '1KBL8I-24O27PKY6I6-IrkkbTfLx8bKQ4hT_9GyJY';
+      var SPREADSHEET_ID = '1KBL8I-24O27PKY6I6-IrkkbTfLx8bKQ4hT_9GyJYvKc';
       try {
         ss = SpreadsheetApp.openById(SPREADSHEET_ID);
       } catch (openErr) {
@@ -89,12 +89,24 @@ function doPost(e) {
     ensureSheetHeaders(sheet);
 
     // 2. DUPLICATE REGISTRATION PROTECTION
-    // Primary duplicate-check field: University Registering Number
     var dataRange = sheet.getDataRange().getValues();
-    // Headers are in row 1 (index 0)
+    var headers = dataRange[0] || [];
+    var regColIdx = -1;
+    var ticketColIdx = -1;
+    var compColIdx = -1;
+    for (var c = 0; c < headers.length; c++) {
+      var h = String(headers[c] || '').toLowerCase();
+      if (h.indexOf('reg') !== -1 || h.indexOf('university') !== -1) regColIdx = c;
+      if (h.indexOf('ticket') !== -1) ticketColIdx = c;
+      if (h.indexOf('comp') !== -1 || h.indexOf('track') !== -1) compColIdx = c;
+    }
+    if (regColIdx === -1) regColIdx = 6;
+    if (ticketColIdx === -1) ticketColIdx = 1;
+    if (compColIdx === -1) compColIdx = 2;
+
     for (var r = 1; r < dataRange.length; r++) {
-      var existingRegNo = String(dataRange[r][6] || '').trim().toUpperCase(); // Column 7: Reg No
-      var existingTicket = String(dataRange[r][1] || '').trim(); // Column 2: Ticket ID
+      var existingRegNo = String(dataRange[r][regColIdx] || '').trim().toUpperCase();
+      var existingTicket = String(dataRange[r][ticketColIdx] || '').trim();
 
       if (existingRegNo && existingRegNo === regNo) {
         return jsonResponse({
@@ -108,11 +120,9 @@ function doPost(e) {
     }
 
     // 3. GENERATE UNIQUE TICKET ID
-    // Format: CTF-2026-00001 or WEB-2026-00001
-    // Sequential counter based on total existing registrations for this track
     var countForTrack = 0;
     for (var i = 1; i < dataRange.length; i++) {
-      var rowComp = String(dataRange[i][2] || '');
+      var rowComp = String(dataRange[i][compColIdx] || '');
       if (rowComp.indexOf(compShort) !== -1 || (isCTF && rowComp.indexOf('CTF') !== -1) || (!isCTF && rowComp.indexOf('Web') !== -1)) {
         countForTrack++;
       }
