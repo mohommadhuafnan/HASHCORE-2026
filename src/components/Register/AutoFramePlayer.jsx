@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { frameLoader, TOTAL_FRAMES } from '../Hero/frameLoader';
 
 /**
@@ -124,15 +124,16 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
         setProgressPercent(Math.round(((nextIndex + 1) / TOTAL_FRAMES) * 100));
       }
 
-      animRef.current.rafId = requestAnimationFrame(loop);
+      anim.rafId = requestAnimationFrame(loop);
     };
 
-    animRef.current.rafId = requestAnimationFrame(loop);
+    const anim = animRef.current;
+    anim.rafId = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      if (animRef.current.rafId) {
-        cancelAnimationFrame(animRef.current.rafId);
+      if (anim.rafId) {
+        cancelAnimationFrame(anim.rafId);
       }
     };
   }, [drawFrame, onComplete, resizeCanvas]);

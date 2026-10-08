@@ -1,4 +1,3 @@
-import React from 'react';
 import './Partners.css';
 
 export default function Partners() {
@@ -6,7 +5,7 @@ export default function Partners() {
     <section id="partners" className="partners-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header text-center">
+        <div className="section-header text-center reveal-on-scroll">
           <div className="header-badge">
             <span className="badge-pulse-dot" />
             <span>ORGANIZATIONAL MATRIX // PATRONAGE</span>
@@ -23,7 +22,7 @@ export default function Partners() {
         {/* Partners Showcase Grid */}
         <div className="partners-grid">
           {/* Organizer Card: SICT */}
-          <div className="partner-card organizer-card">
+          <div className="partner-card organizer-card reveal-on-scroll stagger-1">
             <div className="card-top-tag">
               <span className="dot emerald-pulse" />
               <span>OFFICIAL ORGANIZER</span>
@@ -69,7 +68,7 @@ export default function Partners() {
           </div>
 
           {/* Media Partner Card: Agni Vision */}
-          <div className="partner-card media-card">
+          <div className="partner-card media-card reveal-on-scroll stagger-2">
             <div className="card-top-tag media-tag">
               <span className="dot amber-pulse" />
               <span>OFFICIAL MEDIA PARTNER</span>
@@ -119,7 +118,7 @@ export default function Partners() {
         </div>
 
         {/* Institutional Host Badge */}
-        <div className="host-endorsement-banner">
+        <div className="host-endorsement-banner reveal-on-scroll stagger-3">
           <div className="host-crest-icon">
             <svg viewBox="0 0 24 24" fill="none" className="host-svg">
               <path d="M12 2L3 7V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V7L12 2Z" stroke="#00f59b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>

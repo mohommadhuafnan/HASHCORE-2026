@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { frameLoader, TOTAL_FRAMES } from './frameLoader';
 import SmokeCanvas from './SmokeCanvas';
 import './Hero.css';
@@ -114,7 +114,7 @@ export default function Hero({ onNavigateRegister }) {
   /**
    * Updates text overlay elements directly via DOM styles for max 120 FPS efficiency
    */
-  const updateTextLayers = (progress) => {
+  const updateTextLayers = useCallback((progress) => {
     // Stage 1: Beginning (0.00 -> 0.18)
     if (textStage1Ref.current) {
       const s1 = calculateStageVisibility(progress, -0.05, 0.0, 0.12, 0.18);
@@ -147,7 +147,7 @@ export default function Hero({ onNavigateRegister }) {
       textStage4Ref.current.style.transform = `translate3d(0, ${s4.translateY}px, 0)`;
       textStage4Ref.current.style.display = s4.display;
     }
-  };
+  }, []);
 
   /**
    * Main Render and Interpolation Loop (rAF)
@@ -198,7 +198,7 @@ export default function Hero({ onNavigateRegister }) {
     };
 
     animState.current.rafId = requestAnimationFrame(renderLoop);
-  }, [drawFrameToCanvas]);
+  }, [drawFrameToCanvas, updateTextLayers]);
 
   /**
    * Passive Scroll & Gesture Listeners:
@@ -240,12 +240,13 @@ export default function Hero({ onNavigateRegister }) {
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
+    const anim = animState.current;
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('resize', resizeCanvas);
-      if (animState.current.rafId) {
-        cancelAnimationFrame(animState.current.rafId);
+      if (anim.rafId) {
+        cancelAnimationFrame(anim.rafId);
       }
     };
   }, [resizeCanvas]);
@@ -283,7 +284,7 @@ export default function Hero({ onNavigateRegister }) {
     return () => {
       unsubscribe();
     };
-  }, [drawFrameToCanvas, resizeCanvas, startAnimationLoop]);
+  }, [drawFrameToCanvas, resizeCanvas, startAnimationLoop, updateTextLayers]);
 
   return (
     <section 
@@ -292,7 +293,7 @@ export default function Hero({ onNavigateRegister }) {
       className="hero-scroll-container"
     >
       {/* Sticky Viewport Housing Canvas, Dynamic Smoke, and Overlays */}
-      <div className="hero-sticky-viewport">
+      <div className={`hero-sticky-viewport ${initialLoaded ? 'is-loaded' : ''}`}>
         {/* Cinematic WebGL / 2D Canvas */}
         <canvas 
           ref={canvasRef} 

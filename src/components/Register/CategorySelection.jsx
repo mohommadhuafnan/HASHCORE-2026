@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * CategorySelection:
  * Displays the two official tracks:
@@ -40,6 +38,54 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           Equip yourself with elite competitive skills before stepping into the arena.
         </p>
       </div>
+
+      {/* Existing Registration Banner (if already registered) */}
+      {existingRegistration && (
+        <div className="existing-registration-banner" style={{
+          background: 'rgba(0, 245, 155, 0.08)',
+          border: '1px solid rgba(0, 245, 155, 0.3)',
+          borderRadius: '14px',
+          padding: '16px 20px',
+          margin: '0 auto 28px',
+          maxWidth: '880px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <div>
+            <div style={{ color: '#00f59b', fontWeight: '600', fontSize: '0.95rem', marginBottom: '4px' }}>
+              ✓ You already have an active registration pass ({existingRegistration.ticketId || existingRegistration.regId})
+            </div>
+            <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+              Participant: {existingRegistration.initialsWithName} • {existingRegistration.competition || existingRegistration.track}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => onSelectTrack('VIEW_EXISTING')}
+            style={{
+              background: '#00f59b',
+              color: '#040b07',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 20px',
+              fontWeight: '700',
+              fontSize: '0.88rem',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <span>View Citadel Pass</span>
+            <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', stroke: 'currentColor', strokeWidth: '2.2' }}>
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* 2 Track Cards Grid */}
       <div className="cat-grid">

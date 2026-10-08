@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import farookImg from '../../assets/team/farook.jpg';
 import rizwanImg from '../../assets/team/rizwan.jpg';
 import kavinduImg from '../../assets/team/kavindu.jpg';
@@ -110,7 +110,7 @@ export default function Team() {
     <section id="team" className="team-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header text-center">
+        <div className="section-header text-center reveal-on-scroll">
           <div className="header-badge">
             <span className="badge-pulse-dot" />
             <span>ORGANIZATIONAL HIERARCHY // COMMUNITY LEADS</span>
@@ -134,8 +134,9 @@ export default function Team() {
                   <img 
                     src={leader.avatar} 
                     alt={leader.name} 
-                    className="member-avatar-img"
+                    className="member-avatar-img lazy-img-smooth is-loaded"
                     loading="lazy" 
+                    decoding="async"
                   />
                   <div className="avatar-hologram-ring" />
                 </div>
@@ -185,8 +186,9 @@ export default function Team() {
                   <img 
                     src={member.avatar} 
                     alt={member.name} 
-                    className="member-avatar-img"
+                    className="member-avatar-img lazy-img-smooth is-loaded"
                     loading="lazy" 
+                    decoding="async"
                   />
                   <div className="avatar-hologram-ring" />
                 </div>

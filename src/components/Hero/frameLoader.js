@@ -123,6 +123,9 @@ class FrameLoader {
     const promise = new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
+      if ('fetchPriority' in img) {
+        img.fetchPriority = priority ? 'high' : 'low';
+      }
 
       const finish = () => {
         this.cache.set(idx, img);

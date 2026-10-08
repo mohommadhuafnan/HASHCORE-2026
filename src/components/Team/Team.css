@@ -386,17 +386,20 @@
 
   .tier-members {
     grid-template-columns: 1fr;
-    max-width: 340px;
+    width: 100%;
+    max-width: 360px;
     gap: 1.4rem;
   }
 
   .leader-card {
     padding: 1.8rem 1.4rem 1.6rem;
-    max-width: 340px;
+    width: 100%;
+    max-width: 360px;
   }
 
   .tree-node-card {
     padding: 1.6rem 1.2rem 1.5rem;
+    width: 100%;
   }
 
   .avatar-frame {
@@ -416,5 +419,18 @@
 
   .leader-card .member-name {
     font-size: 1.18rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .avatar-frame {
+    width: 78px;
+    height: 78px;
+  }
+  .leader-card {
+    padding: 1.5rem 1rem;
+  }
+  .tree-node-card {
+    padding: 1.4rem 1rem;
   }
 }

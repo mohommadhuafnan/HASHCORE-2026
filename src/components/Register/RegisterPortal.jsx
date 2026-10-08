@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import AutoFramePlayer from './AutoFramePlayer';
 import CategorySelection from './CategorySelection';
 import WelcomeLoader from './WelcomeLoader';
@@ -22,27 +22,24 @@ import './RegisterPortal.css';
 export default function RegisterPortal({ onBackToHome, initialStage = 'autoplaying', initialTrack = null }) {
   const [stage, setStage] = useState(initialStage); // 'autoplaying' | 'categories' | 'welcome' | 'form' | 'success'
   const [selectedTrack, setSelectedTrack] = useState(initialTrack); // 'CTF' | 'WEB'
-  const [existingRegistration, setExistingRegistration] = useState(null);
-
-  // Check if participant has already registered (enforce 1 submission rule)
-  useEffect(() => {
+  const [prevInitialTrack, setPrevInitialTrack] = useState(initialTrack);
+  const [existingRegistration, setExistingRegistration] = useState(() => {
     try {
-      const stored = localStorage.getItem('hashcore26_registered_student');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setExistingRegistration(parsed);
-      }
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('hashcore26_registered_student') : null;
+      return stored ? JSON.parse(stored) : null;
     } catch (err) {
       console.warn('Error reading stored registration:', err);
+      return null;
     }
-  }, []);
+  });
 
-  // Update selectedTrack if initialTrack changes
-  useEffect(() => {
+  // Adjust selectedTrack if initialTrack prop changes
+  if (initialTrack !== prevInitialTrack) {
+    setPrevInitialTrack(initialTrack);
     if (initialTrack) {
       setSelectedTrack(initialTrack);
     }
-  }, [initialTrack]);
+  }
 
   // Handlers
   const handleAutoPlayComplete = () => {

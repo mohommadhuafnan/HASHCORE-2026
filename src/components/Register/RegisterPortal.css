@@ -2635,6 +2635,323 @@
 }
 
 /* ==========================================================================
+   MOBILE & TABLET RESPONSIVE MATRIX (< 768px, < 560px, < 400px)
+   Guarantees zero overflow, pristine readability, and touch optimization
+   without altering any animations.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cat-selection-container {
+    padding: 100px 20px 60px;
+  }
+  .registration-form-wrapper {
+    padding: 100px 20px 60px;
+  }
+  .reg-success-container {
+    padding: 100px 16px 60px;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Category Selection Mobile */
+  .cat-selection-container {
+    padding: 85px 14px 40px;
+  }
+  .cat-selection-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .btn-back-citadel {
+    width: 100%;
+    justify-content: center;
+  }
+  .cat-nav-badge {
+    align-self: flex-start;
+  }
+  .cat-main-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.2rem);
+  }
+  .cat-subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 18px;
+  }
+  .cat-card {
+    padding: 26px 18px;
+    border-radius: 20px;
+  }
+  .cat-icon-badge {
+    width: 52px;
+    height: 52px;
+  }
+  .cat-track-name {
+    font-size: 1.45rem;
+  }
+  .cat-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .btn-select-track {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+    font-size: 0.95rem;
+  }
+
+  /* Welcome Loader Mobile */
+  .welcome-center-box {
+    padding: 0 14px;
+  }
+  .welcome-emblem-wrap {
+    width: 82px;
+    height: 82px;
+    margin-bottom: 16px;
+  }
+  .emblem-core {
+    width: 50px;
+    height: 50px;
+  }
+  .welcome-main-title {
+    font-size: 1.45rem;
+  }
+  .welcome-terminal-box {
+    margin-bottom: 18px;
+  }
+
+  /* Registration Form Mobile */
+  .registration-form-wrapper {
+    padding: 85px 12px 40px;
+  }
+  .reg-form-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .btn-switch-track {
+    width: 100%;
+    justify-content: center;
+  }
+  .selected-track-pill {
+    align-self: flex-start;
+  }
+  .reg-form-card {
+    padding: 22px 14px;
+    border-radius: 18px;
+  }
+  .form-head-block {
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+  }
+  .form-title {
+    font-size: 1.4rem;
+  }
+  .label-with-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .same-as-contact-toggle {
+    margin-top: 2px;
+  }
+  .field-input {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+  }
+  .consent-checkbox-list {
+    gap: 10px;
+  }
+  .consent-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .consent-text {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+  .btn-form-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+
+  /* Transit / Loading Modal Mobile */
+  .submit-transit-overlay {
+    padding: 12px;
+  }
+  .submit-transit-card {
+    padding: 26px 16px;
+    border-radius: 18px;
+  }
+  .submit-transit-card.is-celebration {
+    padding: 28px 16px;
+    border-radius: 20px;
+  }
+  .success-checkmark-circle {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 16px;
+  }
+  .checkmark-svg {
+    width: 72px;
+    height: 72px;
+  }
+  .celebrate-title {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+  .celebrate-welcome {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+  .celebrate-sub {
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .celebrate-pill {
+    padding: 8px 16px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+  .transit-title {
+    font-size: 1.15rem;
+  }
+  .transit-telemetry-box {
+    padding: 10px 12px;
+  }
+  .transit-meta-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Grand Citadel Ticket Pass Mobile */
+  .reg-success-container {
+    padding: 80px 10px 50px;
+  }
+  .citadel-pass-card {
+    padding: 24px 16px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+  }
+  .pass-corner {
+    width: 18px;
+    height: 18px;
+  }
+  .pass-corner.tl { top: 12px; left: 12px; }
+  .pass-corner.tr { top: 12px; right: 12px; }
+  .pass-corner.bl { bottom: 12px; left: 12px; }
+  .pass-corner.br { bottom: 12px; right: 12px; }
+  .pass-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+  .pass-brand {
+    gap: 12px;
+  }
+  .pass-crest-mini {
+    width: 42px;
+    height: 42px;
+  }
+  .pass-crest-mini svg {
+    width: 22px;
+    height: 22px;
+  }
+  .pass-event {
+    font-size: 1.2rem;
+  }
+  .pass-id-block {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    padding-top: 10px;
+  }
+  .pass-id-label {
+    margin-bottom: 0;
+  }
+  .pass-id-code {
+    font-size: 1.2rem;
+  }
+  .pass-body-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .data-lbl {
+    font-size: 0.7rem;
+  }
+  .data-val {
+    font-size: 1.02rem;
+    word-break: break-word;
+  }
+  .data-val.bold {
+    font-size: 1.25rem;
+  }
+  .data-val.highlight {
+    font-size: 1.15rem;
+  }
+  .pass-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding-top: 18px;
+  }
+  .mock-barcode {
+    width: 190px;
+    height: 30px;
+  }
+  .pass-stamp {
+    padding: 8px 16px;
+    transform: none;
+    align-self: flex-start;
+  }
+  .stamp-status {
+    font-size: 1rem;
+  }
+  .success-actions-wrap.bottom-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+  .btn-back-home-primary,
+  .btn-print-receipt.btn-download-pdf {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .cat-main-title {
+    font-size: 1.5rem;
+  }
+  .cat-card {
+    padding: 20px 14px;
+  }
+  .reg-form-card {
+    padding: 18px 12px;
+  }
+  .form-title {
+    font-size: 1.25rem;
+  }
+  .citadel-pass-card {
+    padding: 18px 12px;
+  }
+  .pass-event {
+    font-size: 1.05rem;
+  }
+  .pass-id-code {
+    font-size: 1.05rem;
+  }
+}
+
+/* ==========================================================================
    Print Styles for Official Registration Pass
    ========================================================================== */
 @media print {

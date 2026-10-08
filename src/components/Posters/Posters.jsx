@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import posterMainImg from '../../frame/00240.webp';
 import posterCtfImg from '../../frame/00001.webp';
 import posterWebDevImg from '../../frame/00120.webp';
@@ -62,7 +62,7 @@ export default function Posters() {
     <section id="posters" className="posters-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header text-center">
+        <div className="section-header text-center reveal-on-scroll">
           <div className="header-badge">
             <span className="badge-pulse-dot" />
             <span>MEDIA ASSETS // SHAREABLE ARCHIVES</span>
@@ -76,7 +76,7 @@ export default function Posters() {
           </p>
 
           {/* Quick Share Hub */}
-          <div className="share-hub-bar">
+          <div className="share-hub-bar reveal-on-scroll stagger-1">
             <button type="button" className="share-link-btn" onClick={handleShareLink}>
               <svg viewBox="0 0 24 24" fill="none" className="share-icon">
                 <path d="M10 13C10.4295 13.5741 10.9774 14.0492 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.0471 17.54 13.54L20.54 10.54C21.4508 9.59688 21.9548 8.33399 21.9434 7.02347C21.932 5.71295 21.4061 4.45781 20.4789 3.52848C19.5518 2.59915 18.2977 2.06994 16.9872 2.05481C15.6767 2.03968 14.4128 2.53982 13.4667 3.44667L11.83 5.08" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -119,15 +119,16 @@ export default function Posters() {
 
         {/* Posters Showcase Grid */}
         <div className="posters-grid">
-          {POSTERS_DATA.map((poster) => (
-            <div key={poster.id} className="poster-card">
+          {POSTERS_DATA.map((poster, index) => (
+            <div key={poster.id} className={`poster-card reveal-on-scroll stagger-${index + 1}`}>
               {/* Poster Image Container with Hover Overlay */}
               <div className="poster-image-box" onClick={() => setSelectedPoster(poster)}>
                 <img 
                   src={poster.image} 
                   alt={poster.title} 
-                  className="poster-preview-img"
+                  className="poster-preview-img lazy-img-smooth is-loaded"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="poster-hover-overlay">
                   <div className="zoom-btn-icon">

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import './Timeline.css';
 
 const TIMELINE_DATA = [
@@ -152,7 +152,7 @@ export default function Timeline({ onNavigateRegister }) {
     <section id="timeline" className="timeline-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header text-center">
+        <div className="section-header text-center reveal-on-scroll">
           <div className="header-badge">
             <span className="badge-pulse-dot" />
             <span>OPERATIONAL SCHEDULE // HASHCORE '26</span>
@@ -166,7 +166,7 @@ export default function Timeline({ onNavigateRegister }) {
           </p>
 
           {/* Interactive Filter Pills */}
-          <div className="timeline-filter-bar">
+          <div className="timeline-filter-bar reveal-on-scroll stagger-1">
             <button
               type="button"
               className={`filter-btn ${activeFilter === 'ALL' ? 'active' : ''}`}

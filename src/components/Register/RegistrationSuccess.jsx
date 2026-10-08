@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ticketBgImg from '../../frame/00144.webp';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 /**
  * RegistrationSuccess:
@@ -19,9 +17,23 @@ import html2canvas from 'html2canvas';
  * - Buttons at bottom: [Back to Home] [Download Ticket]
  */
 export default function RegistrationSuccess({ registration, onBackToHome }) {
-  if (!registration) return null;
-
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+
+  if (!registration) {
+    return (
+      <div className="reg-success-container">
+        <div className="citadel-pass-card pass-ctf" style={{ textAlign: 'center', padding: '40px 20px' }}>
+          <h3 className="pass-event" style={{ marginBottom: '16px' }}>NO REGISTRATION RECORD FOUND</h3>
+          <p style={{ color: '#94a3b8', marginBottom: '24px' }}>
+            No registration details found in this session. Please select a competition track and complete the registration form.
+          </p>
+          <button type="button" onClick={onBackToHome} className="btn-back-home-primary" style={{ margin: '0 auto' }}>
+            <span>Back to Home</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
   const isCTF = registration.track === 'CTF' || (registration.competition && registration.competition.includes('CTF'));
   const competitionName = registration.competition || (isCTF ? 'CTF Competition' : 'Web Development Competition');
   const ticketId = registration.ticketId || registration.regId || (isCTF ? 'CTF-2026-00001' : 'WEB-2026-00001');
@@ -35,6 +47,12 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
         window.print();
         return;
       }
+
+      // Lazy load html2canvas and jsPDF on demand to keep initial bundle lean and fast
+      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf'),
+      ]);
 
       // Render high resolution snapshot of ticket pass
       const canvas = await html2canvas(cardElement, {

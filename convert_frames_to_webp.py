@@ -36,10 +36,14 @@ def convert_single_frame(png_path: Path, output_dir: Path, quality: int = 85) ->
 
 def main():
     script_dir = Path(__file__).parent.resolve()
-    frames_dir = script_dir / "frontend" / "hashcode" / "src" / "frame"
+    candidate_paths = [
+        script_dir / "src" / "frame",
+        script_dir / "frontend" / "hashcode" / "src" / "frame",
+    ]
+    frames_dir = next((p for p in candidate_paths if p.exists()), None)
     
-    if not frames_dir.exists():
-        print(f"Error: Frames directory not found at {frames_dir}")
+    if not frames_dir:
+        print(f"Error: Frames directory not found in {candidate_paths}")
         sys.exit(1)
         
     png_files = sorted(list(frames_dir.glob("*.png")))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { submitToGoogleForm } from '../../services/googleFormService';
 
 /**
@@ -38,21 +38,6 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionPhase, setSubmissionPhase] = useState(0);
   const [submitError, setSubmitError] = useState('');
-
-  // Submission transit animation steps
-  React.useEffect(() => {
-    if (isSubmitting) {
-      setSubmissionPhase(0);
-      const t1 = setTimeout(() => setSubmissionPhase(1), 600);
-      const t2 = setTimeout(() => setSubmissionPhase(2), 1200);
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
-    } else {
-      setSubmissionPhase(0);
-    }
-  }, [isSubmitting]);
 
   const submissionSteps = [
     { title: 'Submitting Registration...', progress: 32 },
@@ -135,7 +120,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
       newErrors.universityRegNo = 'University Registering Number is required.';
     } else {
       // Validate reasonable format like SEU/IS/XX/XXX/XXX or similar SEU registration number
-      const regPattern = /^SEU\/[A-Z0-9\/_-]+$/i;
+      const regPattern = /^SEU\/[A-Z0-9/_-]+$/i;
       if (!regPattern.test(regNoClean) && regNoClean.length < 8) {
         newErrors.universityRegNo = 'Please enter a valid Registration Number format (Ex: SEU/IS/XX/XXX/XXX).';
       }

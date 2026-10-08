@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import logoImg from '../../assets/logo.png';
 import './Navbar.css';
 
 export default function Navbar({ onNavigateRegister, onNavigateHome, currentView = 'home' }) {
@@ -39,22 +40,13 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
   return (
     <header className={`navbar-header ${scrolled || currentView === 'register' ? 'is-scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Brand / University & Event Identity */}
-        <a href="#home" className="navbar-brand" onClick={handleBrandClick}>
-          <div className="brand-crest">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="crest-svg">
-              <path d="M12 2L3 6V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V6L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 7V17M8 11L12 7L16 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="crest-pulse" />
-          </div>
-          <div className="brand-titles">
-            <span className="brand-uni">SEUSL</span>
-            <div className="brand-main">
-              <span className="brand-name">HASHCORE</span>
-              <span className="brand-badge">'26</span>
-            </div>
-          </div>
+        {/* Brand / Official Event Logo */}
+        <a href="#home" className="navbar-brand" onClick={handleBrandClick} aria-label="HASHCORE '26 Home">
+          <img 
+            src={logoImg} 
+            alt="SEUSL HASHCORE '26" 
+            className="navbar-brand-logo" 
+          />
         </a>
 
         {/* Desktop Navigation */}

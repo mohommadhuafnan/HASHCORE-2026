@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import Timeline from './components/Timeline/Timeline';
@@ -6,8 +6,10 @@ import Team from './components/Team/Team';
 import Posters from './components/Posters/Posters';
 import Partners from './components/Partners/Partners';
 import Footer from './components/Footer/Footer';
-import RegisterPortal from './components/Register/RegisterPortal';
 import './App.css';
+
+// Lazy load the full registration journey to supercharge initial page speed
+const RegisterPortal = lazy(() => import('./components/Register/RegisterPortal'));
 
 /**
  * South Eastern University of Sri Lanka (SEUSL) — HASHCORE '26
@@ -45,6 +47,59 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
+  // Bulletproof Global Scroll Reveal System: Guarantees no section is ever hidden
+  useEffect(() => {
+    const revealAllInView = () => {
+      const elements = document.querySelectorAll('.reveal-on-scroll:not(.is-revealed)');
+      const windowHeight = window.innerHeight;
+      elements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        // Reveal if element is anywhere within windowHeight + 120px margin or scrolled past
+        if (rect.top <= windowHeight + 120 && rect.bottom >= -120) {
+          el.classList.add('is-revealed');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0,
+        rootMargin: '120px 0px 120px 0px',
+      }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    // Immediate check
+    revealAllInView();
+
+    window.addEventListener('scroll', revealAllInView, { passive: true });
+    window.addEventListener('resize', revealAllInView, { passive: true });
+
+    // Safety timers to catch delayed renders
+    const t1 = setTimeout(revealAllInView, 100);
+    const t2 = setTimeout(revealAllInView, 400);
+    const t3 = setTimeout(revealAllInView, 1200);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', revealAllInView);
+      window.removeEventListener('resize', revealAllInView);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [currentView]);
+
   const handleNavigateRegister = (track = null) => {
     setInitialRegisterTrack(track);
     setCurrentView('register');
@@ -69,11 +124,35 @@ function App() {
       />
 
       {currentView === 'register' ? (
-        /* Dedicated Registration Citadel Journey */
-        <RegisterPortal 
-          onBackToHome={handleNavigateHome}
-          initialTrack={initialRegisterTrack}
-        />
+        /* Dedicated Registration Citadel Journey (Lazy Loaded with Cyber Suspense) */
+        <Suspense fallback={
+          <div className="citadel-portal-loader" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            background: '#040b07',
+            color: '#00f59b',
+            fontFamily: 'var(--font-mono, monospace)',
+            gap: '16px'
+          }}>
+            <div className="portal-spinner-ring" style={{
+              width: '44px',
+              height: '44px',
+              border: '3px solid rgba(0, 245, 155, 0.15)',
+              borderTopColor: '#00f59b',
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite'
+            }} />
+            <span style={{ letterSpacing: '0.15em', fontSize: '0.85rem' }}>INITIALIZING CITADEL PORTAL...</span>
+          </div>
+        }>
+          <RegisterPortal 
+            onBackToHome={handleNavigateHome}
+            initialTrack={initialRegisterTrack}
+          />
+        </Suspense>
       ) : (
         /* Standard Citadel Landing Page Experience */
         <main>

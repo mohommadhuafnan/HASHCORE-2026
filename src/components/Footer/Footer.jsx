@@ -1,4 +1,3 @@
-import React from 'react';
 import footerKnightImg from '../../frame/00148.webp';
 import './Footer.css';
 
@@ -15,15 +14,16 @@ export default function Footer({ onNavigateRegister }) {
           <img 
             src={footerKnightImg} 
             alt="SEUSL Citadel Sentinel (Frame 148)" 
-            className="knight-animated-img" 
+            className="knight-animated-img lazy-img-smooth is-loaded" 
             loading="lazy"
+            decoding="async"
           />
           <div className="visual-vignette" />
           <div className="visual-scanline" />
         </div>
 
         {/* Floating Call to Action over the Knight Image */}
-        <div className="footer-cta-container">
+        <div className="footer-cta-container reveal-on-scroll">
           <div className="cta-badge">
             <span className="cta-pulse-dot" />
             <span>FINAL DESTINATION // THE CITADEL AWAITS</span>
@@ -63,7 +63,7 @@ export default function Footer({ onNavigateRegister }) {
       {/* Main Footer Links & University Credentials */}
       <div className="footer-links-matrix">
         <div className="section-container">
-          <div className="footer-cols-grid">
+          <div className="footer-cols-grid reveal-on-scroll stagger-1">
             {/* Col 1: Brand & University Identity */}
             <div className="footer-col col-brand">
               <div className="footer-brand-header">
