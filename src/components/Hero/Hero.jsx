@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { frameLoader, TOTAL_FRAMES } from './frameLoader';
 import SmokeCanvas from './SmokeCanvas';
 import hashcoreLogo from '../../assets/logo.png';
+import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES, useRegistrationCountdown } from '../common/RegistrationCountdown';
 import './Hero.css';
 
 export default function Hero({ onNavigateRegister }) {
@@ -17,6 +18,8 @@ export default function Hero({ onNavigateRegister }) {
   const scrollVelocityRef = useRef(0);
 
   const [initialLoaded, setInitialLoaded] = useState(false);
+  const ctfCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.CTF);
+  const webCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.WEB);
 
   // Animation & Rendering state stored in refs for 120 FPS performance with 0 React re-renders during scroll
   const animState = useRef({
@@ -401,22 +404,44 @@ export default function Hero({ onNavigateRegister }) {
                   <span>OSINT</span>
                   <span>Beginner Roadmap</span>
                 </div>
+
+                {/* Real-Time Registration Countdown */}
+                <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.CTF} track="CTF" />
+
                 <div className="track-card-action">
-                  <a
-                    href="#register"
-                    className="track-enroll-btn ctf"
-                    onClick={(e) => {
-                      if (onNavigateRegister) {
-                        e.preventDefault();
-                        onNavigateRegister('CTF');
-                      }
-                    }}
-                  >
-                    <span>Register for Workshop 01</span>
-                    <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
+                  {ctfCountdown.isUnlocked ? (
+                    <a
+                      href="#register"
+                      className="track-enroll-btn ctf"
+                      onClick={(e) => {
+                        if (onNavigateRegister) {
+                          e.preventDefault();
+                          onNavigateRegister('CTF');
+                        }
+                      }}
+                    >
+                      <span>Register for Workshop 01</span>
+                      <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      className="track-enroll-btn is-locked-cta"
+                      title="Workshop 01 registration opens October 11, 2026 at 9:30 AM"
+                      onClick={() => {
+                        alert('Workshop 01: CTF: From Awareness to Challenge registration officially opens on October 11, 2026 at 9:30 AM.');
+                      }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" className="btn-lock-icon">
+                        <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                        <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                      </svg>
+                      <span>Opens Oct 11 · 9:30 AM</span>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -444,22 +469,44 @@ export default function Hero({ onNavigateRegister }) {
                   <span>Cloud Deployment</span>
                   <span>Pitching</span>
                 </div>
+
+                {/* Real-Time Registration Countdown */}
+                <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.WEB} track="WEB" />
+
                 <div className="track-card-action">
-                  <a
-                    href="#register"
-                    className="track-enroll-btn web"
-                    onClick={(e) => {
-                      if (onNavigateRegister) {
-                        e.preventDefault();
-                        onNavigateRegister('WEB');
-                      }
-                    }}
-                  >
-                    <span>Register for Workshop 02</span>
-                    <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
+                  {webCountdown.isUnlocked ? (
+                    <a
+                      href="#register"
+                      className="track-enroll-btn web"
+                      onClick={(e) => {
+                        if (onNavigateRegister) {
+                          e.preventDefault();
+                          onNavigateRegister('WEB');
+                        }
+                      }}
+                    >
+                      <span>Register for Workshop 02</span>
+                      <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      className="track-enroll-btn is-locked-cta"
+                      title="Workshop 02 registration opens October 16, 2026 at 9:30 AM"
+                      onClick={() => {
+                        alert('Workshop 02: From Idea to Impact registration officially opens on October 16, 2026 at 9:30 AM.');
+                      }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" className="btn-lock-icon">
+                        <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                        <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                      </svg>
+                      <span>Opens Oct 16 · 9:30 AM</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

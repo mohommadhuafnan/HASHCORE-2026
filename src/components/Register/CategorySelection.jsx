@@ -1,13 +1,9 @@
 import sictLogo from '../../assets/SICT.png';
+import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES, useRegistrationCountdown } from '../common/RegistrationCountdown';
 
-/**
- * CategorySelection:
- * Displays the two official tracks:
- * 1. CTF Competition Awareness
- * 2. Web Development Competition Awareness
- * As requested: "Our CTF competition awareness web development competition awareness this is our 2 category"
- */
 export default function CategorySelection({ onSelectTrack, onBackToHome, existingRegistration }) {
+  const ctfCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.CTF);
+  const webCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.WEB);
   return (
     <div className="cat-selection-container">
       {/* Top Bar Navigation */}
@@ -147,18 +143,32 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
 
           </div>
 
+          {/* Real-Time Registration Countdown */}
+          <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.CTF} track="CTF" />
+
           <div className="cat-card-footer">
-            <button
-              type="button"
-              className="btn-select-track btn-ctf"
-              onClick={() => onSelectTrack('CTF')}
-            >
-              <span className="btn-shine" />
-              <span className="btn-text">Register for Workshop 01</span>
-              <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            {ctfCountdown.isUnlocked ? (
+              <button
+                type="button"
+                className="btn-select-track btn-ctf"
+                onClick={() => onSelectTrack('CTF')}
+              >
+                <span className="btn-shine" />
+                <span className="btn-text">Register for Workshop 01</span>
+                <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn-select-track is-locked-cta"
+                onClick={() => alert('Workshop 01: CTF: From Awareness to Challenge registration officially opens on October 11, 2026 at 9:30 AM.')}
+                title="Registration opens October 11, 2026 at 9:30 AM"
+              >
+                <span className="btn-text">Opens October 11 · 9:30 AM</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -181,7 +191,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           </div>
 
           <div className="cat-card-body">
-            <div className="cat-track-sub-domain" style={{ color: '#06b6d4', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
+            <div className="cat-track-sub-domain" style={{ color: '#ffffff', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
               Web Development · Software Technologies
             </div>
             <h2 className="cat-track-title">From Idea to Impact</h2>
@@ -218,18 +228,32 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
 
           </div>
 
+          {/* Real-Time Registration Countdown */}
+          <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.WEB} track="WEB" />
+
           <div className="cat-card-footer">
-            <button
-              type="button"
-              className="btn-select-track btn-web"
-              onClick={() => onSelectTrack('WEB')}
-            >
-              <span className="btn-shine" />
-              <span className="btn-text">Register for Workshop 02</span>
-              <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            {webCountdown.isUnlocked ? (
+              <button
+                type="button"
+                className="btn-select-track btn-web"
+                onClick={() => onSelectTrack('WEB')}
+              >
+                <span className="btn-shine" />
+                <span className="btn-text">Register for Workshop 02</span>
+                <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn-select-track is-locked-cta"
+                onClick={() => alert('Workshop 02: From Idea to Impact registration officially opens on October 16, 2026 at 9:30 AM.')}
+                title="Registration opens October 16, 2026 at 9:30 AM"
+              >
+                <span className="btn-text">Opens October 16 · 9:30 AM</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

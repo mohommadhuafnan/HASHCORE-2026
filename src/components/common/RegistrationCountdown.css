@@ -1,0 +1,266 @@
+/* ==============================================================================
+   SEUSL HASHCORE '26 — REGISTRATION COUNTDOWN STYLING
+   ============================================================================== */
+
+.reg-countdown-box {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.95rem 1.15rem;
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.35s ease;
+  box-sizing: border-box;
+}
+
+.reg-countdown-box.is-locked-timer {
+  background: rgba(3, 15, 9, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.reg-countdown-box.ctf-accent.is-locked-timer {
+  border-color: rgba(0, 245, 155, 0.3);
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(0, 245, 155, 0.12),
+    inset 0 1px 1px rgba(0, 245, 155, 0.2);
+}
+
+.reg-countdown-box.web-accent.is-locked-timer {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.countdown-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.lock-label-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.countdown-lock-svg {
+  width: 13px;
+  height: 13px;
+  stroke: #fbbf24;
+  animation: lock-subtle-glow 2.5s infinite ease-in-out;
+}
+
+@keyframes lock-subtle-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px #fbbf24);
+    opacity: 0.85;
+  }
+  50% {
+    filter: drop-shadow(0 0 6px #fbbf24);
+    opacity: 1;
+  }
+}
+
+.countdown-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #fbbf24;
+  text-transform: uppercase;
+}
+
+.countdown-target-badge {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+}
+
+/* Digits Grid */
+.countdown-digits-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.countdown-digit-cell {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.45rem 0.4rem;
+  min-width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.3s ease;
+}
+
+.ctf-accent .countdown-digit-cell {
+  border-color: rgba(0, 245, 155, 0.25);
+}
+
+.web-accent .countdown-digit-cell {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.digit-val {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.ctf-accent .digit-val {
+  color: #00f59b;
+  text-shadow: 0 0 12px rgba(0, 245, 155, 0.5);
+}
+
+.web-accent .digit-val {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.digit-label {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
+.countdown-separator {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  animation: separator-blink 1s infinite ease-in-out;
+}
+
+@keyframes separator-blink {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.3; }
+}
+
+/* Unlocked Live Banner */
+.reg-countdown-box.is-live {
+  background: rgba(0, 245, 155, 0.12);
+  border: 1px solid rgba(0, 245, 155, 0.45);
+  box-shadow: 0 0 25px rgba(0, 245, 155, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00f59b;
+  box-shadow: 0 0 12px #00f59b;
+  animation: pulse-live 1.6s infinite ease-in-out;
+}
+
+@keyframes pulse-live {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.live-status-text {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #00f59b;
+  letter-spacing: 0.14em;
+}
+
+/* Locked CTA Button styling */
+.track-enroll-btn.is-locked-cta {
+  cursor: not-allowed;
+  opacity: 0.9;
+  background: rgba(245, 158, 11, 0.1) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  color: #fbbf24 !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.12);
+}
+
+.track-enroll-btn.is-locked-cta:hover {
+  background: rgba(245, 158, 11, 0.18) !important;
+  border-color: rgba(245, 158, 11, 0.55) !important;
+  color: #fde68a !important;
+  transform: none !important;
+}
+
+.btn-lock-icon {
+  width: 14px;
+  height: 14px;
+  stroke: #fbbf24;
+}
+
+.btn-select-track.is-locked-cta {
+  cursor: not-allowed;
+  opacity: 0.92;
+  background: rgba(245, 158, 11, 0.12) !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  color: #fbbf24 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-family: var(--font-heading, sans-serif);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+}
+
+.btn-select-track.is-locked-cta:hover {
+  background: rgba(245, 158, 11, 0.2) !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  color: #fde68a !important;
+  transform: none !important;
+}
+
+/* Compact mode for timeline nodes or smaller banners */
+.reg-countdown-box.compact {
+  padding: 0.65rem 0.85rem;
+  margin: 0.6rem 0;
+}
+
+.reg-countdown-box.compact .digit-val {
+  font-size: 1.05rem;
+}
+
+.reg-countdown-box.compact .countdown-digit-cell {
+  min-width: 40px;
+  padding: 0.35rem 0.3rem;
+}
