@@ -5,10 +5,6 @@ import logoOriginalImg from '../../assets/logo-original.png';
 import './Footer.css';
 
 export default function Footer({ onNavigateRegister }) {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <footer className="footer-citadel">
       {/* Upper Atmospheric Banner with Image 00148.png */}
@@ -136,7 +132,7 @@ export default function Footer({ onNavigateRegister }) {
             </div>
           </div>
 
-          {/* Bottom Copyright & Back to Top Bar */}
+          {/* Bottom Copyright Bar */}
           <div className="footer-bottom-bar">
             <p className="copyright-text">
               © 2026 South Eastern University of Sri Lanka (SEUSL). Organized by SICT. Media Partner: Agni Vision. Copyright by Mohommadhu Afnan. All Rights Reserved.
@@ -144,12 +140,6 @@ export default function Footer({ onNavigateRegister }) {
                 &bull; Organizer Portal
               </a>
             </p>
-            <button type="button" className="btn-back-to-top" onClick={scrollToTop}>
-              <span>Ascend to Apex</span>
-              <svg viewBox="0 0 24 24" fill="none" className="top-arrow">
-                <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
           </div>
         </div>
       </div>

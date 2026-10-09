@@ -237,16 +237,9 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
         <div className="telemetry-bracket right" />
       </div>
 
-      {/* Bottom HUD: Progress & Frame Telemetry */}
+      {/* Bottom HUD: Progress Telemetry */}
       <div className="auto-player-footer">
         <div className="hud-data-row">
-          <div className="hud-metric">
-            <span className="metric-label">CAMERA SEQUENCE</span>
-            <span className="metric-value font-mono">
-              FRAME {String(currentFrameNum).padStart(3, '0')} / {TOTAL_FRAMES}
-            </span>
-          </div>
-
           <div className="hud-metric center">
             <span className="metric-status">AUTOMATIC REEL PLAYBACK • PHASE {currentTelemetry.stageNum}/05</span>
             <div className="hud-soundwaves">

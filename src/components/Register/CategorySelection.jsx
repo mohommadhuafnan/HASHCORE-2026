@@ -140,20 +140,6 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               </div>
             </div>
 
-            <div className="cat-specs-box">
-              <div className="spec-row">
-                <span className="spec-lbl">Eligibility:</span>
-                <span className="spec-val">SEUSL Faculty of Technology</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Requirement:</span>
-                <span className="spec-val">Personal Laptop with Kali Linux / VM</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Capacity:</span>
-                <span className="spec-val text-emerald">Strict Single Registration Cap</span>
-              </div>
-            </div>
           </div>
 
           <div className="cat-card-footer">
@@ -220,20 +206,6 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               </div>
             </div>
 
-            <div className="cat-specs-box">
-              <div className="spec-row">
-                <span className="spec-lbl">Eligibility:</span>
-                <span className="spec-val">SEUSL Faculty of Technology</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Requirement:</span>
-                <span className="spec-val">Personal Laptop with Node.js & VS Code</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Capacity:</span>
-                <span className="spec-val text-emerald">Strict Single Registration Cap</span>
-              </div>
-            </div>
           </div>
 
           <div className="cat-card-footer">

@@ -33,7 +33,6 @@ const POSTERS_DATA = [
 
 export default function Posters() {
   const [selectedPoster, setSelectedPoster] = useState(null);
-  const [copiedToast, setCopiedToast] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0); // Focus on the new Launch Poster first
   const [isPaused, setIsPaused] = useState(false);
 
@@ -74,14 +73,6 @@ export default function Posters() {
     }
   };
 
-  const handleShareLink = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.origin);
-      setCopiedToast(true);
-      setTimeout(() => setCopiedToast(false), 2500);
-    }
-  };
-
   const handleDownload = async (imgUrl, filename) => {
     try {
       const response = await fetch(imgUrl);
@@ -116,47 +107,6 @@ export default function Posters() {
             Spread the word across your campus, developer communities, and social networks.
             Download high-resolution official posters and share event transmissions.
           </p>
-
-          {/* Quick Share Hub */}
-          <div className="share-hub-bar reveal-on-scroll stagger-1">
-            <button type="button" className="share-link-btn" onClick={handleShareLink}>
-              <svg viewBox="0 0 24 24" fill="none" className="share-icon">
-                <path d="M10 13C10.4295 13.5741 10.9774 14.0492 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.0471 17.54 13.54L20.54 10.54C21.4508 9.59688 21.9548 8.33399 21.9434 7.02347C21.932 5.71295 21.4061 4.45781 20.4789 3.52848C19.5518 2.59915 18.2977 2.06994 16.9872 2.05481C15.6767 2.03968 14.4128 2.53982 13.4667 3.44667L11.83 5.08" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 11C13.5705 10.4259 13.0226 9.95083 12.3934 9.60706C11.7643 9.26329 11.0685 9.05886 10.3533 9.00768C9.63821 8.9565 8.92036 9.05973 8.24866 9.31028C7.57695 9.56083 6.96689 9.95293 6.46 10.46L3.46 13.46C2.54921 14.4031 2.04523 15.666 2.05663 16.9765C2.06803 18.2871 2.59392 19.5422 3.52108 20.4715C4.44824 21.4009 5.70229 21.9301 7.01281 21.9452C8.32333 21.9603 9.58723 21.4602 10.5333 20.5533L12.16 18.91" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>{copiedToast ? 'Transmission Link Copied!' : 'Copy Event Link'}</span>
-            </button>
-
-            <div className="social-quick-shares">
-              <a 
-                href={`https://api.whatsapp.com/send?text=${encodeURIComponent("Join South Eastern University of Sri Lanka's Flagship Event — HASHCORE '26! CTF & Hackathon: " + window.location.href)}`} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-share-pill"
-                title="Share via WhatsApp"
-              >
-                <span>WhatsApp</span>
-              </a>
-              <a 
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-share-pill"
-                title="Share on LinkedIn"
-              >
-                <span>LinkedIn</span>
-              </a>
-              <a 
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("SEUSL HASHCORE 2026: The Premier University Tech & Cyber Summit! ") }&url=${encodeURIComponent(window.location.href)}`} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-share-pill"
-                title="Share on X"
-              >
-                <span>X / Twitter</span>
-              </a>
-            </div>
-          </div>
         </div>
 
         {/* ==============================================================
