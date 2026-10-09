@@ -1,66 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
-import posterMainImg from '../../frame/00240.webp';
-import posterCtfImg from '../../frame/00001.webp';
-import posterWebDevImg from '../../frame/00120.webp';
 import posterLaunchImg from '../../assets/posters/poster-launch.jpg';
 import posterTeaserImg from '../../assets/posters/poster-teaser.jpg';
 import './Posters.css';
 
+// Only official posters (duplicated to enable continuous seamless 3D coverflow carousel)
 const POSTERS_DATA = [
   {
-    id: 'poster-launch',
+    id: 'poster-launch-1',
     title: 'SEUSL HASHCORE 2026 — Official Website Launch',
-    category: 'WEBSITE LAUNCH ANNOUNCEMENT',
-    resolution: '2048 x 2048 Ultra HD',
-    aspect: '1:1 Square Edition',
     image: posterLaunchImg,
-    isSquare: true,
-    description: '"We are Launching Our Website" — Official key announcement celebrating the live unveiling of the SEUSL HASHCORE portal by SICT × DICT.',
-    badge: 'OFFICIAL LAUNCH TEASER',
+    filename: 'SEUSL-HASHCORE-2026-Website-Launch',
   },
   {
-    id: 'poster-main',
-    title: 'SEUSL HASHCORE 2026 — Official Summit Poster',
-    category: 'FLAGSHIP EVENT POSTER',
-    resolution: '1920 x 1080 Full HD',
-    aspect: '16:9 Landscape',
-    image: posterMainImg,
-    isSquare: false,
-    description: 'The master citadel key visual featuring the grand castle of South Eastern University of Sri Lanka.',
-    badge: 'OFFICIAL KEY VISUAL',
-  },
-  {
-    id: 'poster-teaser',
+    id: 'poster-teaser-1',
     title: 'Battles of Minds in Two Worlds — Something Big is on the Way',
-    category: 'SUMMIT TEASER VISUAL',
-    resolution: '2048 x 2048 Ultra HD',
-    aspect: '1:1 Square Edition',
     image: posterTeaserImg,
-    isSquare: true,
-    description: '"Something Big is on the Way" — Epic visual representing the collision of Software Technology and Network & Security arenas.',
-    badge: 'COMING SOON TEASER',
+    filename: 'SEUSL-HASHCORE-2026-Something-Big',
   },
   {
-    id: 'poster-ctf',
-    title: 'CTF & Cyber Defense — Track 01 Arena Poster',
-    category: 'CYBERSECURITY POSTER',
-    resolution: '1920 x 1080 Full HD',
-    aspect: '16:9 Landscape',
-    image: posterCtfImg,
-    isSquare: false,
-    description: 'Dedicated promotional artwork for the CTF tournament, reverse engineering labs, and network defense arena.',
-    badge: 'TRACK 01 PROMO',
+    id: 'poster-launch-2',
+    title: 'SEUSL HASHCORE 2026 — Official Website Launch',
+    image: posterLaunchImg,
+    filename: 'SEUSL-HASHCORE-2026-Website-Launch',
   },
   {
-    id: 'poster-webdev',
-    title: 'Web Dev & Hackathon — Track 02 Sprint Poster',
-    category: 'HACKATHON POSTER',
-    resolution: '1920 x 1080 Full HD',
-    aspect: '16:9 Landscape',
-    image: posterWebDevImg,
-    isSquare: false,
-    description: 'Official visual for the 24-hour fullstack engineering challenge and UI/UX design masterclass.',
-    badge: 'TRACK 02 PROMO',
+    id: 'poster-teaser-2',
+    title: 'Battles of Minds in Two Worlds — Something Big is on the Way',
+    image: posterTeaserImg,
+    filename: 'SEUSL-HASHCORE-2026-Something-Big',
   },
 ];
 
@@ -297,7 +264,7 @@ export default function Posters() {
                         className="btn-download-poster"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDownload(poster.image, poster.id);
+                          handleDownload(poster.image, poster.filename || poster.id);
                         }}
                       >
                         <svg viewBox="0 0 24 24" fill="none" className="btn-icon">
@@ -325,16 +292,16 @@ export default function Posters() {
             })}
           </div>
 
-          {/* Looping Dots & Auto-Loop Status Indicator */}
+          {/* Looping Dots & Auto-Loop Status Indicator (2 Unique Official Posters) */}
           <div className="carousel-dots-pagination">
-            {POSTERS_DATA.map((p, idx) => (
+            {[0, 1].map((dotIdx) => (
               <button
-                key={p.id}
+                key={dotIdx}
                 type="button"
-                className={`carousel-dot ${idx === activeIndex ? 'active' : ''}`}
-                onClick={() => setActiveIndex(idx)}
-                aria-label={`Switch to poster ${idx + 1}`}
-                title={`Switch to poster ${idx + 1}`}
+                className={`carousel-dot ${(activeIndex % 2) === dotIdx ? 'active' : ''}`}
+                onClick={() => setActiveIndex(dotIdx)}
+                aria-label={`Switch to poster ${dotIdx + 1}`}
+                title={`Switch to poster ${dotIdx + 1}`}
               >
                 <span className="dot-fill" />
               </button>
@@ -367,12 +334,12 @@ export default function Posters() {
             <div className="lightbox-footer">
               <div className="lightbox-titles">
                 <h4>{selectedPoster.title}</h4>
-                <p>{selectedPoster.resolution} • High Definition Transmission</p>
+                <p>2048 x 2048 Ultra HD • Official Transmission Poster</p>
               </div>
               <button 
                 type="button" 
                 className="btn-download-poster primary"
-                onClick={() => handleDownload(selectedPoster.image, selectedPoster.id)}
+                onClick={() => handleDownload(selectedPoster.image, selectedPoster.filename || selectedPoster.id)}
               >
                 <span>Save to Device</span>
               </button>
