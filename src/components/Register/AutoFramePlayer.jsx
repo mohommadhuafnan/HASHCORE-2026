@@ -120,6 +120,19 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
           drawFrame(frame);
         }
 
+        // Gradual blur on last 30 frames reaching 20% blur (8px) on final frame
+        const BLUR_START_INDEX = TOTAL_FRAMES - 30;
+        const canvas = canvasRef.current;
+        if (canvas) {
+          if (nextIndex >= BLUR_START_INDEX) {
+            const blurProgress = Math.min(1, Math.max(0, (nextIndex - BLUR_START_INDEX) / (TOTAL_FRAMES - 1 - BLUR_START_INDEX)));
+            const currentBlur = blurProgress * 8;
+            canvas.style.filter = `brightness(0.82) contrast(1.06) blur(${currentBlur.toFixed(2)}px)`;
+          } else {
+            canvas.style.filter = 'brightness(0.82) contrast(1.06)';
+          }
+        }
+
         setCurrentFrameNum(nextIndex + 1);
         setProgressPercent(Math.round(((nextIndex + 1) / TOTAL_FRAMES) * 100));
       }
