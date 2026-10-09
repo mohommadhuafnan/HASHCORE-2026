@@ -136,6 +136,9 @@ export default function Footer({ onNavigateRegister }) {
           <div className="footer-bottom-bar">
             <p className="copyright-text">
               © 2026 South Eastern University of Sri Lanka (SEUSL). Organized by SICT. Media Partner: Agni Vision. Copyright by Mohommadhu Afnan. All Rights Reserved.
+              <a href="#admin" style={{ color: '#00f59b', opacity: 0.75, textDecoration: 'none', marginLeft: '12px', fontWeight: 'bold' }}>
+                &bull; Organizer Portal
+              </a>
             </p>
             <button type="button" className="btn-back-to-top" onClick={scrollToTop}>
               <span>Ascend to Apex</span>
