@@ -294,7 +294,7 @@
 .hud-progress-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #06b6d4, #00f59b);
+  background: linear-gradient(90deg, #ffffff, #00f59b);
   position: relative;
   transition: width 0.05s linear;
 }
@@ -307,7 +307,7 @@
   height: 14px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 15px #00f59b, 0 0 30px #06b6d4;
+  box-shadow: 0 0 15px #00f59b, 0 0 30px rgba(255, 255, 255, 0.7);
 }
 
 /* ==========================================================================
@@ -507,7 +507,7 @@
 }
 
 .gradient-text-emerald {
-  background: linear-gradient(135deg, #00f59b 0%, #4efbc1 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #00f59b 0%, #4efbc1 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1130,7 +1130,7 @@
 .welcome-progress-bar-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #06b6d4, #00f59b);
+  background: linear-gradient(90deg, #ffffff, #00f59b);
   position: relative;
   transition: width 0.08s ease;
 }
@@ -1619,14 +1619,14 @@
 }
 
 .btn-web-submit {
-  background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
   color: #040806;
-  box-shadow: 0 4px 25px rgba(6, 182, 212, 0.35);
+  box-shadow: 0 4px 25px rgba(255, 255, 255, 0.35);
 }
 
 .btn-web-submit:hover:not(:disabled) {
-  background: linear-gradient(135deg, #38bdf8 0%, #0369a1 100%);
-  box-shadow: 0 8px 35px rgba(6, 182, 212, 0.55);
+  background: #ffffff;
+  box-shadow: 0 8px 35px rgba(255, 255, 255, 0.55);
   transform: translateY(-2px);
 }
 
@@ -1881,7 +1881,7 @@
 }
 
 .data-val.highlight {
-  color: #38bdf8;
+  color: #ffffff;
   font-size: 1.25rem;
   font-weight: 800;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
@@ -2484,7 +2484,7 @@
 .transit-progress-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #06b6d4, #00f59b);
+  background: linear-gradient(90deg, #ffffff, #00f59b);
   box-shadow: 0 0 15px #00f59b;
   transition: width 0.35s ease;
 }

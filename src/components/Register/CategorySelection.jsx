@@ -10,7 +10,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
       <div className="cat-selection-nav">
         <button type="button" onClick={onBackToHome} className="btn-back-citadel">
           <svg viewBox="0 0 24 24" fill="none" className="back-arrow">
-            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <span>Return to Citadel Home</span>
         </button>
@@ -78,7 +78,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           >
             <span>View Workshop Pass</span>
             <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', stroke: 'currentColor', strokeWidth: '2.2' }}>
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
@@ -91,7 +91,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             ================================================================== */}
         <div className="cat-card ctf-variant">
           <div className="cat-card-ambient-glow" />
-          
+
           <div className="cat-card-header">
             <div className="cat-track-badge">
               <span className="badge-code font-mono">WORKSHOP // 01</span>
@@ -99,8 +99,8 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
-                <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
                 <span className="btn-shine" />
                 <span className="btn-text">Register for Workshop 01</span>
                 <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             ) : (
@@ -185,7 +185,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
-                <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
                 <span className="btn-shine" />
                 <span className="btn-text">Register for Workshop 02</span>
                 <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             ) : (
@@ -259,12 +259,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
       </div>
 
       {/* Footer Subtext */}
-      <div className="cat-footer-note">
-        <div className="cat-organizer-pill">
-          <img src={sictLogo} alt="SICT Logo" className="cat-sict-logo" />
-          <span>Organized by Society of ICT (SICT) • Department of ICT (DICT) • Faculty of Technology • South Eastern University of Sri Lanka</span>
-        </div>
-      </div>
+
     </div>
   );
 }

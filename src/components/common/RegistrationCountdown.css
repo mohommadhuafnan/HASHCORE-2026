@@ -55,17 +55,17 @@
 .countdown-lock-svg {
   width: 13px;
   height: 13px;
-  stroke: #fbbf24;
+  stroke: #ffffff;
   animation: lock-subtle-glow 2.5s infinite ease-in-out;
 }
 
 @keyframes lock-subtle-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 2px #fbbf24);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
     opacity: 0.85;
   }
   50% {
-    filter: drop-shadow(0 0 6px #fbbf24);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95));
     opacity: 1;
   }
 }
@@ -74,7 +74,7 @@
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.14em;
-  color: #fbbf24;
+  color: #ffffff;
   text-transform: uppercase;
 }
 
@@ -202,33 +202,33 @@
 /* Locked CTA Button styling */
 .track-enroll-btn.is-locked-cta {
   cursor: not-allowed;
-  opacity: 0.9;
-  background: rgba(245, 158, 11, 0.1) !important;
-  border: 1px solid rgba(245, 158, 11, 0.35) !important;
-  color: #fbbf24 !important;
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.12);
+  opacity: 0.92;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.1);
 }
 
 .track-enroll-btn.is-locked-cta:hover {
-  background: rgba(245, 158, 11, 0.18) !important;
-  border-color: rgba(245, 158, 11, 0.55) !important;
-  color: #fde68a !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
   transform: none !important;
 }
 
 .btn-lock-icon {
   width: 14px;
   height: 14px;
-  stroke: #fbbf24;
+  stroke: #ffffff;
 }
 
 .btn-select-track.is-locked-cta {
   cursor: not-allowed;
   opacity: 0.92;
-  background: rgba(245, 158, 11, 0.12) !important;
-  border: 1px solid rgba(245, 158, 11, 0.4) !important;
-  color: #fbbf24 !important;
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.12);
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -244,9 +244,9 @@
 }
 
 .btn-select-track.is-locked-cta:hover {
-  background: rgba(245, 158, 11, 0.2) !important;
-  border-color: rgba(245, 158, 11, 0.6) !important;
-  color: #fde68a !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  color: #ffffff !important;
   transform: none !important;
 }
 

@@ -44,7 +44,7 @@ export default function Posters() {
     if (isPaused) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % POSTERS_DATA.length);
-    }, 4000);
+    }, 2200);
     return () => clearInterval(interval);
   }, [isPaused]);
 
@@ -241,7 +241,7 @@ export default function Posters() {
             })}
           </div>
 
-          {/* Looping Dots & Auto-Loop Status Indicator (2 Unique Official Posters) */}
+          {/* Looping Dots Pagination */}
           <div className="carousel-dots-pagination">
             {[0, 1].map((dotIdx) => (
               <button
@@ -255,10 +255,6 @@ export default function Posters() {
                 <span className="dot-fill" />
               </button>
             ))}
-            <div className="carousel-loop-tag font-mono">
-              <span className={`loop-indicator ${!isPaused ? 'is-spinning' : ''}`}>⟳</span>
-              <span>{isPaused ? 'PAUSED' : 'AUTO-LOOPING'}</span>
-            </div>
           </div>
         </div>
       </div>

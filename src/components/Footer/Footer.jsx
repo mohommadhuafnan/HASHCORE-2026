@@ -10,10 +10,10 @@ export default function Footer({ onNavigateRegister }) {
       {/* Upper Atmospheric Banner with Image 00148.png */}
       <div className="footer-visual-stage">
         <div className="knight-backdrop-wrap">
-          <img 
-            src={footerKnightImg} 
-            alt="SEUSL Citadel Sentinel (Frame 148)" 
-            className="knight-animated-img lazy-img-smooth is-loaded" 
+          <img
+            src={footerKnightImg}
+            alt="SEUSL Citadel Sentinel (Frame 148)"
+            className="knight-animated-img lazy-img-smooth is-loaded"
             loading="lazy"
             decoding="async"
           />
@@ -32,8 +32,8 @@ export default function Footer({ onNavigateRegister }) {
           </p>
 
           <div id="register" className="cta-button-group">
-            <a 
-              href="#register" 
+            <a
+              href="#register"
               className="btn-cta-main"
               onClick={(e) => {
                 if (onNavigateRegister) {
@@ -45,7 +45,7 @@ export default function Footer({ onNavigateRegister }) {
               <span className="btn-glow-flare" />
               <span>Register Now</span>
               <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
             <a href="#workshops" className="btn-cta-ghost">
@@ -62,10 +62,10 @@ export default function Footer({ onNavigateRegister }) {
             {/* Col 1: Brand & University Identity */}
             <div className="footer-col col-brand">
               <a href="#home" className="footer-brand-logo-link" aria-label="HASHCORE v0.1 – 2026 Home">
-                <img 
-                  src={logoOriginalImg} 
-                  alt="HASHCORE v0.1 – 2026 Official Logo" 
-                  className="footer-brand-logo-img" 
+                <img
+                  src={logoOriginalImg}
+                  alt="HASHCORE v0.1 – 2026 Official Logo"
+                  className="footer-brand-logo-img"
                 />
               </a>
               <p className="brand-desc-footer">
@@ -73,7 +73,8 @@ export default function Footer({ onNavigateRegister }) {
                 Faculty of Technology, South Eastern University of Sri Lanka.
               </p>
               <div className="affil-badges">
-                <span className="affil-pill">Department of ICT (DICT)</span>
+                <span className="affil-pill">Society of ICT</span>
+                <span className="affil-pill">Department of ICT</span>
                 <span className="affil-pill">Faculty of Technology</span>
                 <span className="affil-pill">SEUSL</span>
               </div>

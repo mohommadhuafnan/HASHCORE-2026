@@ -23,9 +23,9 @@
 }
 
 .welcome-loader-hud.hud-web {
-  --hud-accent: #06b6d4;
-  --hud-glow: rgba(6, 182, 212, 0.35);
-  --hud-border: rgba(6, 182, 212, 0.3);
+  --hud-accent: #ffffff;
+  --hud-glow: rgba(255, 255, 255, 0.35);
+  --hud-border: rgba(255, 255, 255, 0.3);
 }
 
 /* Ambient Radial Glow */
@@ -250,11 +250,11 @@
 /* Syntax Coloring */
 .line-comment { color: #64748b; font-style: italic; }
 .line-import  { color: #c084fc; font-weight: 600; }
-.line-cmd     { color: #38bdf8; }
+.line-cmd     { color: #ffffff; }
 .line-info    { color: #94a3b8; }
-.line-warn    { color: #fbbf24; }
+.line-warn    { color: #ffffff; }
 .line-success { color: #34d399; font-weight: 600; }
-.line-special { color: #f59e0b; font-weight: 700; text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+.line-special { color: #ffffff; font-weight: 700; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
 .line-highlight {
   color: var(--hud-accent);
   font-weight: 700;
