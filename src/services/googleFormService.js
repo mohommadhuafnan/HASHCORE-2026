@@ -24,8 +24,8 @@ export const GOOGLE_FORM_CONFIG = {
     consentUpdates: 'entry.297542819',
   },
 
-  // Google Apps Script Web App Endpoint URL (configured via environment variable if deployed on new account)
-  appsScriptUrl: import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL || '',
+  // Google Apps Script Web App Endpoint URL (configured via environment variable or deployed script)
+  appsScriptUrl: import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbzWtO9cTQFXKLQAhbK71lLztViIknZ2OmCAwtA3uB8j6_WSu0YigtOqXgd-Q65-WXiolA/exec',
 };
 
 /**
@@ -56,15 +56,17 @@ export async function submitToGoogleForm(formData) {
       });
 
       const result = await response.json();
-      if (!result.success) {
-        if (result.duplicate) {
-          throw new Error('You have already registered for this event.');
-        }
-        throw new Error(result.error || result.message || 'Registration could not be completed.');
+      if (result.success) {
+        return result;
       }
-      return result;
+
+      if (result.duplicate) {
+        throw new Error('You have already registered for this event.');
+      }
+
+      // If Apps Script has a configuration error, fall through to direct Google Form submission
+      console.warn('Apps Script reported issue, falling back to direct Google Form endpoint:', result.error);
     } catch (err) {
-      // If it's a duplicate error, rethrow so the form displays it directly
       if (err.message && err.message.includes('already registered')) {
         throw err;
       }

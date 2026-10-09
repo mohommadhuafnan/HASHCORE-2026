@@ -5,18 +5,20 @@
  * ============================================================================
  * 
  * INSTRUCTIONS TO DEPLOY:
- * 1. Open your Google Sheet (e.g. the one linked to your Google Form or create a new sheet).
+ * 1. Open your Google Sheet (the one linked to your Google Form via "Link to Sheets").
  * 2. In Google Sheets, click "Extensions" -> "Apps Script".
- * 3. Delete any existing code, and paste this entire Code.gs file.
- * 4. Click "Deploy" -> "New deployment".
- * 5. Select type "Web app".
- * 6. Set Description: "HASHCORE 2026 Registration & Email Service".
- * 7. Set "Execute as": "Me".
- * 8. Set "Who has access": "Anyone" (crucial so your website can submit without login).
- * 9. Click "Deploy", authorize Google permissions when prompted, and copy the Web App URL:
- *    (e.g., https://script.google.com/macros/s/AKfycb.../exec)
- * 10. In your project root, add it to `.env`:
- *     VITE_GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/AKfycb.../exec
+ * 3. Delete any code in the editor, and paste this entire Code.gs file.
+ * 4. Click the blue "Save" (💾) icon.
+ * 5. Click "Deploy" -> "New deployment".
+ * 6. Click the gear icon (⚙️) next to "Select type" and choose "Web app".
+ * 7. Set:
+ *    - Description: "HASHCORE 2026 Registration Service"
+ *    - Execute as: "Me"
+ *    - Who has access: "Anyone" (VERY IMPORTANT)
+ * 8. Click "Deploy", authorize Google account permissions when prompted.
+ * 9. Copy the Web App URL (e.g., https://script.google.com/macros/s/.../exec).
+ * 10. Paste it into your project's `.env` file:
+ *     VITE_GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/.../exec
  * 
  * ============================================================================
  */
@@ -38,41 +40,47 @@ function doPost(e) {
       return jsonResponse({ success: false, error: 'Malformed JSON payload' });
     }
 
+    // 1. Access Google Sheet (container-bound or via Sheet ID)
     var ss = null;
     try {
       ss = SpreadsheetApp.getActiveSpreadsheet();
     } catch (ssErr) {}
 
-    if (!ss) {
-      // Official Google Sheet ID linked to Google Form
-      var SPREADSHEET_ID = '1KBL8I-24O27PKY6I6-IrkkbTfLx8bKQ4hT_9GyJYvKc';
+    // If script was created standalone in script.google.com, specify your Sheet ID here:
+    var SPREADSHEET_ID = ''; // e.g. '1abc...xyz' from https://docs.google.com/spreadsheets/d/1abc...xyz/edit
+    if (!ss && SPREADSHEET_ID) {
       try {
         ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-      } catch (openErr) {
-        return jsonResponse({ success: false, error: 'Could not access Google Sheet: ' + openErr.message });
-      }
+      } catch (openErr) {}
     }
 
-    var sheet = (ss && ss.getActiveSheet()) || (ss && ss.getSheets()[0]);
+    if (!ss) {
+      return jsonResponse({
+        success: false,
+        error: 'Could not access Google Sheet. Please either: (1) Open your Google Sheet and go to Extensions > Apps Script, or (2) Paste your Google Sheet ID into SPREADSHEET_ID at line 48 of Code.gs and re-deploy.'
+      });
+    }
+
+    var sheet = ss.getActiveSheet() || ss.getSheets()[0];
     if (!sheet) {
-      return jsonResponse({ success: false, error: 'Could not find active worksheet' });
+      return jsonResponse({ success: false, error: 'Could not find active worksheet.' });
     }
 
     // 1. Validate & Normalize fields
-    var participantName = (data.initialsWithName || '').trim();
+    var participantName = (data.initialsWithName || data.name || '').trim();
     var batch = (data.batch || '').trim();
     var faculty = (data.faculty || 'Technology').trim();
-    var regNo = (data.universityRegNo || '').trim().toUpperCase();
+    var regNo = (data.universityRegNo || data.regNo || '').trim().toUpperCase();
     var rawEmail = (data.email || '').trim().toLowerCase();
     var contactNo = (data.contactNo || '').trim();
-    var whatsappNo = (data.whatsappNo || '').trim();
-    var competition = (data.competition || 'CTF Competition').trim();
-    var isCTF = competition.indexOf('CTF') !== -1 || (data.track === 'CTF');
+    var whatsappNo = (data.whatsappNo || contactNo || '').trim();
+    var competition = (data.competition || data.track || 'Web').trim();
+    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1;
     var compShort = isCTF ? 'CTF' : 'WEB';
     var competitionTitle = isCTF ? 'CTF Competition' : 'Web Development Competition';
 
     if (!participantName) {
-      return jsonResponse({ success: false, error: 'Initial with Name is required.' });
+      return jsonResponse({ success: false, error: 'Name with Initials is required.' });
     }
 
     // Validate email format
@@ -94,12 +102,14 @@ function doPost(e) {
     var regColIdx = -1;
     var ticketColIdx = -1;
     var compColIdx = -1;
+
     for (var c = 0; c < headers.length; c++) {
       var h = String(headers[c] || '').toLowerCase();
       if (h.indexOf('reg') !== -1 || h.indexOf('university') !== -1) regColIdx = c;
       if (h.indexOf('ticket') !== -1) ticketColIdx = c;
       if (h.indexOf('comp') !== -1 || h.indexOf('track') !== -1) compColIdx = c;
     }
+
     if (regColIdx === -1) regColIdx = 6;
     if (ticketColIdx === -1) ticketColIdx = 1;
     if (compColIdx === -1) compColIdx = 2;
@@ -135,7 +145,7 @@ function doPost(e) {
     // 4. PREPARE SHEET ROW
     // Columns:
     // 1. Timestamp | 2. Ticket ID | 3. Competition | 4. Name | 5. Batch | 6. Faculty |
-    // 7. University Registering Number | 8. Email | 9. Contact Number | 10. WhatsApp Number |
+    // 7. University Reg No | 8. Email | 9. Contact Number | 10. WhatsApp Number |
     // 11. Registration Status | 12. Email Status
     var rowData = [
       new Date(),
@@ -149,7 +159,7 @@ function doPost(e) {
       contactNo,
       whatsappNo,
       'Confirmed',
-      'Pending' // Updated to 'Sent' or 'Failed' below
+      'Pending'
     ];
 
     sheet.appendRow(rowData);
@@ -160,7 +170,7 @@ function doPost(e) {
     var emailErrorMessage = '';
 
     try {
-      var subject = 'Registration Confirmed – ' + competitionTitle;
+      var subject = 'Registration Confirmed – ' + competitionTitle + " [Pass: " + ticketId + "]";
       var htmlBody = buildConfirmationEmailHtml({
         participantName: participantName,
         competitionTitle: competitionTitle,
@@ -226,7 +236,7 @@ function ensureSheetHeaders(sheet) {
       'Name',
       'Batch',
       'Faculty',
-      'University Registering Number',
+      'University Reg No',
       'Email',
       'Contact Number',
       'WhatsApp Number',
@@ -264,7 +274,7 @@ function buildConfirmationEmailHtml(p) {
           '</td>' +
         '</tr>' +
 
-        '<!-- GRAND CITADEL ACCESS PASS (Frame 00037 Background - NO QR CODE) -->' +
+        '<!-- GRAND CITADEL ACCESS PASS -->' +
         '<tr>' +
           '<td style="padding: 0;">' +
             '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-radius: 20px; overflow: hidden; border: 2px solid #00f59b; box-shadow: 0 15px 45px rgba(0,0,0,0.9), 0 0 35px rgba(0,245,155,0.25); background-color: #05140d; background-image: url(\'' + frame37Url + '\'); background-size: cover; background-position: center; background-repeat: no-repeat;">' +
@@ -340,11 +350,10 @@ function buildConfirmationEmailHtml(p) {
                     '</tr>' +
                   '</table>' +
 
-                  '<!-- Ticket Footer: Barcode & Confirmation Stamp (NO QR Code) -->' +
+                  '<!-- Ticket Footer: Barcode & Confirmation Stamp -->' +
                   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1.5px dashed rgba(255, 255, 255, 0.25); padding-top: 18px;">' +
                     '<tr>' +
                       '<td valign="middle">' +
-                        '<!-- Mock Barcode -->' +
                         '<div style="letter-spacing: 4px; font-size: 22px; color: #ffffff; font-family: monospace; font-weight: 900; opacity: 0.95; text-shadow: 0 2px 4px #000;">' +
                           '||||| | |||| | || ||||| ||| | ||||' +
                         '</div>' +
@@ -371,7 +380,7 @@ function buildConfirmationEmailHtml(p) {
           '</td>' +
         '</tr>' +
 
-        '<!-- Notice / Reminder -->' +
+        '<!-- Notice -->' +
         '<tr>' +
           '<td style="padding: 24px 8px 12px;">' +
             '<div style="background: rgba(245, 158, 11, 0.12); border-left: 4px solid #f59e0b; border-radius: 6px; padding: 14px 18px; font-size: 13px; color: #fde68a; line-height: 1.5;">' +
