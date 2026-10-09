@@ -182,6 +182,20 @@ export default function Hero({ onNavigateRegister }) {
         }
       }
 
+      // Step-by-step gradual blur for the last 30 frames (indices 210 to 239), reaching 20% blur at the final frame
+      const BLUR_START_INDEX = TOTAL_FRAMES - 30; // 210
+      const MAX_BLUR_PX = 8; // 20% blur level (8px Gaussian blur on 40px baseline)
+      const canvas = canvasRef.current;
+      if (canvas) {
+        if (state.currentFrame >= BLUR_START_INDEX) {
+          const blurProgress = Math.min(1, Math.max(0, (state.currentFrame - BLUR_START_INDEX) / (TOTAL_FRAMES - 1 - BLUR_START_INDEX)));
+          const currentBlur = blurProgress * MAX_BLUR_PX;
+          canvas.style.filter = `brightness(0.82) contrast(1.06) blur(${currentBlur.toFixed(2)}px)`;
+        } else if (canvas.style.filter !== 'brightness(0.82) contrast(1.06)') {
+          canvas.style.filter = 'brightness(0.82) contrast(1.06)';
+        }
+      }
+
       // Update text overlays synchronized with frame progress
       updateTextLayers(state.smoothedProgress);
 
