@@ -458,15 +458,15 @@
 }
 
 .track-enroll-btn.web {
-  background: rgba(6, 182, 212, 0.12);
-  border: 1px solid rgba(6, 182, 212, 0.35);
-  color: var(--accent-cyan);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
 }
 
 .track-enroll-btn.web:hover {
-  background: var(--accent-cyan);
+  background: #ffffff;
   color: #040806;
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
   transform: translateX(3px);
 }
 

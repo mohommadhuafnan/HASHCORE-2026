@@ -129,7 +129,7 @@
 }
 
 .ctf-dot { background: #00f59b; box-shadow: 0 0 6px #00f59b; }
-.webdev-dot { background: #06b6d4; box-shadow: 0 0 6px #06b6d4; }
+.webdev-dot { background: #ffffff; box-shadow: 0 0 6px rgba(255, 255, 255, 0.7); }
 
 /* ==========================================================================
    Timeline Track Structure & Scroll-Driven Laser Spine
@@ -374,8 +374,8 @@
 }
 
 .track-webdev .node-illuminated .node-date-stamp {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 0 18px rgba(6, 182, 212, 0.35);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
 }
 
 .stamp-day {
@@ -398,7 +398,7 @@
 }
 
 .track-webdev .node-illuminated .stamp-month {
-  color: var(--accent-cyan);
+  color: #ffffff;
 }
 
 /* ==========================================================================
@@ -649,9 +649,9 @@
 }
 
 .pill-webdev {
-  background: rgba(6, 182, 212, 0.12);
-  border: 1px solid rgba(6, 182, 212, 0.35);
-  color: var(--accent-cyan);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
 }
 
 .status-pill {
@@ -987,15 +987,15 @@
 .detail-confirmed-tag {
   display: inline-flex;
   align-items: center;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 0.28rem 0.65rem;
   border-radius: 9999px;
   font-family: var(--font-mono, monospace);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: #38bdf8;
+  color: #ffffff;
 }
 
 .detail-open-tag {
@@ -1178,8 +1178,8 @@
 
 .approach-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(6, 182, 212, 0.45);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.15);
 }
 
 .approach-badge {
@@ -1188,7 +1188,7 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: #06b6d4;
+  color: #ffffff;
   margin-bottom: 0.85rem;
 }
 
@@ -1216,7 +1216,7 @@
 }
 
 .banner-glass-box {
-  background: linear-gradient(135deg, rgba(0, 245, 155, 0.08) 0%, rgba(6, 182, 212, 0.06) 50%, rgba(4, 15, 10, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(0, 245, 155, 0.08) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(4, 15, 10, 0.6) 100%);
   border: 1px solid rgba(0, 245, 155, 0.35);
   border-radius: 24px;
   padding: 3.5rem 2.5rem;

@@ -388,7 +388,7 @@ export default function Hero({ onNavigateRegister }) {
                     </svg>
                   </div>
                 </div>
-                <h3 className="track-title">CTF: FROM AWARENESS TO CHALLENGE</h3>
+                <h3 className="track-title">FROM AWARENESS TO CHALLENGE</h3>
                 <p className="track-desc">
                   Network & Security Technologies: An introduction to Capture The Flag (CTF) competitions,
                   challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges.
