@@ -377,11 +377,11 @@ export default function Hero({ onNavigateRegister }) {
             </h2>
 
             <div className="tracks-grid">
-              {/* Track 1: CTF Competition Awareness */}
+              {/* Track 1: Network & Security Technologies */}
               <div className="track-card ctf-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
-                  <span className="track-num">TRACK // 01</span>
+                  <span className="track-num">TRACK // 01 · 24 OCT 2026</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
                       <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -389,15 +389,18 @@ export default function Hero({ onNavigateRegister }) {
                     </svg>
                   </div>
                 </div>
-                <h3 className="track-title">CTF COMPETITION AWARENESS</h3>
+                <h3 className="track-title">CTF: FROM AWARENESS TO CHALLENGE</h3>
                 <p className="track-desc">
-                  Offensive security drills, penetration testing, binary exploitation, cryptographic puzzles,
-                  and SEUSL CTF championship preparation.
+                  Network & Security Technologies: An introduction to Capture The Flag (CTF) competitions,
+                  challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges.
                 </p>
                 <div className="track-tags">
-                  <span>Ethical Hacking</span>
+                  <span>CTF Fundamentals</span>
                   <span>Cryptography</span>
-                  <span>CTF Platform Drills</span>
+                  <span>Web Exploitation</span>
+                  <span>Digital Forensics</span>
+                  <span>OSINT</span>
+                  <span>Beginner Roadmap</span>
                 </div>
                 <div className="track-card-action">
                   <a
@@ -410,7 +413,7 @@ export default function Hero({ onNavigateRegister }) {
                       }
                     }}
                   >
-                    <span>Register for CTF</span>
+                    <span>Register for Workshop 01</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -418,26 +421,29 @@ export default function Hero({ onNavigateRegister }) {
                 </div>
               </div>
 
-              {/* Track 2: Web Development Competition */}
+              {/* Track 2: Software Technologies */}
               <div className="track-card dev-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
-                  <span className="track-num">TRACK // 02</span>
+                  <span className="track-num">TRACK // 02 · 31 OCT 2026</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
                       <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="track-title">WEB DEVELOPMENT COMPETITION</h3>
+                <h3 className="track-title">FROM IDEA TO IMPACT</h3>
                 <p className="track-desc">
-                  High-throughput architectures, modern fullstack engineering, cutting-edge UI/UX,
-                  and SEUSL Hackathon championship preparation.
+                  Software Technologies: Explore how to turn real-world problems into web solutions,
+                  build prototypes, use modern development tools, and present projects in competitions.
                 </p>
                 <div className="track-tags">
-                  <span>Fullstack Systems</span>
-                  <span>UI/UX Innovation</span>
-                  <span>24H Hackathon Sprint</span>
+                  <span>Idea Generation</span>
+                  <span>UI/UX Design</span>
+                  <span>Web Development</span>
+                  <span>AI-Assisted Tools</span>
+                  <span>Cloud Deployment</span>
+                  <span>Pitching</span>
                 </div>
                 <div className="track-card-action">
                   <a
@@ -450,7 +456,7 @@ export default function Hero({ onNavigateRegister }) {
                       }
                     }}
                   >
-                    <span>Register for Web Development</span>
+                    <span>Register for Workshop 02</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

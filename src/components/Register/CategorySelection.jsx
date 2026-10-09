@@ -27,16 +27,16 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
       {/* Page Heading */}
       <div className="cat-header-block">
         <div className="cat-pre-title">
-          <span>FACULTY OF TECHNOLOGY • SEUSL</span>
+          <span>DEPARTMENT OF ICT • FACULTY OF TECHNOLOGY • SEUSL</span>
           <span className="dot-divider">•</span>
-          <span>HASHCORE '26</span>
+          <span>HASHCORE v0.1 – 2026</span>
         </div>
         <h1 className="cat-main-title">
-          CHOOSE YOUR <span className="gradient-text-emerald">BATTLEGROUND</span>
+          CHOOSE YOUR <span className="gradient-text-emerald">WORKSHOP</span>
         </h1>
         <p className="cat-subtitle">
-          Select one of the two flagship competition awareness and preparation workshops.
-          Equip yourself with elite competitive skills before stepping into the arena.
+          Select one of the two student-led technical competition awareness workshops.
+          Prior registration is free and required for participation.
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               gap: '8px'
             }}
           >
-            <span>View Citadel Pass</span>
+            <span>View Workshop Pass</span>
             <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', stroke: 'currentColor', strokeWidth: '2.2' }}>
               <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -91,15 +91,15 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
       {/* 2 Track Cards Grid */}
       <div className="cat-grid">
         {/* ==================================================================
-            CATEGORY 1: CTF Competition Awareness
+            WORKSHOP 1: CTF: From Awareness to Challenge
             ================================================================== */}
         <div className="cat-card ctf-variant">
           <div className="cat-card-ambient-glow" />
           
           <div className="cat-card-header">
             <div className="cat-track-badge">
-              <span className="badge-code font-mono">TRACK // 01</span>
-              <span className="badge-type">CYBER DEFENSE</span>
+              <span className="badge-code font-mono">WORKSHOP // 01</span>
+              <span className="badge-type">24 OCT 2026</span>
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
@@ -110,50 +110,41 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           </div>
 
           <div className="cat-card-body">
-            <h2 className="cat-track-title">CTF Competition</h2>
+            <div className="cat-track-sub-domain" style={{ color: '#00f59b', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
+              Cybersecurity · Network & Security Technologies
+            </div>
+            <h2 className="cat-track-title">CTF: From Awareness to Challenge</h2>
             <p className="cat-track-desc">
-              Master the foundational and advanced methodologies of Capture The Flag cyber competitions.
-              Hands-on exposure to live target exploitation, defense strategies, cryptographic deciphering,
-              and security intelligence drills.
+              An introduction to Capture The Flag (CTF) competitions, challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges.
             </p>
 
             <div className="cat-feature-list">
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Offensive Web Security & OWASP Top 10 Exploitation</span>
+                <span>CTF Fundamentals & Competition Formats</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Cryptographic Decryption, Ciphers & Hash Cracking</span>
+                <span>Cryptography, Ciphers & Hash Cracking</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Digital Forensics, Packet Captures & Network Traces</span>
+                <span>Web Exploitation & Offensive Security</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Binary Analysis & Reverse Engineering Fundamentals</span>
+                <span>Digital Forensics & Network Packet Analysis</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Live CTF Platform Onboarding & Scoring Mechanics</span>
+                <span>OSINT (Open Source Intelligence) Techniques</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-bullet">›</span>
+                <span>Beginner Competition Preparation Roadmap</span>
               </div>
             </div>
 
-            <div className="cat-specs-box">
-              <div className="spec-row">
-                <span className="spec-lbl">Eligibility:</span>
-                <span className="spec-val">SEUSL Faculty of Technology</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Requirement:</span>
-                <span className="spec-val">Personal Laptop with Kali Linux / VM</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Capacity:</span>
-                <span className="spec-val text-emerald">Strict Single Registration Cap</span>
-              </div>
-            </div>
           </div>
 
           <div className="cat-card-footer">
@@ -163,7 +154,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               onClick={() => onSelectTrack('CTF')}
             >
               <span className="btn-shine" />
-              <span className="btn-text">Register for CTF</span>
+              <span className="btn-text">Register for Workshop 01</span>
               <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -172,15 +163,15 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
         </div>
 
         {/* ==================================================================
-            CATEGORY 2: Web Development Competition
+            WORKSHOP 2: From Idea to Impact
             ================================================================== */}
         <div className="cat-card web-variant">
           <div className="cat-card-ambient-glow" />
 
           <div className="cat-card-header">
             <div className="cat-track-badge">
-              <span className="badge-code font-mono">TRACK // 02</span>
-              <span className="badge-type">FULLSTACK DEV</span>
+              <span className="badge-code font-mono">WORKSHOP // 02</span>
+              <span className="badge-type">31 OCT 2026</span>
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
@@ -190,50 +181,41 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           </div>
 
           <div className="cat-card-body">
-            <h2 className="cat-track-title">Web Development Competition</h2>
+            <div className="cat-track-sub-domain" style={{ color: '#06b6d4', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
+              Web Development · Software Technologies
+            </div>
+            <h2 className="cat-track-title">From Idea to Impact</h2>
             <p className="cat-track-desc">
-              Supercharge your software engineering prowess for hackathons and high-stakes coding sprints.
-              Explore modern UI architectures, dynamic animation techniques, real-time backend integrations,
-              and speed development workflows.
+              Explore how to turn real-world problems into web solutions, build prototypes, use modern development tools, and present projects in competitions.
             </p>
 
             <div className="cat-feature-list">
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Next-Gen Frontend Architectures (React, Modern CSS, Web APIs)</span>
+                <span>Idea Generation & Problem Formulation</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Interactive UI/UX & Micro-animation Design Systems</span>
+                <span>UI/UX Design Systems & Rapid Prototyping</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>REST & Real-time WebSockets Backend Engineering</span>
+                <span>Modern Web Development & Component Architecture</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>Cloud Deployment, Git Collaboration & CI/CD Sprints</span>
+                <span>AI-Assisted Tools & Developer Acceleration</span>
               </div>
               <div className="feature-item">
                 <span className="feature-bullet">›</span>
-                <span>24-Hour Hackathon Strategy & Live Project Pitching</span>
+                <span>Deployment, Hosting & Cloud Delivery</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-bullet">›</span>
+                <span>Competition Pitching & Project Presentation</span>
               </div>
             </div>
 
-            <div className="cat-specs-box">
-              <div className="spec-row">
-                <span className="spec-lbl">Eligibility:</span>
-                <span className="spec-val">SEUSL Faculty of Technology</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Requirement:</span>
-                <span className="spec-val">Personal Laptop with Node.js & VS Code</span>
-              </div>
-              <div className="spec-row">
-                <span className="spec-lbl">Capacity:</span>
-                <span className="spec-val text-emerald">Strict Single Registration Cap</span>
-              </div>
-            </div>
           </div>
 
           <div className="cat-card-footer">
@@ -243,7 +225,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               onClick={() => onSelectTrack('WEB')}
             >
               <span className="btn-shine" />
-              <span className="btn-text">Register for Web Development</span>
+              <span className="btn-text">Register for Workshop 02</span>
               <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -256,7 +238,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
       <div className="cat-footer-note">
         <div className="cat-organizer-pill">
           <img src={sictLogo} alt="SICT Logo" className="cat-sict-logo" />
-          <span>Organized by Society of Information and Communication Technology (SICT) • Faculty of Technology • South Eastern University of Sri Lanka</span>
+          <span>Organized by Society of ICT (SICT) • Department of ICT (DICT) • Faculty of Technology • South Eastern University of Sri Lanka</span>
         </div>
       </div>
     </div>
