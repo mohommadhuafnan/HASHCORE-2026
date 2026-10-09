@@ -17,15 +17,16 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
 
   useEffect(() => {
     if (registration && !localQrUrl) {
-      const qrPayload = JSON.stringify({
-        id: ticketId,
-        reg: registration.universityRegNo,
-        name: registration.participantName || registration.initialsWithName,
-        track: isCTF ? 'CTF' : 'WEB',
-        email: registration.email,
-      });
+      const pName = registration.participantName || registration.initialsWithName || '';
+      const regNo = registration.universityRegNo || '';
+      const email = registration.email || '';
+      const batch = registration.batch || '';
+      const faculty = registration.faculty || 'Technology';
+      const track = isCTF ? 'CTF' : 'WEB';
 
-      QRCode.toDataURL(qrPayload, {
+      const scanUrl = `https://hashcoreseu2026.vercel.app/scan?ticket=${encodeURIComponent(ticketId)}&reg=${encodeURIComponent(regNo)}&name=${encodeURIComponent(pName)}&track=${encodeURIComponent(track)}&email=${encodeURIComponent(email)}&batch=${encodeURIComponent(batch)}&faculty=${encodeURIComponent(faculty)}`;
+
+      QRCode.toDataURL(scanUrl, {
         width: 280,
         margin: 2,
         color: { dark: '#020905', light: '#ffffff' },

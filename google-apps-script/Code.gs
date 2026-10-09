@@ -75,74 +75,122 @@ function sendEmailNotification(options) {
  * Generates an accessible, high-contrast QR Code URL for the ticket.
  */
 function getQrCodeUrl(payload) {
-  return 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&data=' + encodeURIComponent(payload);
+  return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=' + encodeURIComponent(payload);
 }
 
 /**
- * Generates an official, beautifully styled PDF Ticket Pass.
+ * Generates the official, cyber-styled PDF Ticket Pass matching Screenshot 1.
+ * Embedded directly into PDF via Base64 QR code image for 100% rendering reliability.
  */
 function generateTicketPdfBlob(p, qrUrl) {
+  var qrImgSrc = qrUrl;
+  try {
+    var qrResp = UrlFetchApp.fetch(qrUrl, { muteHttpExceptions: true });
+    if (qrResp.getResponseCode() === 200) {
+      var base64Data = Utilities.base64Encode(qrResp.getBlob().getBytes());
+      qrImgSrc = 'data:image/png;base64,' + base64Data;
+    }
+  } catch (fetchErr) {
+    Logger.log('QR code base64 inlining notice: ' + fetchErr.toString());
+  }
+
+  var compTrack = (p.competitionTitle || 'CTF Competition').toUpperCase();
+  var ticketId = p.ticketId || 'CTF-2026-00001';
+  var batch = p.batch || '2022/2023';
+  var faculty = p.faculty || 'Technology';
+  var contactNo = p.contactNo || '0772117131';
+
   var pdfHtml = '<!DOCTYPE html>' +
     '<html><head><meta charset="utf-8"/>' +
     '<style>' +
-    'body { margin: 0; padding: 24px; background: #030a06; font-family: Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
-    '.ticket-wrapper { border: 2px solid #00f59b; border-radius: 16px; background: #061910; padding: 28px; }' +
-    '.badge { display: inline-block; background: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 5px 14px; border-radius: 12px; text-transform: uppercase; letter-spacing: 1.5px; }' +
-    '.title { font-size: 26px; font-weight: 900; color: #ffffff; margin: 12px 0 4px 0; letter-spacing: -0.5px; }' +
-    '.subtitle { font-size: 13px; color: #94a3b8; margin: 0 0 20px 0; }' +
-    '.pass-table { width: 100%; border-collapse: collapse; margin-top: 14px; }' +
-    '.pass-table td { padding: 9px 12px; border-top: 1px solid #143825; font-size: 12px; vertical-align: top; }' +
-    '.lbl { color: #64748b; font-weight: bold; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }' +
-    '.val { color: #ffffff; font-weight: bold; font-family: monospace; font-size: 13px; margin-top: 3px; }' +
-    '.val-glow { color: #00f59b; font-weight: 900; font-family: monospace; font-size: 15px; margin-top: 3px; }' +
-    '.qr-box { background: #ffffff; padding: 10px; border-radius: 10px; display: inline-block; border: 2px solid #00f59b; }' +
-    '.footer-bar { margin-top: 24px; padding-top: 16px; border-top: 1px solid #143825; text-align: center; }' +
+    '@page { size: landscape; margin: 12mm; }' +
+    'body { margin: 0; padding: 0; background-color: #030805; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
+    '.citadel-card { position: relative; border: 2px solid #00f59b; border-radius: 16px; background: #05140b; background-image: radial-gradient(circle at 50% 30%, #0a2618 0%, #030a06 100%); padding: 32px 36px; box-sizing: border-box; }' +
+    '.bracket-tl { position: absolute; top: 12px; left: 12px; width: 22px; height: 22px; border-top: 3px solid #00f59b; border-left: 3px solid #00f59b; }' +
+    '.bracket-tr { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-top: 3px solid #00f59b; border-right: 3px solid #00f59b; }' +
+    '.bracket-bl { position: absolute; bottom: 12px; left: 12px; width: 22px; height: 22px; border-bottom: 3px solid #00f59b; border-left: 3px solid #00f59b; }' +
+    '.bracket-br { position: absolute; bottom: 12px; right: 12px; width: 22px; height: 22px; border-bottom: 3px solid #00f59b; border-right: 3px solid #00f59b; }' +
+    '.inst-badge { display: inline-block; background: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 5px 14px; border-radius: 12px; text-transform: uppercase; letter-spacing: 1.5px; }' +
+    '.pass-title { font-size: 26px; font-weight: 900; color: #ffffff; margin: 10px 0 3px 0; letter-spacing: -0.5px; text-transform: uppercase; }' +
+    '.pass-subtitle { font-size: 13px; color: #00f59b; font-family: monospace; font-weight: 800; letter-spacing: 1px; margin: 0; }' +
+    '.id-lbl { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }' +
+    '.id-val { font-size: 24px; font-weight: 900; color: #00f59b; font-family: monospace; letter-spacing: 1.5px; margin-top: 2px; }' +
+    '.grid-table { width: 100%; border-collapse: separate; border-spacing: 0 14px; margin-top: 18px; }' +
+    '.grid-td { width: 50%; vertical-align: top; padding: 8px 12px; border-top: 1px solid rgba(0, 245, 155, 0.2); }' +
+    '.f-lbl { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }' +
+    '.f-val { font-size: 15px; font-weight: 800; color: #ffffff; }' +
+    '.f-val-cyan { font-size: 17px; font-weight: 900; color: #38bdf8; font-family: monospace; letter-spacing: 0.8px; }' +
+    '.tag-sent { display: inline-block; background: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }' +
+    '.qr-wrap { background: #ffffff; padding: 8px; border-radius: 10px; border: 2px solid #00f59b; display: inline-block; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }' +
+    '.stamp-box { display: inline-block; border: 2px solid #00f59b; background: rgba(0, 245, 155, 0.1); border-radius: 10px; padding: 10px 22px; transform: rotate(-2deg); text-align: center; }' +
     '</style></head><body>' +
-    '<div class="ticket-wrapper">' +
-      '<table width="100%">' +
+    '<div class="citadel-card">' +
+      '<div class="bracket-tl"></div><div class="bracket-tr"></div>' +
+      '<div class="bracket-bl"></div><div class="bracket-br"></div>' +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0">' +
         '<tr>' +
-          '<td>' +
-            '<div class="badge">SEUSL • FACULTY OF TECHNOLOGY</div>' +
-            '<div class="title">HASHCORE \'26 CITADEL PASS</div>' +
-            '<div class="subtitle">' + p.competitionTitle + '</div>' +
+          '<td valign="top">' +
+            '<div class="inst-badge">SEUSL &bull; FACULTY OF TECHNOLOGY</div>' +
+            '<div class="pass-title">HASHCORE \'26 CITADEL PASS</div>' +
+            '<div class="pass-subtitle">' + compTrack + '</div>' +
           '</td>' +
           '<td align="right" valign="top">' +
-            '<div style="background: #062b1b; border: 2px solid #00f59b; color: #00f59b; padding: 8px 16px; border-radius: 8px; font-family: monospace; font-weight: 900; font-size: 16px; display: inline-block;">' +
-              p.ticketId +
+            '<div class="id-lbl">OFFICIAL PASS ID</div>' +
+            '<div class="id-val">' + ticketId + '</div>' +
+          '</td>' +
+        '</tr>' +
+      '</table>' +
+      '<table class="grid-table" cellpadding="0" cellspacing="0" border="0">' +
+        '<tr>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">PARTICIPANT NAME</div>' +
+            '<div class="f-val" style="font-size: 18px;">' + p.participantName + '</div>' +
+          '</td>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">UNIVERSITY REG NUMBER</div>' +
+            '<div class="f-val-cyan">' + p.regNo + '</div>' +
+          '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">ACADEMIC BATCH</div>' +
+            '<div class="f-val">' + batch + '</div>' +
+          '</td>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">FACULTY</div>' +
+            '<div class="f-val">' + faculty + '</div>' +
+          '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">EMAIL ADDRESS</div>' +
+            '<div class="f-val" style="font-family: monospace; font-size: 13px;">' + p.email + '<span class="tag-sent">&check; EMAIL SENT</span></div>' +
+          '</td>' +
+          '<td class="grid-td">' +
+            '<div class="f-lbl">CONTACT NUMBER</div>' +
+            '<div class="f-val" style="font-family: monospace;">' + contactNo + '</div>' +
+          '</td>' +
+        '</tr>' +
+      '</table>' +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 18px;">' +
+        '<tr>' +
+          '<td valign="bottom">' +
+            '<div class="qr-wrap"><img src="' + qrImgSrc + '" width="92" height="92" style="display: block;" /></div>' +
+            '<div style="font-size: 10px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 6px; letter-spacing: 1px;">&bull; OFFICIAL ENTRY QR PASS &bull;</div>' +
+          '</td>' +
+          '<td align="right" valign="bottom">' +
+            '<div class="stamp-box">' +
+              '<div style="font-size: 11px; color: #94a3b8; font-weight: 700; letter-spacing: 1px; font-family: monospace;">SEUSL HASHCORE</div>' +
+              '<div style="font-size: 17px; color: #00f59b; font-weight: 900; letter-spacing: 2px; font-family: monospace;">CONFIRMED</div>' +
             '</div>' +
           '</td>' +
         '</tr>' +
       '</table>' +
-      '<table class="pass-table">' +
-        '<tr>' +
-          '<td width="50%"><div class="lbl">Participant Name</div><div class="val" style="font-size: 16px; color: #ffffff;">' + p.participantName + '</div></td>' +
-          '<td width="50%"><div class="lbl">University Reg No</div><div class="val-glow">' + p.regNo + '</div></td>' +
-        '</tr>' +
-        '<tr>' +
-          '<td><div class="lbl">Academic Batch</div><div class="val">' + (p.batch || '2022/2023') + '</div></td>' +
-          '<td><div class="lbl">Faculty</div><div class="val">' + (p.faculty || 'Technology') + '</div></td>' +
-        '</tr>' +
-        '<tr>' +
-          '<td><div class="lbl">Email Address</div><div class="val">' + p.email + '</div></td>' +
-          '<td><div class="lbl">Contact Number</div><div class="val">' + p.contactNo + '</div></td>' +
-        '</tr>' +
-      '</table>' +
-      '<div class="footer-bar">' +
-        '<table width="100%">' +
-          '<tr>' +
-            '<td align="center">' +
-              '<div class="qr-box"><img src="' + qrUrl + '" width="140" height="140" style="display: block;" /></div>' +
-              '<div style="font-size: 11px; color: #00f59b; font-family: monospace; margin-top: 8px; font-weight: bold; letter-spacing: 1px;">• OFFICIAL CITADEL ENTRY PASS •</div>' +
-              '<div style="font-size: 10px; color: #64748b; margin-top: 3px;">Present this QR pass to event organizers for instant attendance check-in</div>' +
-            '</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div>' +
     '</div></body></html>';
 
   try {
     var blob = Utilities.newBlob(pdfHtml, 'text/html', 'ticket.html');
-    return blob.getAs('application/pdf').setName('SEUSL_HASHCORE_PASS_' + p.ticketId + '.pdf');
+    return blob.getAs('application/pdf').setName('SEUSL_HASHCORE_PASS_' + ticketId + '.pdf');
   } catch (err) {
     Logger.log('PDF generation error: ' + err.toString());
     return null;
@@ -150,72 +198,92 @@ function generateTicketPdfBlob(p, qrUrl) {
 }
 
 /**
- * Dispatches the official "Thank you for attending today's workshop" attendance confirmation email.
+ * Dispatches the official "Welcome to SEUSL HASHCORE 2026 — Attendance Confirmed" email
+ * triggered at the exact moment the organizer scans the QR code.
  */
-function sendAttendanceThankYouEmail(p) {
-  var subject = "Thank You for Attending Today's Workshop — SEUSL HASHCORE 2026";
+function sendAttendanceWelcomeEmail(p) {
   var checkInTime = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
+  var ticketId = p.ticketId || p.regNo || 'CITADEL-PASS';
+  var subject = "🎉 Welcome to SEUSL HASHCORE 2026 — Attendance Confirmed! [" + ticketId + "]";
 
-  var plainText = "SEUSL HASHCORE 2026 — ATTENDANCE CONFIRMED\n\n" +
+  var plainText = "==================================================\n" +
+    "WELCOME TO SEUSL HASHCORE 2026 — ATTENDANCE CONFIRMED\n" +
+    "Faculty of Technology • South Eastern University of Sri Lanka\n" +
+    "==================================================\n\n" +
     "Dear " + p.participantName + ",\n\n" +
-    "Thank you for attending today's SEUSL HASHCORE 2026 Workshop & Competition session!\n\n" +
-    "Your attendance has been officially verified and recorded.\n\n" +
+    "WELCOME TO SEUSL HASHCORE 2026!\n\n" +
+    "Your attendance has been officially confirmed and verified at the Citadel check-in gate.\n\n" +
     "--------------------------------------------------\n" +
-    "ATTENDANCE CHECK-IN DETAILS\n" +
+    "ATTENDEE VERIFICATION DETAILS\n" +
     "--------------------------------------------------\n" +
     "Participant Name:    " + p.participantName + "\n" +
     "University Reg No:   " + p.regNo + "\n" +
-    "Track / Event:       " + (p.competitionTitle || 'SEUSL HASHCORE 2026') + "\n" +
+    "Competition Track:   " + (p.competitionTitle || 'SEUSL HASHCORE 2026') + "\n" +
+    "Official Pass ID:    " + ticketId + "\n" +
     "Attendance Status:   PRESENT & VERIFIED\n" +
-    "Check-In Timestamp:  " + checkInTime + "\n" +
+    "Check-In Timestamp:  " + checkInTime + " (Sri Lanka Time)\n" +
     "--------------------------------------------------\n\n" +
-    "We appreciate your active participation and enthusiasm at the Faculty of Technology, South Eastern University of Sri Lanka.\n\n" +
+    "EVENT DAY INSTRUCTIONS:\n" +
+    "1. Keep your terminal / laptop ready and connect to the event network.\n" +
+    "2. Respect competition integrity and event guidelines at all times.\n" +
+    "3. Official competition challenges and announcements will be broadcasted live.\n\n" +
+    "We wish you an extraordinary experience and the best of luck today!\n\n" +
     "--\n" +
     "HASHCORE 2026 Organizing Committee\n" +
     "Faculty of Technology • South Eastern University of Sri Lanka (SEUSL)\n" +
     "University Park, Oluvil, #32360, Sri Lanka\n" +
-    "Inquiries: " + OFFICIAL_SENDER_EMAIL + "\n";
+    "Direct Inquiries: " + OFFICIAL_SENDER_EMAIL + "\n";
 
   var htmlBody = '<!DOCTYPE html>' +
-    '<html><body style="margin: 0; padding: 20px 10px; background-color: #030805; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; color: #f1f5f9;">' +
-      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: #06170e; border: 2px solid #00f59b; border-radius: 16px; padding: 24px;">' +
-        '<tr><td align="center" style="padding-bottom: 16px;">' +
-          '<div style="display: inline-block; background-color: #062b1b; border: 1px solid #00f59b; color: #00f59b; padding: 5px 14px; border-radius: 12px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">SEUSL &bull; Faculty of Technology</div>' +
-          '<h1 style="color: #ffffff; font-size: 22px; margin: 14px 0 6px; font-weight: 800;">Thank You for Attending Today!</h1>' +
-          '<p style="color: #94a3b8; font-size: 14px; margin: 0;">Your event attendance has been officially confirmed and logged.</p>' +
+    '<html><body style="margin: 0; padding: 24px 10px; background-color: #030805; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; color: #f1f5f9;">' +
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: #06170e; border: 2px solid #00f59b; border-radius: 16px; padding: 28px;">' +
+        '<tr><td align="center" style="padding-bottom: 18px;">' +
+          '<div style="display: inline-block; background-color: #062b1b; border: 1px solid #00f59b; color: #00f59b; padding: 6px 16px; border-radius: 14px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;">SEUSL &bull; Faculty of Technology</div>' +
+          '<h1 style="color: #ffffff; font-size: 24px; margin: 16px 0 6px; font-weight: 800; letter-spacing: -0.5px;">🎉 Welcome to HASHCORE \'26!</h1>' +
+          '<p style="color: #00f59b; font-size: 14px; margin: 0; font-weight: 700;">Gate Verification Successful &bull; Attendance Confirmed</p>' +
         '</td></tr>' +
         '<tr><td>' +
-          '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: rgba(0, 245, 155, 0.08); border: 1px solid rgba(0, 245, 155, 0.25); border-radius: 12px; padding: 18px; margin: 16px 0;">' +
-            '<tr><td colspan="2" style="padding-bottom: 10px;">' +
-              '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold;">Participant Name</div>' +
-              '<div style="font-size: 18px; font-weight: 800; color: #ffffff; margin-top: 2px;">' + p.participantName + '</div>' +
+          '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: rgba(0, 245, 155, 0.08); border: 1px solid rgba(0, 245, 155, 0.28); border-radius: 14px; padding: 20px; margin: 16px 0;">' +
+            '<tr><td colspan="2" style="padding-bottom: 12px;">' +
+              '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Participant Name</div>' +
+              '<div style="font-size: 20px; font-weight: 900; color: #ffffff; margin-top: 2px;">' + p.participantName + '</div>' +
             '</td></tr>' +
             '<tr>' +
-              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 10px;">' +
-                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold;">Reg Number</div>' +
-                '<div style="font-size: 14px; font-weight: 800; color: #00f59b; font-family: monospace; margin-top: 2px;">' + p.regNo + '</div>' +
+              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">University Reg Number</div>' +
+                '<div style="font-size: 16px; font-weight: 900; color: #38bdf8; font-family: monospace; margin-top: 2px;">' + p.regNo + '</div>' +
               '</td>' +
-              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 10px;">' +
-                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold;">Attendance Status</div>' +
-                '<div style="font-size: 14px; font-weight: 800; color: #00f59b; margin-top: 2px;">PRESENT &check;</div>' +
+              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Official Pass ID</div>' +
+                '<div style="font-size: 16px; font-weight: 900; color: #00f59b; font-family: monospace; margin-top: 2px;">' + ticketId + '</div>' +
               '</td>' +
             '</tr>' +
             '<tr>' +
-              '<td colspan="2" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 10px;">' +
-                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold;">Check-In Time</div>' +
-                '<div style="font-size: 13px; font-weight: 600; color: #e2e8f0; font-family: monospace; margin-top: 2px;">' + checkInTime + '</div>' +
+              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Competition Track</div>' +
+                '<div style="font-size: 14px; font-weight: 800; color: #e2e8f0; margin-top: 2px;">' + (p.competitionTitle || 'Competition') + '</div>' +
+              '</td>' +
+              '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Attendance Status</div>' +
+                '<div style="font-size: 14px; font-weight: 900; color: #00f59b; margin-top: 2px;">PRESENT &check;</div>' +
+              '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td colspan="2" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Check-In Timestamp</div>' +
+                '<div style="font-size: 13px; font-weight: 700; color: #cbd5e1; font-family: monospace; margin-top: 2px;">' + checkInTime + ' (SLST)</div>' +
               '</td>' +
             '</tr>' +
           '</table>' +
         '</td></tr>' +
         '<tr><td style="color: #cbd5e1; font-size: 14px; line-height: 1.6; padding: 10px 0;">' +
-          'Thank you for joining us today for <strong>' + (p.competitionTitle || "SEUSL HASHCORE '26") + '</strong> at South Eastern University of Sri Lanka. ' +
-          'We hope you had an enriching and insightful experience. Stay tuned for further announcements regarding competition rounds and certificates!' +
+          'Welcome to the South Eastern University of Sri Lanka! Your entry has been authenticated at the Citadel gate. ' +
+          'Please take your seat, connect your setup, and prepare for an incredible day of challenges!' +
         '</td></tr>' +
         '<tr><td style="border-top: 1px solid #143825; padding-top: 18px; margin-top: 20px; font-size: 11px; color: #64748b; text-align: center; line-height: 1.5;">' +
           'HASHCORE 2026 Organizing Committee &bull; Faculty of Technology<br/>' +
           'South Eastern University of Sri Lanka (SEUSL)<br/>' +
-          'Contact: <a href="mailto:' + OFFICIAL_SENDER_EMAIL + '" style="color: #00f59b; text-decoration: none;">' + OFFICIAL_SENDER_EMAIL + '</a>' +
+          'Direct Inquiries: <a href="mailto:' + OFFICIAL_SENDER_EMAIL + '" style="color: #00f59b; text-decoration: none;">' + OFFICIAL_SENDER_EMAIL + '</a>' +
         '</td></tr>' +
       '</table>' +
     '</body></html>';
@@ -226,6 +294,11 @@ function sendAttendanceThankYouEmail(p) {
     plainText: plainText,
     htmlBody: htmlBody
   });
+}
+
+// Backward-compatibility alias
+function sendAttendanceThankYouEmail(p) {
+  sendAttendanceWelcomeEmail(p);
 }
 
 function doPost(e) {
@@ -261,7 +334,39 @@ function doPost(e) {
       var checkTicketId = (data.ticketId || '').trim();
       var checkName = (data.participantName || data.name || '').trim();
       var checkEmail = (data.email || '').trim().toLowerCase();
-      var checkTrack = data.track || data.competition || 'Workshop';
+      var checkTrack = data.track || data.competition || '';
+      var checkBatch = (data.batch || '').trim();
+      var checkFaculty = (data.faculty || '').trim();
+
+      // Parse embedded query params from URL payload if scanned
+      if (checkTicketId.indexOf('?') !== -1 || checkTicketId.indexOf('ticket=') !== -1 || checkTicketId.indexOf('&') !== -1) {
+        var mTicket = checkTicketId.match(/[?&](?:ticket|id)=([^&]+)/);
+        if (mTicket) checkTicketId = decodeURIComponent(mTicket[1]).trim();
+
+        var mReg = checkTicketId.match(/[?&](?:reg|regNo)=([^&]+)/);
+        if (mReg && !checkRegNo) checkRegNo = decodeURIComponent(mReg[1]).trim().toUpperCase();
+
+        var mName = checkTicketId.match(/[?&]name=([^&]+)/);
+        if (mName && !checkName) checkName = decodeURIComponent(mName[1]).trim();
+
+        var mEmail = checkTicketId.match(/[?&]email=([^&]+)/);
+        if (mEmail && !checkEmail) checkEmail = decodeURIComponent(mEmail[1]).trim().toLowerCase();
+
+        var mTrack = checkTicketId.match(/[?&]track=([^&]+)/);
+        if (mTrack && !checkTrack) checkTrack = decodeURIComponent(mTrack[1]).trim();
+
+        var mBatch = checkTicketId.match(/[?&]batch=([^&]+)/);
+        if (mBatch && !checkBatch) checkBatch = decodeURIComponent(mBatch[1]).trim();
+
+        var mFaculty = checkTicketId.match(/[?&]faculty=([^&]+)/);
+        if (mFaculty && !checkFaculty) checkFaculty = decodeURIComponent(mFaculty[1]).trim();
+      }
+
+      // Extract ticket ID pattern if embedded
+      var codeMatch = checkTicketId.match(/(CTF|WEB)-2026-\d{5}/i);
+      if (codeMatch) {
+        checkTicketId = codeMatch[0].toUpperCase();
+      }
 
       // Look up row in Google Sheet
       var ss = null;
@@ -291,12 +396,29 @@ function doPost(e) {
           }
 
           for (var r = 1; r < dataRange.length; r++) {
-            var rowReg = String(dataRange[r][6] || '').trim().toUpperCase();
             var rowTicket = String(dataRange[r][1] || '').trim();
-            if ((checkRegNo && rowReg === checkRegNo) || (checkTicketId && rowTicket === checkTicketId)) {
-              checkName = checkName || String(dataRange[r][3] || '');
-              checkEmail = checkEmail || String(dataRange[r][7] || '');
-              checkTrack = checkTrack || String(dataRange[r][2] || '');
+            var rowTrack = String(dataRange[r][2] || '').trim();
+            var rowName = String(dataRange[r][3] || '').trim();
+            var rowBatch = String(dataRange[r][4] || '').trim();
+            var rowFaculty = String(dataRange[r][5] || '').trim();
+            var rowReg = String(dataRange[r][6] || '').trim().toUpperCase();
+            var rowEmail = String(dataRange[r][7] || '').trim().toLowerCase();
+
+            var matched = false;
+            if (checkRegNo && rowReg === checkRegNo) matched = true;
+            else if (checkTicketId && rowTicket === checkTicketId) matched = true;
+            else if (checkEmail && rowEmail === checkEmail) matched = true;
+            else if (checkTicketId && rowTicket && rowTicket.indexOf(checkTicketId) !== -1) matched = true;
+
+            if (matched) {
+              checkName = rowName || checkName;
+              checkRegNo = rowReg || checkRegNo;
+              checkEmail = rowEmail || checkEmail;
+              checkTrack = rowTrack || checkTrack;
+              checkTicketId = rowTicket || checkTicketId;
+              checkBatch = rowBatch || checkBatch;
+              checkFaculty = rowFaculty || checkFaculty;
+
               sheet.getRange(r + 1, attColIdx + 1).setValue('Present');
               sheet.getRange(r + 1, timeColIdx + 1).setValue(new Date());
               break;
@@ -307,33 +429,43 @@ function doPost(e) {
         }
       }
 
-      // Dispatch Thank-You Attendance Email
+      // Default fallbacks if sheet row not found
+      if (!checkTrack) checkTrack = 'CTF / Web Workshop';
+      if (!checkName) checkName = 'Participant';
+      if (!checkRegNo) checkRegNo = 'SEU Student';
+
+      // Dispatch Official Welcome & Attendance Confirmation Email
       var emailSent = false;
-      if (checkEmail) {
+      if (checkEmail && checkEmail.indexOf('@') !== -1) {
         try {
-          sendAttendanceThankYouEmail({
-            participantName: checkName || 'Participant',
+          sendAttendanceWelcomeEmail({
+            participantName: checkName,
             regNo: checkRegNo,
             email: checkEmail,
-            competitionTitle: checkTrack
+            ticketId: checkTicketId,
+            competitionTitle: checkTrack,
+            batch: checkBatch,
+            faculty: checkFaculty
           });
           emailSent = true;
         } catch (mailErr) {
-          Logger.log('Attendance email dispatch error: ' + mailErr.toString());
+          Logger.log('Welcome email dispatch error: ' + mailErr.toString());
         }
       }
 
       return jsonResponse({
         success: true,
         status: 'checked_in',
-        message: 'Attendance successfully confirmed & thank-you email sent.',
+        message: 'Attendance confirmed & Welcome email sent to ' + (checkEmail || 'participant'),
         emailSent: emailSent,
         participant: {
-          name: checkName || 'Participant',
+          name: checkName,
           universityRegNo: checkRegNo,
           track: checkTrack,
           email: checkEmail,
-          ticketId: checkTicketId
+          ticketId: checkTicketId || 'PASS',
+          batch: checkBatch,
+          faculty: checkFaculty
         }
       });
     }
@@ -450,16 +582,16 @@ function doPost(e) {
       ticketId = compShort + '-2026-' + randNum;
     }
 
-    // BUILD QR CODE PAYLOAD
-    // Dual format: includes both JSON structure and clear text fields
-    var qrPayload = JSON.stringify({
-      id: ticketId,
-      reg: regNo,
-      name: participantName,
-      track: compShort,
-      email: rawEmail
-    });
-    var qrCodeImageUrl = getQrCodeUrl(qrPayload);
+    // BUILD UNIVERSAL SCAN & VERIFICATION URL FOR QR CODE
+    var qrTargetUrl = 'https://hashcoreseu2026.vercel.app/scan?ticket=' + encodeURIComponent(ticketId) +
+      '&reg=' + encodeURIComponent(regNo) +
+      '&name=' + encodeURIComponent(participantName) +
+      '&track=' + encodeURIComponent(compShort) +
+      '&email=' + encodeURIComponent(rawEmail) +
+      '&batch=' + encodeURIComponent(batch) +
+      '&faculty=' + encodeURIComponent(faculty);
+
+    var qrCodeImageUrl = getQrCodeUrl(qrTargetUrl);
 
     // 4. SEND CONFIRMATION EMAIL WITH EMBEDDED QR & PDF ATTACHMENT
     var emailSent = false;
@@ -567,14 +699,15 @@ function onFormSubmit(e) {
     var ticketId = compShort + '-2026-' + ('00000' + Math.floor(1000 + Math.random() * 90000)).slice(-5);
     var registrationDate = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
 
-    var qrPayload = JSON.stringify({
-      id: ticketId,
-      reg: regNo,
-      name: participantName,
-      track: compShort,
-      email: rawEmail
-    });
-    var qrCodeImageUrl = getQrCodeUrl(qrPayload);
+    var qrTargetUrl = 'https://hashcoreseu2026.vercel.app/scan?ticket=' + encodeURIComponent(ticketId) +
+      '&reg=' + encodeURIComponent(regNo) +
+      '&name=' + encodeURIComponent(participantName) +
+      '&track=' + encodeURIComponent(compShort) +
+      '&email=' + encodeURIComponent(rawEmail) +
+      '&batch=' + encodeURIComponent(batch) +
+      '&faculty=' + encodeURIComponent(faculty);
+
+    var qrCodeImageUrl = getQrCodeUrl(qrTargetUrl);
 
     var emailParams = {
       participantName: participantName,
@@ -890,35 +1023,45 @@ function doGet(e) {
 
   // GET Attendance Check-In (Allows ultra-resilient browser check-in without CORS blocks)
   if (params.action === 'checkIn' || params.action === 'attendance') {
-    var checkRegNo = (params.regNo || params.universityRegNo || '').trim().toUpperCase();
-    var checkTicketId = (params.ticketId || '').trim();
+    var checkRegNo = (params.regNo || params.universityRegNo || params.reg || '').trim().toUpperCase();
+    var checkTicketId = (params.ticketId || params.ticket || params.id || '').trim();
     var checkName = (params.name || params.participantName || '').trim();
     var checkEmail = (params.email || '').trim().toLowerCase();
-    var checkTrack = params.track || 'Workshop';
+    var checkTrack = params.track || params.competition || 'Workshop';
+    var checkBatch = (params.batch || '').trim();
+    var checkFaculty = (params.faculty || '').trim();
 
     var emailSent = false;
-    if (checkEmail) {
+    if (checkEmail && checkEmail.indexOf('@') !== -1) {
       try {
-        sendAttendanceThankYouEmail({
+        sendAttendanceWelcomeEmail({
           participantName: checkName || 'Participant',
           regNo: checkRegNo,
           email: checkEmail,
-          competitionTitle: checkTrack
+          ticketId: checkTicketId,
+          competitionTitle: checkTrack,
+          batch: checkBatch,
+          faculty: checkFaculty
         });
         emailSent = true;
-      } catch (err) {}
+      } catch (err) {
+        Logger.log('doGet welcome email notice: ' + err.toString());
+      }
     }
 
     return jsonResponse({
       success: true,
       status: 'checked_in',
+      message: 'Attendance confirmed & Welcome email sent to ' + (checkEmail || 'participant'),
       emailSent: emailSent,
       participant: {
-        name: checkName,
-        universityRegNo: checkRegNo,
+        name: checkName || 'Participant',
+        universityRegNo: checkRegNo || 'SEU Student',
         track: checkTrack,
         email: checkEmail,
-        ticketId: checkTicketId
+        ticketId: checkTicketId || 'PASS',
+        batch: checkBatch,
+        faculty: checkFaculty
       }
     });
   }
