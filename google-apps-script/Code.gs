@@ -121,7 +121,7 @@ function getQrCodeUrl(payload) {
 function generateTicketPdfBlob(p, qrUrl) {
   try {
     var ticketId = p.ticketId || 'CTF-2026-00001';
-    var compTrack = (p.competitionTitle || 'CTF Competition').toUpperCase();
+    var compTrack = (p.competitionTitle || 'Network & Security Workshop').toUpperCase();
     var batch = p.batch || '2022/2023';
     var faculty = p.faculty || 'Technology';
     var contactNo = p.contactNo || '0772117131';
@@ -315,16 +315,16 @@ function sendAttendanceWelcomeEmail(p) {
     "--------------------------------------------------\n" +
     "Participant Name:    " + p.participantName + "\n" +
     "University Reg No:   " + p.regNo + "\n" +
-    "Competition Track:   " + (p.competitionTitle || 'SEUSL HASHCORE 2026') + "\n" +
+    "Workshop Track:      " + (p.competitionTitle || 'SEUSL HASHCORE 2026') + "\n" +
     "Official Pass ID:    " + ticketId + "\n" +
     "Attendance Status:   PRESENT & VERIFIED\n" +
     "Check-In Timestamp:  " + checkInTime + " (Sri Lanka Time)\n" +
     "--------------------------------------------------\n\n" +
-    "EVENT DAY INSTRUCTIONS:\n" +
-    "1. Keep your terminal / laptop ready and connect to the event network.\n" +
-    "2. Respect competition integrity and event guidelines at all times.\n" +
-    "3. Official competition challenges and announcements will be broadcasted live.\n\n" +
-    "We wish you an extraordinary experience and the best of luck today!\n\n" +
+    "WORKSHOP DAY INSTRUCTIONS:\n" +
+    "1. Keep your laptop ready and connect to the event network.\n" +
+    "2. Engage actively in interactive exercises and hands-on sessions.\n" +
+    "3. Workshop challenge walkthroughs and guidance will be provided live.\n\n" +
+    "We wish you an inspiring learning journey and a fantastic workshop experience!\n\n" +
     "--\n" +
     "HASHCORE 2026 Organizing Committee\n" +
     "Faculty of Technology • South Eastern University of Sri Lanka (SEUSL)\n" +
@@ -357,8 +357,8 @@ function sendAttendanceWelcomeEmail(p) {
             '</tr>' +
             '<tr>' +
               '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
-                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Competition Track</div>' +
-                '<div style="font-size: 14px; font-weight: 800; color: #e2e8f0; margin-top: 2px;">' + (p.competitionTitle || 'Competition') + '</div>' +
+                '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Workshop Track</div>' +
+                '<div style="font-size: 14px; font-weight: 800; color: #e2e8f0; margin-top: 2px;">' + (p.competitionTitle || 'Workshop') + '</div>' +
               '</td>' +
               '<td width="50%" style="border-top: 1px solid rgba(0, 245, 155, 0.2); padding-top: 12px;">' +
                 '<div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Attendance Status</div>' +
@@ -527,7 +527,7 @@ function doPost(e) {
       }
 
       // Default fallbacks if sheet row not found
-      if (!checkTrack) checkTrack = 'CTF / Web Workshop';
+      if (!checkTrack) checkTrack = 'Network & Security / Software Technologies Workshop';
       if (!checkName) checkName = 'Participant';
       if (!checkRegNo) checkRegNo = 'SEU Student';
 
@@ -576,9 +576,9 @@ function doPost(e) {
     var contactNo = (data.contactNo || '').trim();
     var whatsappNo = (data.whatsappNo || contactNo || '').trim();
     var competition = (data.competition || data.track || 'Web').trim();
-    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1;
+    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1 || competition.toUpperCase().indexOf('SECURITY') !== -1 || competition.toUpperCase().indexOf('NETWORK') !== -1;
     var compShort = isCTF ? 'CTF' : 'WEB';
-    var competitionTitle = isCTF ? 'CTF Competition' : 'Web Development Competition';
+    var competitionTitle = isCTF ? 'Network & Security Technologies (CTF: Awareness to Challenge)' : 'Software Technologies (From Idea to Impact)';
 
     if (!participantName) {
       return jsonResponse({ success: false, error: 'Name with Initials is required.' });
@@ -796,9 +796,9 @@ function onFormSubmit(e) {
     var contactNo = getVal('contact') || getVal('phone') || '';
     var whatsappNo = getVal('whatsapp') || contactNo;
     var competition = getVal('track') || getVal('competition') || 'Web';
-    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1;
+    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1 || competition.toUpperCase().indexOf('SECURITY') !== -1 || competition.toUpperCase().indexOf('NETWORK') !== -1;
     var compShort = isCTF ? 'CTF' : 'WEB';
-    var competitionTitle = isCTF ? 'CTF Competition' : 'Web Development Competition';
+    var competitionTitle = isCTF ? 'Network & Security Technologies (CTF: Awareness to Challenge)' : 'Software Technologies (From Idea to Impact)';
 
     var ticketId = compShort + '-2026-' + ('00000' + Math.floor(1000 + Math.random() * 90000)).slice(-5);
     var registrationDate = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
@@ -862,7 +862,7 @@ function ensureSheetHeaders(sheet) {
     var headers = [
       'Timestamp',
       'Ticket ID',
-      'Competition',
+      'Workshop Track',
       'Initials with Name',
       'Batch',
       'Faculty',
@@ -895,7 +895,7 @@ function buildPlainTextEmail(p) {
     "OFFICIAL TICKET PASS DETAILS\n" +
     "--------------------------------------------------\n" +
     "Ticket ID:           " + p.ticketId + "\n" +
-    "Competition:         " + p.competitionTitle + "\n" +
+    "Workshop Track:      " + p.competitionTitle + "\n" +
     "Participant Name:    " + p.participantName + "\n" +
     "University Reg No:   " + p.regNo + "\n" +
     "Academic Batch:      " + p.batch + "\n" +
@@ -968,7 +968,7 @@ function buildConfirmationEmailHtml(p, qrUrl) {
                           'HASHCORE \'26 CITADEL PASS' +
                         '</div>' +
                         '<div style="font-size: 12px; font-weight: 700; color: #00f59b; font-family: monospace; margin-top: 3px; letter-spacing: 1px;">' +
-                          (p.competitionTitle || 'CTF Competition').toUpperCase() +
+                          (p.competitionTitle || 'Network & Security Workshop').toUpperCase() +
                         '</div>' +
                       '</td>' +
                       '<td align="right" valign="top">' +
@@ -1064,7 +1064,7 @@ function buildConfirmationEmailHtml(p, qrUrl) {
             '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #1a1608; border-left: 3px solid #00f59b; border-radius: 6px;">' +
               '<tr>' +
                 '<td style="padding: 12px 16px; font-size: 13px; color: #fde68a; line-height: 1.5;">' +
-                  '<strong>Attachment:</strong> Your official <strong>PDF Ticket Pass</strong> is attached to this email. Please save it on your phone or print it for check-in on competition day.' +
+                  '<strong>Attachment:</strong> Your official <strong>PDF Ticket Pass</strong> is attached to this email. Please save it on your phone or print it for check-in on workshop day.' +
                 '</td>' +
               '</tr>' +
             '</table>' +
@@ -1101,7 +1101,7 @@ function testSendEmailToVerifyXcode(recipient) {
 
   var emailParams = {
     participantName: "Xcode Verifier",
-    competitionTitle: "Web Development Competition",
+    competitionTitle: "Software Technologies Workshop (From Idea to Impact)",
     batch: "2021/2022",
     faculty: "Technology",
     regNo: "SEU/IS/21/TEST/001",
@@ -1120,7 +1120,7 @@ function testSendEmailToVerifyXcode(recipient) {
 
   sendEmailNotification({
     to: testEmail,
-    subject: "SEUSL HASHCORE 2026 Registration Confirmed: Web Development Competition [" + testTicketId + "]",
+    subject: "SEUSL HASHCORE 2026 Registration Confirmed: Software Technologies Workshop [" + testTicketId + "]",
     plainText: plainText,
     htmlBody: htmlBody,
     attachments: pdfBlob ? [pdfBlob] : []

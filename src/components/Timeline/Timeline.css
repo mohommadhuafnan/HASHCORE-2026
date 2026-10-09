@@ -948,6 +948,91 @@
   background: linear-gradient(135deg, rgba(0, 245, 155, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
+.detail-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.detail-lock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fbbf24;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.12);
+  transition: all 0.3s ease;
+}
+
+.detail-card:hover .detail-lock-tag {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+}
+
+.detail-lock-tag .lock-svg-icon {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+.detail-confirmed-tag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #38bdf8;
+}
+
+.detail-open-tag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 245, 155, 0.12);
+  border: 1px solid rgba(0, 245, 155, 0.4);
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #00f59b;
+}
+
+.detail-card.is-locked {
+  border-color: rgba(245, 158, 11, 0.22);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+}
+
+.detail-card.is-locked:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+.detail-card.is-locked .detail-icon-wrap {
+  border-color: rgba(245, 158, 11, 0.28);
+  color: #fbbf24;
+}
+
+.detail-card.is-locked:hover .detail-icon-wrap {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #fde68a;
+}
+
 .detail-icon-wrap {
   width: 44px;
   height: 44px;

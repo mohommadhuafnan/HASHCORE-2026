@@ -24,9 +24,9 @@ router.post('/', async (req, res) => {
     const contactNo = (data.contactNo || '').trim();
     const whatsappNo = (data.whatsappNo || contactNo || '').trim();
     const competition = (data.competition || data.track || 'Web').trim();
-    const isCTF = competition.toUpperCase().indexOf('CTF') !== -1;
+    const isCTF = competition.toUpperCase().indexOf('CTF') !== -1 || competition.toUpperCase().indexOf('SECURITY') !== -1 || competition.toUpperCase().indexOf('NETWORK') !== -1;
     const track = isCTF ? 'CTF' : 'WEB';
-    const competitionTitle = isCTF ? 'CTF Competition' : 'Web Development Competition';
+    const competitionTitle = isCTF ? 'Network & Security Technologies (CTF: Awareness to Challenge)' : 'Software Technologies (From Idea to Impact)';
 
     // 1. Validation
     if (!participantName) {

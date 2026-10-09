@@ -99,9 +99,9 @@ export default function Footer({ onNavigateRegister }) {
               <ul className="footer-nav-links">
                 <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('CTF'); } }}>Workshop 01: CTF: From Awareness to Challenge</a></li>
                 <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('WEB'); } }}>Workshop 02: From Idea to Impact</a></li>
-                <li><a href="#details">Dates: 24 & 31 October 2026</a></li>
-                <li><a href="#details">Time: 8:30 AM – 4:30 PM</a></li>
-                <li><a href="#details">Venue: SWT Hall, SEUSL</a></li>
+                <li><a href="#details">Dates: October 2026 (TBA)</a></li>
+                <li><a href="#details">Time: To Be Announced</a></li>
+                <li><a href="#details">Venue: Faculty of Technology, SEUSL (TBA)</a></li>
               </ul>
             </div>
 
