@@ -39,7 +39,11 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
 
   return (
     <header className={`navbar-header ${scrolled || currentView === 'register' ? 'is-scrolled' : ''}`}>
-      <div className="navbar-container">
+      <div className="navbar-container liquid-glass-capsule">
+        <div className="liquid-glass-reflection" aria-hidden="true" />
+        <div className="liquid-glass-glow" aria-hidden="true" />
+        <div className="liquid-glass-edge" aria-hidden="true" />
+
         {/* Brand / Official Event Logo */}
         <a href="#home" className="navbar-brand" onClick={handleBrandClick} aria-label="HASHCORE '26 Home">
           <img 

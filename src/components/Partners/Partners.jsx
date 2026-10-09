@@ -1,3 +1,4 @@
+import sictLogo from '../../assets/SICT.png';
 import './Partners.css';
 
 export default function Partners() {
@@ -29,18 +30,14 @@ export default function Partners() {
             </div>
 
             <div className="partner-logo-box">
-              {/* Custom High-Tech SICT Emblem */}
+              {/* Official SICT Emblem */}
               <div className="sict-emblem">
-                <svg viewBox="0 0 100 100" fill="none" className="sict-svg">
-                  <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" stroke="#00f59b" strokeWidth="2.5" fill="rgba(0, 245, 155, 0.06)" />
-                  <polygon points="50,15 80,30 80,70 50,85 20,70 20,30" stroke="rgba(0, 245, 155, 0.35)" strokeWidth="1.5" strokeDasharray="4 3" />
-                  {/* Circuit Nodes */}
-                  <path d="M50 25 V45 M35 55 L50 45 L65 55 M50 45 V75" stroke="#00f59b" strokeWidth="2" strokeLinecap="round" />
-                  <circle cx="50" cy="25" r="3.5" fill="#00f59b" />
-                  <circle cx="35" cy="55" r="3.5" fill="#00f59b" />
-                  <circle cx="65" cy="55" r="3.5" fill="#00f59b" />
-                  <circle cx="50" cy="75" r="3.5" fill="#00f59b" />
-                </svg>
+                <img 
+                  src={sictLogo} 
+                  alt="Society of ICT (SICT) Official Logo" 
+                  className="sict-logo-img" 
+                  loading="lazy"
+                />
                 <div className="emblem-ambient-glow" />
               </div>
 
@@ -51,10 +48,6 @@ export default function Partners() {
               </div>
             </div>
 
-            <p className="partner-statement">
-              The premier student technological body at South Eastern University of Sri Lanka,
-              driving competitive programming, cyber research, and high-impact engineering hackathons.
-            </p>
 
             <div className="partner-card-footer">
               <span className="cred-badge">SEUSL OFFICIAL TECH BODY</span>
@@ -100,10 +93,6 @@ export default function Partners() {
               </div>
             </div>
 
-            <p className="partner-statement">
-              Delivering national-scale cinematic coverage, tournament live-streaming, documentary
-              highlights, and photojournalism for all stages of HASHCORE '26.
-            </p>
 
             <div className="partner-card-footer">
               <span className="cred-badge">EXCLUSIVE BROADCASTER</span>

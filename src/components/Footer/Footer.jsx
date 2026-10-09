@@ -1,4 +1,6 @@
 import footerKnightImg from '../../frame/00148.webp';
+import sictLogo from '../../assets/SICT.png';
+import logoOriginalImg from '../../assets/logo-original.png';
 import './Footer.css';
 
 export default function Footer({ onNavigateRegister }) {
@@ -66,18 +68,13 @@ export default function Footer({ onNavigateRegister }) {
           <div className="footer-cols-grid reveal-on-scroll stagger-1">
             {/* Col 1: Brand & University Identity */}
             <div className="footer-col col-brand">
-              <div className="footer-brand-header">
-                <div className="brand-crest-small">
-                  <svg viewBox="0 0 24 24" fill="none" className="crest-svg">
-                    <path d="M12 2L3 6V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V6L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 7V17M8 11L12 7L16 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="brand-name-footer">SEUSL HASHCORE '26</h3>
-                  <span className="brand-tag-footer">Citadel of Innovation</span>
-                </div>
-              </div>
+              <a href="#home" className="footer-brand-logo-link" aria-label="SEUSL HASHCORE '26 Home">
+                <img 
+                  src={logoOriginalImg} 
+                  alt="SEUSL HASHCORE '26 Official Logo" 
+                  className="footer-brand-logo-img" 
+                />
+              </a>
               <p className="brand-desc-footer">
                 The premier annual national technology summit, CTF championship, and 24-hour hackathon
                 organized by the Faculty of Technology, South Eastern University of Sri Lanka.
@@ -116,9 +113,14 @@ export default function Footer({ onNavigateRegister }) {
             <div className="footer-col">
               <h4 className="col-heading">Organization & Media</h4>
               <div className="partner-badges-mini">
-                <div className="mini-partner">
+                <div className="mini-partner mini-partner-sict">
                   <span className="partner-type">Organized By</span>
-                  <span className="partner-title">SICT (Society of ICT)</span>
+                  <div className="mini-partner-brand">
+                    <div className="mini-sict-icon-wrap">
+                      <img src={sictLogo} alt="SICT Logo" className="mini-sict-logo" />
+                    </div>
+                    <span className="partner-title">SICT (Society of ICT)</span>
+                  </div>
                 </div>
                 <div className="mini-partner">
                   <span className="partner-type">Official Media Partner</span>

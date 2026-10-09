@@ -31,31 +31,34 @@
 }
 
 /* Luminous Cyber Section Dividers */
+/* Liquid Glass Refractive Section Dividers */
 .section-cyber-divider {
   position: relative;
   width: 100%;
-  max-width: 1180px;
+  max-width: 1240px;
   margin: 0 auto;
   height: 1px;
   background: linear-gradient(
     90deg, 
     transparent 0%, 
-    rgba(0, 245, 155, 0.08) 20%, 
-    rgba(0, 245, 155, 0.35) 50%, 
-    rgba(0, 245, 155, 0.08) 80%, 
+    rgba(255, 255, 255, 0.05) 15%, 
+    rgba(0, 245, 155, 0.3) 50%, 
+    rgba(255, 255, 255, 0.05) 85%, 
     transparent 100%
   );
+  box-shadow: 0 0 15px rgba(0, 245, 155, 0.15);
 }
 
 .section-cyber-divider::after {
   content: '';
   position: absolute;
-  top: -3px;
+  top: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 7px;
-  background: radial-gradient(ellipse at center, rgba(0, 245, 155, 0.6) 0%, transparent 80%);
+  width: 120px;
+  height: 9px;
+  background: radial-gradient(ellipse at center, rgba(0, 245, 155, 0.7) 0%, rgba(255, 255, 255, 0.4) 30%, transparent 80%);
+  filter: blur(1px);
 }
 
 /* ==========================================================================
