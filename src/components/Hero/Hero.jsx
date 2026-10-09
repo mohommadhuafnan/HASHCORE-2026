@@ -334,76 +334,60 @@ export default function Hero({ onNavigateRegister }) {
         <div ref={textStage1Ref} className="hero-text-stage stage-1">
           <div className="stage-content">
             <span className="hero-eyebrow">
-              DEPARTMENT OF ICT • FACULTY OF TECHNOLOGY • SEUSL
+
             </span>
             <h1 className="hero-main-title hero-logo-title">
               <img
                 src={hashcoreLogo}
-                alt="HASHCORE v0.1 – 2026 - Society of ICT"
+                alt="SEUSL HASHCORE 2026 - Society of ICT"
                 className="hero-main-logo"
               />
             </h1>
-            <h2 className="hero-tagline-text">
-              Learn. Build. Compete.
-            </h2>
             <p className="hero-subtitle">
-              A Student-Led Technical Competition Awareness Workshop Series.
+
             </p>
-            <p className="hero-description-short">
-              Discover technical competitions, learn from student experiences, explore practical challenges, and take your first step towards competing.
-            </p>
-            <div className="hero-stat-badges">
-              <span className="hero-stat-badge">2 Workshops</span>
-              <span className="hero-stat-badge-dot">•</span>
-              <span className="hero-stat-badge">October 2026</span>
-              <span className="hero-stat-badge-dot">•</span>
-              <span className="hero-stat-badge">Student-Led</span>
-            </div>
             <div className="hero-scroll-hint">
               <div className="mouse-icon">
                 <span className="mouse-wheel" />
               </div>
-              <span className="scroll-hint-text">SCROLL TO EXPLORE WORKSHOPS</span>
+              <span className="scroll-hint-text">SCROLL TO ENTER THE CITADEL</span>
             </div>
           </div>
         </div>
 
         {/* ==================================================================
             TEXT MOMENT 2: Middle (28% - 46% scroll)
-            About HASHCORE
+            Technology & Proving Ground Statement
             ================================================================== */}
         <div ref={textStage2Ref} className="hero-text-stage stage-2">
           <div className="stage-content">
-            <span className="hero-eyebrow">STUDENT-LED INITIATIVE</span>
             <h2 className="stage-heading">
-              ABOUT <span className="gradient-text-emerald">HASHCORE</span>
+              FORGE YOUR CODE.<br />
+              <span className="gradient-text-emerald">DEFEND THE REALM.</span>
             </h2>
             <p className="stage-description">
-              HASHCORE is a student-led technical event series initiated under the Department of Information and Communication Technology, Faculty of Technology, South Eastern University of Sri Lanka.
-            </p>
-            <p className="stage-description sub">
-              The inaugural edition features two awareness workshops designed to help students explore technical competitions, develop practical knowledge, and gain the confidence to participate in national and international competitions.
+              Where Sri Lanka’s sharpest computational minds converge. Step into a proving
+              ground of real-time offensive security, cryptographic defense, and scalable engineering.
             </p>
           </div>
         </div>
 
         {/* ==================================================================
             TEXT MOMENT 3: Later (54% - 76% scroll)
-            The Two Featured Workshops
+            The Two Workshop & Competition Categories
             ================================================================== */}
         <div ref={textStage3Ref} className="hero-text-stage stage-3">
           <div className="stage-content wide">
-            <span className="hero-eyebrow">AWARENESS & PREPARATION</span>
             <h2 className="stage-heading compact">
-              FEATURED WORKSHOPS
+              TWO BATTLEGROUNDS. ONE DESTINY.
             </h2>
 
             <div className="tracks-grid">
-              {/* Workshop 01: CTF */}
+              {/* Track 1: CTF Competition Awareness */}
               <div className="track-card ctf-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
-                  <span className="track-num">WORKSHOP 01 · 24 OCTOBER 2026</span>
+                  <span className="track-num">TRACK // 01</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
                       <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -411,19 +395,15 @@ export default function Hero({ onNavigateRegister }) {
                     </svg>
                   </div>
                 </div>
-                <div className="track-sub-domain">Cybersecurity · Network & Security Technologies</div>
-                <h3 className="track-title">CTF: From Awareness to Challenge</h3>
+                <h3 className="track-title">CTF COMPETITION AWARENESS</h3>
                 <p className="track-desc">
-                  An introduction to Capture The Flag (CTF) competitions, challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges.
+                  Offensive security drills, penetration testing, binary exploitation, cryptographic puzzles,
+                  and SEUSL CTF championship preparation.
                 </p>
-                <div className="track-key-topics-label">Key topics</div>
                 <div className="track-tags">
-                  <span>CTF fundamentals</span>
+                  <span>Ethical Hacking</span>
                   <span>Cryptography</span>
-                  <span>Web Exploitation</span>
-                  <span>Digital Forensics</span>
-                  <span>OSINT</span>
-                  <span>Beginner Roadmap</span>
+                  <span>CTF Platform Drills</span>
                 </div>
                 <div className="track-card-action">
                   <a
@@ -436,7 +416,7 @@ export default function Hero({ onNavigateRegister }) {
                       }
                     }}
                   >
-                    <span>Register for Workshop 01</span>
+                    <span>Register for CTF</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -444,30 +424,26 @@ export default function Hero({ onNavigateRegister }) {
                 </div>
               </div>
 
-              {/* Workshop 02: Web Development */}
+              {/* Track 2: Web Development Competition */}
               <div className="track-card dev-card">
                 <div className="track-card-glow" />
                 <div className="track-header">
-                  <span className="track-num">WORKSHOP 02 · 31 OCTOBER 2026</span>
+                  <span className="track-num">TRACK // 02</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
                       <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
-                <div className="track-sub-domain">Web Development · Software Technologies</div>
-                <h3 className="track-title">From Idea to Impact</h3>
+                <h3 className="track-title">WEB DEVELOPMENT COMPETITION</h3>
                 <p className="track-desc">
-                  Explore how to turn real-world problems into web solutions, build prototypes, use modern development tools, and present projects in competitions.
+                  High-throughput architectures, modern fullstack engineering, cutting-edge UI/UX,
+                  and SEUSL Hackathon championship preparation.
                 </p>
-                <div className="track-key-topics-label">Key topics</div>
                 <div className="track-tags">
-                  <span>Idea Generation</span>
-                  <span>UI/UX</span>
-                  <span>Web Development</span>
-                  <span>AI-Assisted Tools</span>
-                  <span>Deployment</span>
-                  <span>Pitching</span>
+                  <span>Fullstack Systems</span>
+                  <span>UI/UX Innovation</span>
+                  <span>24H Hackathon Sprint</span>
                 </div>
                 <div className="track-card-action">
                   <a
@@ -480,7 +456,7 @@ export default function Hero({ onNavigateRegister }) {
                       }
                     }}
                   >
-                    <span>Register for Workshop 02</span>
+                    <span>Register for Web Development</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -493,17 +469,16 @@ export default function Hero({ onNavigateRegister }) {
 
         {/* ==================================================================
             TEXT MOMENT 4: Ending (84% - 100% scroll)
-            Registration Call-to-Action
+            Grand Citadel Arrival & Call-to-Action
             ================================================================== */}
         <div ref={textStage4Ref} className="hero-text-stage stage-4">
           <div className="stage-content">
-            <span className="hero-eyebrow">TAKE YOUR FIRST STEP</span>
             <h2 className="stage-heading large">
-              READY TO TAKE ON THE <span className="gradient-text-emerald">CHALLENGE?</span>
+              ENTER THE <span className="gradient-text-emerald">CITADEL</span>
             </h2>
             <p className="stage-description">
-              Start your journey into technical competitions with HASHCORE v0.1 – 2026.
-              Registration is free. Participants must register in advance.
+              South Eastern University of Sri Lanka welcomes all developers, security researchers,
+              and visionaries. Registrations commencing soon.
             </p>
             <div className="stage-actions">
               <a
@@ -522,8 +497,8 @@ export default function Hero({ onNavigateRegister }) {
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-              <a href="#workshops" className="btn-hero-secondary">
-                <span>View Event Details</span>
+              <a href="#timeline" className="btn-hero-secondary">
+                <span>Explore Tracks</span>
               </a>
             </div>
           </div>
