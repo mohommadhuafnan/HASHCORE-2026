@@ -180,6 +180,7 @@ function doPost(e) {
 
       MailApp.sendEmail({
         to: rawEmail,
+        bcc: "hashcore@seu.ac.lk",
         subject: subject,
         htmlBody: htmlBody,
         name: "SEUSL HASHCORE '26",
@@ -274,6 +275,7 @@ function onFormSubmit(e) {
 
     MailApp.sendEmail({
       to: rawEmail,
+      bcc: "hashcore@seu.ac.lk",
       subject: subject,
       htmlBody: htmlBody,
       name: "SEUSL HASHCORE '26",
