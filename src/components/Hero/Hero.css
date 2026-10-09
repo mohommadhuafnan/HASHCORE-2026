@@ -178,6 +178,25 @@
   text-shadow: 0 0 30px rgba(0, 245, 155, 0.7);
 }
 
+.hero-logo-title {
+  margin: 0.35rem 0 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.hero-main-logo {
+  width: 100%;
+  max-width: clamp(260px, 48vw, 620px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: invert(1) brightness(1.2) drop-shadow(0 0 28px rgba(0, 245, 155, 0.45)) drop-shadow(0 8px 32px rgba(0, 0, 0, 0.85));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  user-select: none;
+}
+
 .hero-subtitle {
   font-family: var(--font-heading);
   font-size: clamp(1.05rem, 2vw, 1.45rem);

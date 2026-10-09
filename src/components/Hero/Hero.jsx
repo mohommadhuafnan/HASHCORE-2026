@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { frameLoader, TOTAL_FRAMES } from './frameLoader';
 import SmokeCanvas from './SmokeCanvas';
+import hashcoreLogo from '../../assets/logo.png';
 import './Hero.css';
 
 export default function Hero({ onNavigateRegister }) {
@@ -301,17 +302,17 @@ export default function Hero({ onNavigateRegister }) {
   }, [drawFrameToCanvas, resizeCanvas, startAnimationLoop, updateTextLayers]);
 
   return (
-    <section 
-      id="home" 
-      ref={containerRef} 
+    <section
+      id="home"
+      ref={containerRef}
       className="hero-scroll-container"
     >
       {/* Sticky Viewport Housing Canvas, Dynamic Smoke, and Overlays */}
       <div className={`hero-sticky-viewport ${initialLoaded ? 'is-loaded' : ''}`}>
         {/* Cinematic WebGL / 2D Canvas */}
-        <canvas 
-          ref={canvasRef} 
-          className="hero-canvas" 
+        <canvas
+          ref={canvasRef}
+          className="hero-canvas"
           aria-label="3D Cinematic Camera Scroll Experience for SEUSL HASHCORE 2026"
         />
 
@@ -333,13 +334,17 @@ export default function Hero({ onNavigateRegister }) {
         <div ref={textStage1Ref} className="hero-text-stage stage-1">
           <div className="stage-content">
             <span className="hero-eyebrow">
-              SOUTH EASTERN UNIVERSITY OF SRI LANKA
+
             </span>
-            <h1 className="hero-main-title">
-              HASHCORE<span className="title-highlight">'26</span>
+            <h1 className="hero-main-title hero-logo-title">
+              <img
+                src={hashcoreLogo}
+                alt="SEUSL HASHCORE 2026 - Society of ICT"
+                className="hero-main-logo"
+              />
             </h1>
             <p className="hero-subtitle">
-              The Premier University Cyber Citadel & Hackathon Championship
+
             </p>
             <div className="hero-scroll-hint">
               <div className="mouse-icon">
@@ -376,7 +381,7 @@ export default function Hero({ onNavigateRegister }) {
             <h2 className="stage-heading compact">
               TWO BATTLEGROUNDS. ONE DESTINY.
             </h2>
-            
+
             <div className="tracks-grid">
               {/* Track 1: CTF Competition Awareness */}
               <div className="track-card ctf-card">
@@ -385,14 +390,14 @@ export default function Hero({ onNavigateRegister }) {
                   <span className="track-num">TRACK // 01</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
-                      <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
                 <h3 className="track-title">CTF COMPETITION AWARENESS</h3>
                 <p className="track-desc">
-                  Offensive security drills, penetration testing, binary exploitation, cryptographic puzzles, 
+                  Offensive security drills, penetration testing, binary exploitation, cryptographic puzzles,
                   and SEUSL CTF championship preparation.
                 </p>
                 <div className="track-tags">
@@ -401,8 +406,8 @@ export default function Hero({ onNavigateRegister }) {
                   <span>CTF Platform Drills</span>
                 </div>
                 <div className="track-card-action">
-                  <a 
-                    href="#register" 
+                  <a
+                    href="#register"
                     className="track-enroll-btn ctf"
                     onClick={(e) => {
                       if (onNavigateRegister) {
@@ -413,7 +418,7 @@ export default function Hero({ onNavigateRegister }) {
                   >
                     <span>Register for CTF</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
                 </div>
@@ -426,13 +431,13 @@ export default function Hero({ onNavigateRegister }) {
                   <span className="track-num">TRACK // 02</span>
                   <div className="track-badge-icon">
                     <svg viewBox="0 0 24 24" fill="none" className="icon-svg">
-                      <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
                 <h3 className="track-title">WEB DEVELOPMENT COMPETITION</h3>
                 <p className="track-desc">
-                  High-throughput architectures, modern fullstack engineering, cutting-edge UI/UX, 
+                  High-throughput architectures, modern fullstack engineering, cutting-edge UI/UX,
                   and SEUSL Hackathon championship preparation.
                 </p>
                 <div className="track-tags">
@@ -441,8 +446,8 @@ export default function Hero({ onNavigateRegister }) {
                   <span>24H Hackathon Sprint</span>
                 </div>
                 <div className="track-card-action">
-                  <a 
-                    href="#register" 
+                  <a
+                    href="#register"
                     className="track-enroll-btn web"
                     onClick={(e) => {
                       if (onNavigateRegister) {
@@ -453,7 +458,7 @@ export default function Hero({ onNavigateRegister }) {
                   >
                     <span>Register for Web Development</span>
                     <svg viewBox="0 0 24 24" fill="none" className="enroll-arrow">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
                 </div>
@@ -476,8 +481,8 @@ export default function Hero({ onNavigateRegister }) {
               and visionaries. Registrations commencing soon.
             </p>
             <div className="stage-actions">
-              <a 
-                href="#register" 
+              <a
+                href="#register"
                 className="btn-hero-primary"
                 onClick={(e) => {
                   if (onNavigateRegister) {
@@ -489,7 +494,7 @@ export default function Hero({ onNavigateRegister }) {
                 <span className="btn-glow-ring" />
                 <span className="btn-text">Register Now</span>
                 <svg viewBox="0 0 24 24" fill="none" className="btn-arrow">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
               <a href="#timeline" className="btn-hero-secondary">

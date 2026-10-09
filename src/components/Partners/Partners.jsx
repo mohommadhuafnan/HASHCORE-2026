@@ -1,4 +1,6 @@
 import sictLogo from '../../assets/SICT.png';
+import agniLogo from '../../assets/Agnivision.png';
+import seusllogo from '../../assets/SEUSLlogo.png';
 import './Partners.css';
 
 export default function Partners() {
@@ -8,7 +10,7 @@ export default function Partners() {
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
           <h2 className="section-title">
-            ORGANIZED BY <span className="title-gradient">& MEDIA PARTNERS</span>
+            ORGANIZED BY <span className="title-gradient">SICT x DICT</span>
           </h2>
           <p className="section-desc">
             Empowered by the technological leadership of the Faculty of Technology, SICT,
@@ -27,10 +29,10 @@ export default function Partners() {
             <div className="partner-logo-box">
               {/* Official SICT Emblem */}
               <div className="sict-emblem">
-                <img 
-                  src={sictLogo} 
-                  alt="Society of ICT (SICT) Official Logo" 
-                  className="sict-logo-img" 
+                <img
+                  src={sictLogo}
+                  alt="Society of ICT (SICT) Official Logo"
+                  className="sict-logo-img"
                   loading="lazy"
                 />
                 <div className="emblem-ambient-glow" />
@@ -49,7 +51,7 @@ export default function Partners() {
               <a href="https://seu.ac.lk" target="_blank" rel="noreferrer" className="partner-link">
                 <span>Portal</span>
                 <svg viewBox="0 0 24 24" fill="none" className="ext-icon">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
             </div>
@@ -62,21 +64,14 @@ export default function Partners() {
             </div>
 
             <div className="partner-logo-box">
-              {/* Custom Cinematic Agni Vision Emblem */}
+              {/* Official Agni Vision Emblem */}
               <div className="agni-emblem">
-                <svg viewBox="0 0 100 100" fill="none" className="agni-svg">
-                  <circle cx="50" cy="50" r="42" stroke="#f59e0b" strokeWidth="2" strokeDasharray="6 4" />
-                  <circle cx="50" cy="50" r="34" stroke="rgba(245, 158, 11, 0.4)" strokeWidth="1.5" />
-                  {/* Stylized Cinema Lens Aperture & Flame Eye */}
-                  <path d="M50 18 C65 30 75 40 75 55 C75 70 60 82 50 82 C40 82 25 70 25 55 C25 40 35 30 50 18 Z" stroke="#00f59b" strokeWidth="2.2" fill="rgba(0, 245, 155, 0.08)" />
-                  <circle cx="50" cy="55" r="10" stroke="#f59e0b" strokeWidth="2" fill="#040806" />
-                  <circle cx="50" cy="55" r="4" fill="#00f59b" />
-                  {/* Rays */}
-                  <line x1="50" y1="6" x2="50" y2="12" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="94" y1="50" x2="88" y2="50" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="50" y1="94" x2="50" y2="88" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="6" y1="50" x2="12" y2="50" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
-                </svg>
+                <img
+                  src={agniLogo}
+                  alt="Agni Vision Official Logo"
+                  className="agni-logo-img"
+                  loading="lazy"
+                />
                 <div className="emblem-ambient-glow amber-glow" />
               </div>
 
@@ -93,7 +88,7 @@ export default function Partners() {
               <a href="#posters" className="partner-link">
                 <span>Media Vault</span>
                 <svg viewBox="0 0 24 24" fill="none" className="ext-icon">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
             </div>
@@ -103,10 +98,12 @@ export default function Partners() {
         {/* Institutional Host Badge */}
         <div className="host-endorsement-banner reveal-on-scroll stagger-3">
           <div className="host-crest-icon">
-            <svg viewBox="0 0 24 24" fill="none" className="host-svg">
-              <path d="M12 2L3 7V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V7L12 2Z" stroke="#00f59b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 7V17M8 11L12 7L16 11" stroke="#00f59b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <img
+              src={seusllogo}
+              alt="Society of ICT (SICT) Official Logo"
+              className="sict-logo-img"
+              loading="lazy"
+            />
           </div>
           <div className="host-details">
             <h4 className="host-title">SOUTH EASTERN UNIVERSITY OF SRI LANKA</h4>
