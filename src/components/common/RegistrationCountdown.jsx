@@ -40,11 +40,6 @@ function calculateTimeLeft(target) {
 export default function RegistrationCountdown({ targetDate, track = 'CTF', compact = false }) {
   const { isUnlocked, days, hours, minutes, seconds } = useRegistrationCountdown(targetDate);
 
-  const unlockLabel =
-    track === 'CTF'
-      ? 'Opens: 11 October 2026 · 9:30 AM'
-      : 'Opens: 16 October 2026 · 9:30 AM';
-
   if (isUnlocked) {
     return (
       <div className={`reg-countdown-box is-live ${track.toLowerCase()}-accent ${compact ? 'compact' : ''}`}>
@@ -65,7 +60,6 @@ export default function RegistrationCountdown({ targetDate, track = 'CTF', compa
           </svg>
           <span className="countdown-kicker font-mono">REGISTRATION OPENS IN</span>
         </div>
-        <span className="countdown-target-badge font-mono">{unlockLabel}</span>
       </div>
 
       <div className="countdown-digits-grid">
