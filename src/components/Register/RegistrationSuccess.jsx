@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
-import ticketBgImg from '../../frame/00144.webp';
+import ticketBgImg from '../../frame/00001.webp';
 
 /**
  * RegistrationSuccess:
@@ -27,7 +27,7 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
       const scanUrl = `https://hashcoreseu2026.vercel.app/scan?ticket=${encodeURIComponent(ticketId)}&reg=${encodeURIComponent(regNo)}&name=${encodeURIComponent(pName)}&track=${encodeURIComponent(track)}&email=${encodeURIComponent(email)}&batch=${encodeURIComponent(batch)}&faculty=${encodeURIComponent(faculty)}`;
 
       QRCode.toDataURL(scanUrl, {
-        width: 280,
+        width: 380,
         margin: 2,
         color: { dark: '#020905', light: '#ffffff' },
       })
@@ -179,14 +179,14 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
           )}
         </div>
 
-          {/* Ticket Footer with Real Scannable QR Ticket */}
+          {/* Ticket Footer with Real Scannable QR Ticket (Enlarged) */}
           <div className="pass-footer">
             {(localQrUrl || registration.qrDataUrl) ? (
-              <div className="pass-qr-badge-wrap font-mono" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
-                <div style={{ background: '#ffffff', padding: '6px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)', border: '2px solid #00f59b' }}>
-                  <img src={localQrUrl || registration.qrDataUrl} alt="Entry QR Ticket" style={{ width: '84px', height: '84px', display: 'block' }} />
+              <div className="pass-qr-badge-wrap font-mono" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                <div style={{ background: '#ffffff', padding: '8px', borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.7)', border: '2.5px solid #00f59b' }}>
+                  <img src={localQrUrl || registration.qrDataUrl} alt="Entry QR Ticket" style={{ width: '135px', height: '135px', display: 'block' }} />
                 </div>
-                <span className="barcode-text" style={{ fontSize: '0.65rem', color: '#00f59b', letterSpacing: '0.05em' }}>
+                <span className="barcode-text" style={{ fontSize: '0.74rem', color: '#00f59b', letterSpacing: '0.06em', fontWeight: 'bold' }}>
                   &bull; OFFICIAL ENTRY QR PASS &bull;
                 </span>
               </div>
