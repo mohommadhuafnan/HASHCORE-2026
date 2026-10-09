@@ -91,35 +91,220 @@
 }
 
 /* ==========================================================================
-   Posters Grid
+   Modern 3D Looping Carousel Stage
+   Center poster is large & prominent, side posters are smaller with 3D flow
    ========================================================================== */
-.posters-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.2rem;
+.posters-carousel-wrapper {
+  position: relative;
   width: 100%;
-  margin-top: 2rem;
+  max-width: 1280px;
+  margin: 2rem auto 0;
+  padding: 2.5rem 1rem 3.5rem;
+  perspective: 1400px;
+  overflow: visible;
+  user-select: none;
 }
 
-.poster-card {
+.carousel-ambient-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 580px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(0, 245, 155, 0.24) 0%, rgba(6, 182, 212, 0.12) 45%, transparent 70%);
+  filter: blur(55px);
+  pointer-events: none;
+  z-index: 1;
+  animation: ambientPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.posters-carousel-stage {
   position: relative;
+  width: 100%;
+  height: 620px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+/* 3D Poster Cards */
+.poster-3d-card {
+  position: absolute;
+  width: 100%;
+  max-width: 440px;
   background: var(--liquid-glass-bg);
   backdrop-filter: var(--liquid-glass-blur);
   -webkit-backdrop-filter: var(--liquid-glass-blur);
-  border: 1px solid var(--liquid-glass-border);
+  border: 1.5px solid var(--liquid-glass-border);
   border-radius: 22px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--liquid-glass-shadow);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.75s ease,
+              filter 0.75s ease,
+              box-shadow 0.75s ease,
+              border-color 0.5s ease;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
+  will-change: transform, opacity;
 }
 
-.poster-card:hover {
-  transform: translateY(-6px);
-  background: var(--liquid-glass-bg-hover);
-  border-color: var(--liquid-glass-border-hover);
-  box-shadow: var(--liquid-glass-shadow-hover);
+/* Center Card — Large & Prominent */
+.poster-3d-card.card-center {
+  transform: translateX(0) scale(1.08) translateZ(90px);
+  z-index: 10;
+  opacity: 1;
+  filter: none;
+  border-color: #00f59b;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 245, 155, 0.32);
+}
+
+/* Left Card — Smaller & angled in 3D perspective */
+.poster-3d-card.card-left {
+  transform: translateX(-68%) scale(0.85) rotateY(16deg) translateZ(0);
+  z-index: 5;
+  opacity: 0.62;
+  filter: brightness(0.7) saturate(0.82);
+  cursor: pointer;
+}
+
+.poster-3d-card.card-left:hover {
+  opacity: 0.88;
+  filter: brightness(0.9) saturate(0.95);
+  transform: translateX(-65%) scale(0.87) rotateY(12deg) translateZ(15px);
+}
+
+/* Right Card — Smaller & angled in 3D perspective */
+.poster-3d-card.card-right {
+  transform: translateX(68%) scale(0.85) rotateY(-16deg) translateZ(0);
+  z-index: 5;
+  opacity: 0.62;
+  filter: brightness(0.7) saturate(0.82);
+  cursor: pointer;
+}
+
+.poster-3d-card.card-right:hover {
+  opacity: 0.88;
+  filter: brightness(0.9) saturate(0.95);
+  transform: translateX(65%) scale(0.87) rotateY(-12deg) translateZ(15px);
+}
+
+/* Navigation Arrow Buttons */
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(4, 15, 10, 0.8);
+  border: 1.5px solid rgba(0, 245, 155, 0.45);
+  color: #00f59b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 25;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 245, 155, 0.2);
+}
+
+.carousel-nav-btn:hover {
+  background: #00f59b;
+  color: #030805;
+  border-color: #00f59b;
+  box-shadow: 0 0 26px rgba(0, 245, 155, 0.65);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-btn.prev-btn {
+  left: 15px;
+}
+
+.carousel-nav-btn.next-btn {
+  right: 15px;
+}
+
+.nav-arrow-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Looping Pagination Dots */
+.carousel-dots-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 2rem;
+  z-index: 20;
+  position: relative;
+}
+
+.carousel-dot {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dot-fill {
+  display: block;
+  width: 14px;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-dot.active .dot-fill {
+  width: 36px;
+  background: #00f59b;
+  border-color: #00f59b;
+  box-shadow: 0 0 14px rgba(0, 245, 155, 0.6);
+}
+
+.carousel-loop-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  padding: 3px 10px;
+  background: rgba(0, 245, 155, 0.08);
+  border: 1px solid rgba(0, 245, 155, 0.25);
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #00f59b;
+  letter-spacing: 0.08em;
+}
+
+.loop-indicator.is-spinning {
+  display: inline-block;
+  animation: spinLoop 2.5s linear infinite;
+}
+
+@keyframes spinLoop {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Poster Image Box */
@@ -436,20 +621,64 @@
   box-shadow: 0 0 25px rgba(0, 245, 155, 0.6);
 }
 
-/* Responsive Breakpoints */
+/* Responsive Breakpoints for 3D Carousel */
 @media (max-width: 1024px) {
-  .posters-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .posters-carousel-stage {
+    height: 570px;
+  }
+  .poster-3d-card {
+    max-width: 390px;
+  }
+  .poster-3d-card.card-left {
+    transform: translateX(-56%) scale(0.82) rotateY(12deg);
+  }
+  .poster-3d-card.card-right {
+    transform: translateX(56%) scale(0.82) rotateY(-12deg);
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .posters-section {
-    padding: 4.5rem 1rem 4rem;
+    padding: 4.5rem 0.75rem 4rem;
   }
 
-  .posters-grid {
-    grid-template-columns: 1fr;
+  .posters-carousel-wrapper {
+    padding: 1.5rem 0.25rem 2.5rem;
+  }
+
+  .posters-carousel-stage {
+    height: 540px;
+  }
+
+  .poster-3d-card {
+    max-width: 320px;
+  }
+
+  .poster-3d-card.card-center {
+    transform: translateX(0) scale(1.02) translateZ(40px);
+  }
+
+  .poster-3d-card.card-left {
+    transform: translateX(-78%) scale(0.76) rotateY(10deg);
+    opacity: 0.4;
+  }
+
+  .poster-3d-card.card-right {
+    transform: translateX(78%) scale(0.76) rotateY(-10deg);
+    opacity: 0.4;
+  }
+
+  .carousel-nav-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .carousel-nav-btn.prev-btn {
+    left: 4px;
+  }
+
+  .carousel-nav-btn.next-btn {
+    right: 4px;
   }
 
   .share-hub-bar {
