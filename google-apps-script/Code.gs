@@ -184,12 +184,13 @@ function doPost(e) {
         registrationDate: registrationDate
       });
 
-      // MailApp.sendEmail using submitted recipient email dynamically
+      // Send email as official SEUSL HASHCORE '26 transmission
       MailApp.sendEmail({
         to: rawEmail,
         subject: subject,
         htmlBody: htmlBody,
-        name: "SEUSL HASHCORE '26"
+        name: "SEUSL HASHCORE '26",
+        replyTo: "hashcore@seu.ac.lk"
       });
 
       emailSent = true;

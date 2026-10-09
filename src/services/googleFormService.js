@@ -40,6 +40,38 @@ export async function submitToGoogleForm(formData) {
   const cleanEmail = (formData.email || '').trim().toLowerCase();
   const cleanRegNo = (formData.universityRegNo || '').trim().toUpperCase();
 
+  // Helper to post directly into the Google Form (https://forms.gle/fwiHPJk2DrYo7zyE9)
+  const submitDirectToGoogleForm = async () => {
+    try {
+      const url = GOOGLE_FORM_CONFIG.formActionUrl;
+      const params = new URLSearchParams();
+      const compOption = isCTF ? 'CTF' : 'Web';
+
+      params.append(GOOGLE_FORM_CONFIG.entryIds.initialsWithName, formData.initialsWithName || '');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.universityRegNo, cleanRegNo);
+      params.append(GOOGLE_FORM_CONFIG.entryIds.faculty, formData.faculty || 'Technology');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.batch, formData.batch || '');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.email, cleanEmail);
+      params.append(GOOGLE_FORM_CONFIG.entryIds.contactNo, formData.contactNo || '');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.whatsappNo, formData.whatsappNo || '');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.competition, compOption);
+      params.append(GOOGLE_FORM_CONFIG.entryIds.consentGuidelines, 'I have read the pre-workshop preparation guidelines and understand that I am responsible for setting up my laptop and required software before attending the workshop.');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.consentAccuracy, 'I confirm that the information provided is accurate.');
+      params.append(GOOGLE_FORM_CONFIG.entryIds.consentUpdates, 'I agree to receive workshop-related updates and announcements.');
+
+      await fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
+    } catch (formSyncErr) {
+      console.warn('Google Form submission warning:', formSyncErr);
+    }
+  };
+
   // 1. If Google Apps Script Web App URL is configured
   if (GOOGLE_FORM_CONFIG.appsScriptUrl) {
     try {
@@ -57,6 +89,8 @@ export async function submitToGoogleForm(formData) {
 
       const result = await response.json();
       if (result.success) {
+        // Always store in the Google Form as well
+        await submitDirectToGoogleForm();
         return result;
       }
 
@@ -75,38 +109,14 @@ export async function submitToGoogleForm(formData) {
   }
 
   // 2. Direct Background Submission to Google Forms
-  const url = GOOGLE_FORM_CONFIG.formActionUrl;
-  const params = new URLSearchParams();
-
-  const compOption = isCTF ? 'CTF' : 'Web';
-
-  params.append(GOOGLE_FORM_CONFIG.entryIds.initialsWithName, formData.initialsWithName || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.universityRegNo, cleanRegNo);
-  params.append(GOOGLE_FORM_CONFIG.entryIds.faculty, formData.faculty || 'Technology');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.batch, formData.batch || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.email, cleanEmail);
-  params.append(GOOGLE_FORM_CONFIG.entryIds.contactNo, formData.contactNo || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.whatsappNo, formData.whatsappNo || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.competition, compOption);
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentGuidelines, 'I have read the pre-workshop preparation guidelines and understand that I am responsible for setting up my laptop and required software before attending the workshop.');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentAccuracy, 'I confirm that the information provided is accurate.');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentUpdates, 'I agree to receive workshop-related updates and announcements.');
-
-  await fetch(url, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: params.toString(),
-  });
+  await submitDirectToGoogleForm();
 
   const generatedTicketId = `${compPrefix}-${String(Math.floor(10000 + Math.random() * 90000))}`;
 
   return {
     success: true,
     ticketId: generatedTicketId,
-    emailSent: false, // Apps Script is required for automatic email dispatch
+    emailSent: false,
     email: cleanEmail,
     participantName: formData.initialsWithName,
     fallback: true,
