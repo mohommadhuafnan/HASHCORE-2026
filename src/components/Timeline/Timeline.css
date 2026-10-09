@@ -105,13 +105,11 @@
 .filter-btn.active {
   color: #00f59b;
   font-weight: 600;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 245, 155, 0.25) 0%,
-    rgba(0, 245, 155, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 245, 155, 0.25) 0%,
+      rgba(0, 245, 155, 0.08) 100%);
   border: 1px solid rgba(0, 245, 155, 0.45);
-  box-shadow: 
+  box-shadow:
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.45),
     0 0 16px rgba(0, 245, 155, 0.25);
 }
@@ -128,8 +126,15 @@
   border-radius: 50%;
 }
 
-.ctf-dot { background: #00f59b; box-shadow: 0 0 6px #00f59b; }
-.webdev-dot { background: #ffffff; box-shadow: 0 0 6px rgba(255, 255, 255, 0.7); }
+.ctf-dot {
+  background: #00f59b;
+  box-shadow: 0 0 6px #00f59b;
+}
+
+.webdev-dot {
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
 
 /* ==========================================================================
    Timeline Track Structure & Scroll-Driven Laser Spine
@@ -168,13 +173,11 @@
   top: 0;
   left: -0.5px;
   width: 3px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 245, 155, 0.4) 0%,
-    #00f59b 50%,
-    #ffffff 85%,
-    #ffffff 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 245, 155, 0.4) 0%,
+      #00f59b 50%,
+      #ffffff 85%,
+      #ffffff 100%);
   box-shadow: 0 0 16px #00f59b, 0 0 30px rgba(255, 255, 255, 0.6);
   transition: height 0.08s linear;
   will-change: height;
@@ -223,6 +226,7 @@
     transform: scale(0.6);
     opacity: 1;
   }
+
   100% {
     transform: scale(1.8);
     opacity: 0;
@@ -342,6 +346,7 @@
     transform: scale(0.8);
     opacity: 1;
   }
+
   100% {
     transform: scale(2.2);
     opacity: 0;
@@ -359,7 +364,7 @@
   padding: 0.25rem 0.55rem;
   border-radius: 10px;
   font-family: var(--font-mono);
-  box-shadow: 
+  box-shadow:
     0 6px 18px rgba(0, 0, 0, 0.6),
     inset 0 1px 1px rgba(255, 255, 255, 0.35);
   backdrop-filter: var(--liquid-glass-blur);
@@ -482,8 +487,15 @@
 }
 
 @keyframes spark-flare {
-  0% { transform: translateY(-50%) scale(0.8); box-shadow: 0 0 6px #00f59b; }
-  100% { transform: translateY(-50%) scale(1.4); box-shadow: 0 0 14px rgba(255, 255, 255, 0.8); }
+  0% {
+    transform: translateY(-50%) scale(0.8);
+    box-shadow: 0 0 6px #00f59b;
+  }
+
+  100% {
+    transform: translateY(-50%) scale(1.4);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
+  }
 }
 
 /* ==========================================================================
@@ -507,11 +519,11 @@
   opacity: 0.12;
   transform: translateX(-70px) scale(0.96);
   filter: brightness(0.85);
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.5s ease, 
-              border-color 0.4s ease, 
-              box-shadow 0.4s ease, 
-              filter 0.4s ease;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    filter 0.4s ease;
 }
 
 /* Right Section: Starts off translated to the RIGHT */
@@ -519,11 +531,11 @@
   opacity: 0.12;
   transform: translateX(70px) scale(0.96);
   filter: brightness(0.85);
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.5s ease, 
-              border-color 0.4s ease, 
-              box-shadow 0.4s ease, 
-              filter 0.4s ease;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    filter 0.4s ease;
 }
 
 .track-webdev .timeline-card {
@@ -544,18 +556,13 @@
 }
 
 .track-webdev .timeline-card.card-illuminated {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(8, 30, 42, 0.68) 32%, rgba(4, 14, 20, 0.88) 100%);
-  border-color: rgba(6, 182, 212, 0.55);
-  box-shadow: 
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(14, 20, 26, 0.68) 32%, rgba(4, 8, 12, 0.88) 100%);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow:
     0 28px 60px -10px rgba(0, 0, 0, 0.88),
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1.5px 2.5px 0 rgba(6, 182, 212, 0.35),
-    0 0 45px -2px rgba(6, 182, 212, 0.28);
-}
-
-.track-webdev .timeline-card.card-illuminated {
-  border-color: var(--accent-cyan);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(6, 182, 212, 0.3);
+    inset 0 -1.5px 2.5px 0 rgba(255, 255, 255, 0.25),
+    0 0 45px -2px rgba(255, 255, 255, 0.2);
 }
 
 .card-ambient-glow {
@@ -576,7 +583,7 @@
 }
 
 .track-webdev .timeline-card.card-illuminated .card-ambient-glow {
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.26) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
 }
 
 /* Electric Neon Trace around border when lit */
@@ -586,12 +593,10 @@
   border-radius: 16px;
   padding: 1px;
   opacity: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 245, 155, 0.7) 0%,
-    transparent 45%,
-    rgba(6, 182, 212, 0.7) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 245, 155, 0.7) 0%,
+      transparent 45%,
+      rgba(255, 255, 255, 0.7) 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -608,6 +613,7 @@
   0% {
     filter: hue-rotate(0deg);
   }
+
   100% {
     filter: hue-rotate(360deg);
   }
@@ -1296,15 +1302,16 @@
   .event-details-grid {
     grid-template-columns: 1fr;
   }
+
   .benefits-grid {
     grid-template-columns: 1fr;
   }
+
   .approach-grid {
     grid-template-columns: 1fr;
   }
+
   .banner-glass-box {
     padding: 2.5rem 1.5rem;
   }
 }
-
-
