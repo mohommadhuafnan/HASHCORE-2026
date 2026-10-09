@@ -333,9 +333,6 @@ export default function Hero({ onNavigateRegister }) {
             ================================================================== */}
         <div ref={textStage1Ref} className="hero-text-stage stage-1">
           <div className="stage-content">
-            <span className="hero-eyebrow">
-
-            </span>
             <h1 className="hero-main-title hero-logo-title">
               <img
                 src={hashcoreLogo}
@@ -343,9 +340,6 @@ export default function Hero({ onNavigateRegister }) {
                 className="hero-main-logo"
               />
             </h1>
-            <p className="hero-subtitle">
-
-            </p>
             <div className="hero-scroll-hint">
               <div className="mouse-icon">
                 <span className="mouse-wheel" />
