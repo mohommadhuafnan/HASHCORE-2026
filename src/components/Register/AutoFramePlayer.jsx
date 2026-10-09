@@ -1,6 +1,51 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { frameLoader, TOTAL_FRAMES } from '../Hero/frameLoader';
 
+const TELEMETRY_STAGES = [
+  {
+    maxPct: 22,
+    stageNum: '01',
+    tag: 'PHASE 01 // CITADEL HYPERJUMP',
+    title: 'ENGAGING MAINFRAME TRANSIT',
+    sub: 'Calibrating optics & synchronizing telemetry with SEUSL...',
+  },
+  {
+    maxPct: 45,
+    stageNum: '02',
+    tag: 'PHASE 02 // SUB-ORBITAL APPROACH',
+    title: 'APPROACHING SENTINEL CORRIDORS',
+    sub: 'Descending toward Faculty of Technology airspace...',
+  },
+  {
+    maxPct: 70,
+    stageNum: '03',
+    tag: 'PHASE 03 // AIRSPACE INFILTRATION',
+    title: 'PENETRATING INNER CITADEL',
+    sub: 'Decrypting access vectors & locking track coordinates...',
+  },
+  {
+    maxPct: 92,
+    stageNum: '04',
+    tag: 'PHASE 04 // TERMINAL DESCENT',
+    title: 'ALIGNING WITH SENTINEL APEX',
+    sub: 'Atmospheric deceleration in progress... depth optics engaging...',
+  },
+  {
+    maxPct: 100,
+    stageNum: '05',
+    tag: 'PHASE 05 // SYSTEM READY',
+    title: 'CITADEL MAINFRAME REACHED',
+    sub: 'Welcome to SEUSL HASHCORE 2026. Portal unlocked.',
+  },
+];
+
+const getTelemetryStage = (pct) => {
+  for (const stage of TELEMETRY_STAGES) {
+    if (pct <= stage.maxPct) return stage;
+  }
+  return TELEMETRY_STAGES[TELEMETRY_STAGES.length - 1];
+};
+
 /**
  * AutoFramePlayer:
  * Automatically plays the 240 cinematic frames from start to finish
@@ -11,6 +56,8 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
   const canvasRef = useRef(null);
   const [currentFrameNum, setCurrentFrameNum] = useState(1);
   const [progressPercent, setProgressPercent] = useState(0);
+
+  const currentTelemetry = getTelemetryStage(progressPercent);
 
   const animRef = useRef({
     frameIndex: 0,
@@ -182,10 +229,10 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
       {/* Center Cinematic Telemetry */}
       <div className="auto-player-center-telemetry">
         <div className="telemetry-bracket left" />
-        <div className="telemetry-content">
-          <span className="telemetry-tag">CITADEL MAINFRAME HYPERJUMP</span>
-          <h2 className="telemetry-title">APPROACHING REGISTRATION PORTAL</h2>
-          <p className="telemetry-sub">Calibrating optics & aligning with Frame 240 Sentinel Base...</p>
+        <div key={currentTelemetry.stageNum} className="telemetry-content telemetry-animating">
+          <span className="telemetry-tag">{currentTelemetry.tag}</span>
+          <h2 className="telemetry-title">{currentTelemetry.title}</h2>
+          <p className="telemetry-sub">{currentTelemetry.sub}</p>
         </div>
         <div className="telemetry-bracket right" />
       </div>
@@ -201,7 +248,7 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
           </div>
 
           <div className="hud-metric center">
-            <span className="metric-status">AUTOMATIC REEL PLAYBACK</span>
+            <span className="metric-status">AUTOMATIC REEL PLAYBACK • PHASE {currentTelemetry.stageNum}/05</span>
             <div className="hud-soundwaves">
               <span className="bar" />
               <span className="bar" />
