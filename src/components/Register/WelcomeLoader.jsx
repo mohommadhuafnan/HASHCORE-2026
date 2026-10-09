@@ -1,146 +1,202 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import hashcoreLogo from '../../assets/hashcore-logo.png';
+import './WelcomeLoader.css';
 
 /**
- * WelcomeLoader:
- * Custom, high-tech Welcome Loading Animation tailored for CTF or WEB tracks.
- * As requested: "user click the button web development or CTF user to added the welcome loading animation mention like a CTF or WEB after that came the submission forme"
+ * Modern High-Tech Coding Loading Animation:
+ * Features real scrolling code streams tailored for WEB (React, Vite, TypeScript, Tailwind)
+ * and CTF (Python exploit, Reverse Engineering, Sockets, OWASP payload).
+ * Features the official HASHCORE logo with glowing cyber energy aura.
  */
 export default function WelcomeLoader({ track, onComplete }) {
   const [progress, setProgress] = useState(0);
-  const [currentLogIndex, setCurrentLogIndex] = useState(0);
+  const [activeCodeLines, setActiveCodeLines] = useState([]);
+  const terminalScrollRef = useRef(null);
 
   const isCTF = track === 'CTF';
 
-  const ctfLogs = [
-    'ESTABLISHING ENCRYPTED PROXY // PORT 443 SECURE',
-    'INITIALIZING SEUSL CTF SANDBOX PROTOCOL...',
-    'INSPECTING OWASP & CRYPTOGRAPHIC CHALLENGE LABS...',
-    'MOUNTING FORENSIC MEMORY PROFILER...',
-    'CLEARANCE GRANTED // WELCOME TO CTF COMPETITION AWARENESS',
+  const ctfCodeStream = [
+    { type: 'comment', text: '# SEUSL HASHCORE 2026 // CTF DEFENSE ARENA INIT' },
+    { type: 'import',  text: 'import socket, ssl, hashlib, struct, sys' },
+    { type: 'dim',     text: 'from pwn import remote, p64, u64, log' },
+    { type: 'info',    text: '[*] TARGET: arena.hashcore2026.tech:1337 [SEUSL]' },
+    { type: 'cmd',     text: 's = socket.socket(socket.AF_INET, socket.SOCK_STREAM)' },
+    { type: 'success', text: '[+] Socket stream connected. Latency: 4ms' },
+    { type: 'info',    text: '[*] Scanning challenge ports: 22, 80, 443, 31337... [OPEN]' },
+    { type: 'warn',    text: '[!] Cryptographic schema: RSA-4096 + AES-256-GCM verified' },
+    { type: 'cmd',     text: 'payload = b"A" * 72 + p64(0x7fff5fbff7c0) + shellcode' },
+    { type: 'info',    text: '[*] Bypassing WAF rules // OWASP Top 10 Challenge Engine' },
+    { type: 'dim',     text: 'heap_base = u64(leak.ljust(8, b"\\x00")) - 0x1e3b0' },
+    { type: 'success', text: '[+] Memory leak confirmed: 0x7fff5fbff7c0 -> Executed' },
+    { type: 'cmd',     text: 's.sendline(payload)' },
+    { type: 'success', text: '[+] Reverse shell handshake verified: uid=0(root)' },
+    { type: 'special', text: '[✓] HASHCORE{S3USL_CTF_2026_ACC3SS_GR4NT3D}' },
+    { type: 'highlight', text: '[>>>] CLEARANCE 100% GRANTED // WELCOME TO CTF REGISTRATION' },
   ];
 
-  const webLogs = [
-    'BOOTING FULLSTACK VITE & NODE CITADEL ENGINE...',
-    'SYNCING MODERN FRONTEND & UI/UX COMPONENT SCHEMAS...',
-    'CONNECTING SEUSL WEBSOCKET & REST MAINFRAME...',
-    'CALIBRATING 24H HACKATHON DEV SUITE...',
-    'CLEARANCE GRANTED // WELCOME TO WEB DEV COMPETITION AWARENESS',
+  const webCodeStream = [
+    { type: 'comment', text: '// SEUSL HASHCORE 2026 // FULLSTACK COMPILATION ENGINE' },
+    { type: 'import',  text: 'import React, { useState, useEffect } from "react";' },
+    { type: 'dim',     text: 'import { createRoot } from "react-dom/client";' },
+    { type: 'info',    text: '$ vite build --target esnext --mode production' },
+    { type: 'cmd',     text: 'const app = express(); app.use(cors());' },
+    { type: 'success', text: '✓ 148 modules transformed in 38ms [Vite v6.2.0]' },
+    { type: 'info',    text: '[react] Compiling App.tsx & component router tree...' },
+    { type: 'warn',    text: '[tailwind] Generating JIT CSS tokens & liquid glass utilities...' },
+    { type: 'cmd',     text: 'const db = await MongoClient.connect(MONGO_URI);' },
+    { type: 'info',    text: '[db] MongoDB Atlas cluster verified: cluster0.seusl.mongodb.net' },
+    { type: 'dim',     text: 'POST /api/register -> Zod schema validation [PASS]' },
+    { type: 'success', text: '✓ Webhook: Google Apps Script high-deliverability active' },
+    { type: 'cmd',     text: 'wss.on("connection", ws => ws.send("READY_HASHCORE"));' },
+    { type: 'success', text: '✓ WebSocket secure stream established: wss://hashcore2026.tech' },
+    { type: 'special', text: 'dist/assets/index.js 288.18 kB │ gzip: 86.14 kB' },
+    { type: 'highlight', text: '[✓] HACKATHON WORKSPACE READY // WELCOME TO WEB DEV REGISTRATION' },
   ];
 
-  const logs = isCTF ? ctfLogs : webLogs;
+  const stream = isCTF ? ctfCodeStream : webCodeStream;
 
+  // Stream lines dynamically and calculate smooth progress
   useEffect(() => {
+    const duration = 2600; // 2.6 seconds total runtime
     const startTime = Date.now();
-    const duration = 2400; // 2.4 seconds of stunning cyber welcome animation
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const rawProgress = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(rawProgress);
+      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(pct);
 
-      const logIdx = Math.min(
-        logs.length - 1,
-        Math.floor((rawProgress / 100) * logs.length)
+      // Number of code lines to show based on progress
+      const targetLinesCount = Math.min(
+        stream.length,
+        Math.max(1, Math.floor((pct / 100) * stream.length) + 1)
       );
-      setCurrentLogIndex(logIdx);
 
-      if (rawProgress >= 100) {
+      setActiveCodeLines(stream.slice(0, targetLinesCount));
+
+      // Auto-scroll terminal downward to show the newest code line
+      if (terminalScrollRef.current) {
+        terminalScrollRef.current.scrollTop = terminalScrollRef.current.scrollHeight;
+      }
+
+      if (pct >= 100) {
         clearInterval(interval);
         setTimeout(() => {
           onComplete();
-        }, 300);
+        }, 350);
       }
-    }, 40);
+    }, 45);
 
     return () => clearInterval(interval);
-  }, [logs.length, onComplete]);
+  }, [stream, onComplete]);
+
+  // Ambient scrolling background columns
+  const bgCodeSnippets = isCTF
+    ? [
+        '0x7fff5fbff7c0\npwn.remote(target)\nasm(shellcraft.sh())\nflag = leak.split()[0]\nAES.new(key, AES.MODE_GCM)\nconnect(ip, 1337)',
+        'NOP_SLED = b"\\x90"*32\nBufferOverflow(0x401142)\nMOV RAX, [RBP-0x8]\nROPgadget --binary ./ctf\nOWASP_TEST: PASS',
+        'SELECT * FROM ctf_users\nJWT.verify(token, pubkey)\nsys.stdout.flush()\nRSA.importKey(secret)\npacket_sniffer.start()',
+      ]
+    : [
+        'npm run build\nvite --host 0.0.0.0\nexport default App;\nconst [user, setUser] = useState();\nuseEffect(() => sync(), []);\nTailwind.config()',
+        'POST /api/register\nres.status(200).json({ ok: true })\nMongoClient.connect()\nWebSocket("wss://seu.ac.lk")\nimport { Canvas } from "three"',
+        'git commit -m "feat"\nCI/CD Pipeline: SUCCESS\nDocker container: running\nHTML5 Canvas 60fps\nBuffer.from(payload, "base64")',
+      ];
 
   return (
-    <div className={`welcome-loader-overlay ${isCTF ? 'ctf-theme' : 'web-theme'}`}>
-      <div className="welcome-backdrop-scanline" />
-      <div className="welcome-radial-glow" />
+    <div className={`coding-loader-backdrop ${isCTF ? 'theme-ctf' : 'theme-web'}`}>
+      {/* Background Matrix / Ambient Code Waterfall */}
+      <div className="ambient-code-rain" aria-hidden="true">
+        {bgCodeSnippets.map((snip, i) => (
+          <pre key={i} className={`rain-col rain-col-${i + 1}`}>
+            {snip}
+          </pre>
+        ))}
+      </div>
 
-      <div className="welcome-center-box">
-        {/* Animated Cyber Track Emblem */}
-        <div className="welcome-emblem-wrap">
-          <div className="emblem-ring-outer spinning" />
-          <div className="emblem-ring-inner spinning-reverse" />
-          
-          <div className="emblem-core">
-            {isCTF ? (
-              /* CTF Cyber Shield Icon */
-              <svg viewBox="0 0 24 24" fill="none" className="emblem-icon ctf">
-                <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            ) : (
-              /* WEB Code Brackets Icon */
-              <svg viewBox="0 0 24 24" fill="none" className="emblem-icon web">
-                <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            )}
+      {/* Radial Energy Back-Glow */}
+      <div className="loader-center-glow" />
+
+      <div className="coding-loader-card">
+        {/* Top Header with Official Hashcore Logo */}
+        <div className="loader-logo-section">
+          <div className="logo-ring-wrapper">
+            <div className="rotating-energy-ring" />
+            <img 
+              src={hashcoreLogo} 
+              alt="SEUSL HASHCORE Logo" 
+              className="loader-hashcore-logo" 
+            />
           </div>
-        </div>
 
-        {/* Track Welcome Headers */}
-        <div className="welcome-track-badge font-mono">
-          <span>{isCTF ? '[ TRACK 01 // CTF SECURITY ]' : '[ TRACK 02 // WEB DEVELOPMENT ]'}</span>
-        </div>
-
-        <h1 className="welcome-main-title">
-          {isCTF ? (
-            <>
-              Welcome to <span className="highlight-cyan">CTF</span> Registration
-            </>
-          ) : (
-            <>
-              Welcome to <span className="highlight-emerald">Web Development</span> Registration
-            </>
-          )}
-        </h1>
-
-        <p className="welcome-faculty-tag">
-          SOUTH EASTERN UNIVERSITY OF SRI LANKA • FACULTY OF TECHNOLOGY
-        </p>
-
-        {/* Terminal Simulation Log Window */}
-        <div className="welcome-terminal-box font-mono">
-          <div className="terminal-top">
-            <span className="dot red" />
-            <span className="dot yellow" />
-            <span className="dot green" />
-            <span className="terminal-title">
-              {isCTF ? 'ctf-sec-init.sh' : 'web-dev-init.sh'}
+          <div className="loader-badge font-mono">
+            <span className="pulsing-radar-dot" />
+            <span>
+              {isCTF 
+                ? '[ CTF ARENA // CYBER DEFENSE ENVIRONMENT ]' 
+                : '[ WEB SPRINT // FULLSTACK DEVELOPMENT ENVIRONMENT ]'}
             </span>
           </div>
-          <div className="terminal-body">
-            <div className="log-line text-muted">
-              {`> HASHCORE '26 SEUSL PROTOCOL LOADING...`}
+
+          <h2 className="loader-heading">
+            {isCTF ? (
+              <>INITIALIZING <span className="highlight-color">CTF SECURITY</span></>
+            ) : (
+              <>COMPILING <span className="highlight-color">WEB MAINFRAME</span></>
+            )}
+          </h2>
+          <p className="loader-subheading">
+            SOUTH EASTERN UNIVERSITY OF SRI LANKA • FACULTY OF TECHNOLOGY
+          </p>
+        </div>
+
+        {/* Real Dynamic Auto-Scrolling Code Terminal */}
+        <div className="code-terminal-window">
+          <div className="terminal-header-bar">
+            <div className="terminal-dots">
+              <span className="dot red" />
+              <span className="dot yellow" />
+              <span className="dot green" />
             </div>
-            <div className="log-line active-line">
-              <span className="prompt-arrow">›</span> {logs[currentLogIndex]}
+            <div className="terminal-tab-title font-mono">
+              <span className="file-icon">⚡</span>
+              <span>{isCTF ? 'ctf_exploit_engine.py' : 'App_Fullstack_Engine.tsx'}</span>
+            </div>
+            <div className="terminal-live-tag font-mono">
+              <span className="live-pulse" />
+              <span>LIVE REEL</span>
+            </div>
+          </div>
+
+          {/* Scrolling Terminal Code Body */}
+          <div className="terminal-code-scroll" ref={terminalScrollRef}>
+            {activeCodeLines.map((line, idx) => (
+              <div key={idx} className={`code-stream-line line-${line.type} font-mono`}>
+                <span className="line-num">{String(idx + 1).padStart(2, '0')}</span>
+                <span className="line-text">{line.text}</span>
+              </div>
+            ))}
+            <div className="typing-cursor-line font-mono">
+              <span className="cursor-caret">▋</span>
             </div>
           </div>
         </div>
 
-        {/* Progress Bar & Numeric Readout */}
-        <div className="welcome-progress-wrap">
-          <div className="progress-info-row font-mono">
-            <span>ENVIRONMENT SYNCHRONIZATION</span>
-            <span>{progress}%</span>
+        {/* High-Tech Progress Bar & Readout */}
+        <div className="loader-progress-section">
+          <div className="progress-labels font-mono">
+            <span>
+              {progress < 100 ? 'ENVIRONMENT COMPILATION IN PROGRESS' : 'ENVIRONMENT READY // LAUNCHING FORM'}
+            </span>
+            <span className="progress-percent-val">{progress}%</span>
           </div>
-          <div className="welcome-progress-bar">
+          <div className="progress-track-bar">
             <div 
-              className="welcome-progress-bar-fill"
+              className="progress-fill-bar" 
               style={{ width: `${progress}%` }}
             >
-              <div className="bar-head-glow" />
+              <div className="fill-glow-particle" />
             </div>
           </div>
-        </div>
-
-        <div className="welcome-sub-note">
-          <span>Preparing participant registration form... Single submission rule applies.</span>
         </div>
       </div>
     </div>
