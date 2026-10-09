@@ -1,20 +1,16 @@
 import sictLogo from '../../assets/SICT.png';
+import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES, useRegistrationCountdown } from '../common/RegistrationCountdown';
 
-/**
- * CategorySelection:
- * Displays the two official tracks:
- * 1. CTF Competition Awareness
- * 2. Web Development Competition Awareness
- * As requested: "Our CTF competition awareness web development competition awareness this is our 2 category"
- */
 export default function CategorySelection({ onSelectTrack, onBackToHome, existingRegistration }) {
+  const ctfCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.CTF);
+  const webCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.WEB);
   return (
     <div className="cat-selection-container">
       {/* Top Bar Navigation */}
       <div className="cat-selection-nav">
         <button type="button" onClick={onBackToHome} className="btn-back-citadel">
           <svg viewBox="0 0 24 24" fill="none" className="back-arrow">
-            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <span>Return to Citadel Home</span>
         </button>
@@ -82,7 +78,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
           >
             <span>View Workshop Pass</span>
             <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', stroke: 'currentColor', strokeWidth: '2.2' }}>
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
@@ -95,7 +91,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             ================================================================== */}
         <div className="cat-card ctf-variant">
           <div className="cat-card-ambient-glow" />
-          
+
           <div className="cat-card-header">
             <div className="cat-track-badge">
               <span className="badge-code font-mono">WORKSHOP // 01</span>
@@ -103,8 +99,8 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
-                <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 2L3 7V12C3 17.52 6.84 22.45 12 23.5C17.16 22.45 21 17.52 21 12V7L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M12 8V16M9 11L12 8L15 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
@@ -147,18 +143,32 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
 
           </div>
 
+          {/* Real-Time Registration Countdown */}
+          <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.CTF} track="CTF" />
+
           <div className="cat-card-footer">
-            <button
-              type="button"
-              className="btn-select-track btn-ctf"
-              onClick={() => onSelectTrack('CTF')}
-            >
-              <span className="btn-shine" />
-              <span className="btn-text">Register for Workshop 01</span>
-              <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            {ctfCountdown.isUnlocked ? (
+              <button
+                type="button"
+                className="btn-select-track btn-ctf"
+                onClick={() => onSelectTrack('CTF')}
+              >
+                <span className="btn-shine" />
+                <span className="btn-text">Register for Workshop 01</span>
+                <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn-select-track is-locked-cta"
+                onClick={() => alert('Workshop 01: CTF: From Awareness to Challenge registration officially opens on October 11, 2026 at 9:30 AM.')}
+                title="Registration opens October 11, 2026 at 9:30 AM"
+              >
+                <span className="btn-text">Opens October 11 · 9:30 AM</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -175,13 +185,13 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             </div>
             <div className="cat-icon-crest">
               <svg viewBox="0 0 24 24" fill="none" className="track-icon-svg">
-                <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M16 18L22 12L16 6M8 6L2 12L8 18M14 2L10 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
 
           <div className="cat-card-body">
-            <div className="cat-track-sub-domain" style={{ color: '#06b6d4', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
+            <div className="cat-track-sub-domain" style={{ color: '#ffffff', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
               Web Development · Software Technologies
             </div>
             <h2 className="cat-track-title">From Idea to Impact</h2>
@@ -218,29 +228,38 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
 
           </div>
 
+          {/* Real-Time Registration Countdown */}
+          <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.WEB} track="WEB" />
+
           <div className="cat-card-footer">
-            <button
-              type="button"
-              className="btn-select-track btn-web"
-              onClick={() => onSelectTrack('WEB')}
-            >
-              <span className="btn-shine" />
-              <span className="btn-text">Register for Workshop 02</span>
-              <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            {webCountdown.isUnlocked ? (
+              <button
+                type="button"
+                className="btn-select-track btn-web"
+                onClick={() => onSelectTrack('WEB')}
+              >
+                <span className="btn-shine" />
+                <span className="btn-text">Register for Workshop 02</span>
+                <svg viewBox="0 0 24 24" fill="none" className="arrow-svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn-select-track is-locked-cta"
+                onClick={() => alert('Workshop 02: From Idea to Impact registration officially opens on October 16, 2026 at 9:30 AM.')}
+                title="Registration opens October 16, 2026 at 9:30 AM"
+              >
+                <span className="btn-text">Opens October 16 · 9:30 AM</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
 
       {/* Footer Subtext */}
-      <div className="cat-footer-note">
-        <div className="cat-organizer-pill">
-          <img src={sictLogo} alt="SICT Logo" className="cat-sict-logo" />
-          <span>Organized by Society of ICT (SICT) • Department of ICT (DICT) • Faculty of Technology • South Eastern University of Sri Lanka</span>
-        </div>
-      </div>
+
     </div>
   );
 }
