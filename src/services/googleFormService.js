@@ -25,7 +25,7 @@ export const GOOGLE_FORM_CONFIG = {
   },
 
   // Google Apps Script Web App Endpoint URL (configured via environment variable or deployed script)
-  appsScriptUrl: (import.meta.env?.VITE_GOOGLE_APPS_SCRIPT_URL) || 'https://script.google.com/macros/s/AKfycbzWtO9cTQFXKLQAhbK71lLztViIknZ2OmCAwtA3uB8j6_WSu0YigtOqXgd-Q65-WXiolA/exec',
+  appsScriptUrl: (import.meta.env?.VITE_GOOGLE_APPS_SCRIPT_URL) || 'https://script.google.com/macros/s/AKfycbxJmu8DAufBbbC1sblxtanMV8hsSN1USoUle4bTkYFn_WDye22LFlOjKvbbY6LcWOm8wQ/exec',
 };
 
 /**

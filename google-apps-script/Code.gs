@@ -4,17 +4,85 @@
  * Automated Competition Registration, Duplicate Prevention & Participant Email Dispatcher
  * ============================================================================
  * 
- * IMPORTANT FOR SENDER EMAIL:
- * To send emails FROM "hashcore@seu.ac.lk":
- * 1. Log in to your Google Account as: hashcore@seu.ac.lk
- * 2. Open Google Sheets (linked to your Google Form) OR go to https://script.google.com
- * 3. Paste this code and click Save (💾).
- * 4. Click "Deploy" -> "New deployment" -> "Web app"
- *    - Execute as: "Me (hashcore@seu.ac.lk)"
+ * 📧 OFFICIAL SENDER EMAIL CONFIGURATION:
+ * Target Official Sender: hashcore@seu.ac.lk
+ * Display Name: "SEUSL HASHCORE '26"
+ * 
+ * TO SWITCH SENDER FROM PERSONAL EMAIL TO "hashcore@seu.ac.lk":
+ * 1. Log into Google with your official account: hashcore@seu.ac.lk
+ * 2. Open the Google Sheet (or go to https://script.google.com while signed in as hashcore@seu.ac.lk)
+ *    (Make sure hashcore@seu.ac.lk has Editor access to the linked Google Sheet)
+ * 3. Paste this updated Code.gs into the editor and click Save (💾).
+ * 4. Click "Deploy" -> "New deployment" -> Select type: "Web app"
+ *    - Description: "HASHCORE 2026 Production API (hashcore@seu.ac.lk)"
+ *    - Execute as: "Me (hashcore@seu.ac.lk)"  <-- MUST BE hashcore@seu.ac.lk
  *    - Who has access: "Anyone"
- * 5. Authorize with hashcore@seu.ac.lk and copy the Web App URL.
+ * 5. Click "Deploy", Authorize permissions for hashcore@seu.ac.lk.
+ * 6. Copy the new Web App URL (starts with https://script.google.com/macros/s/...)
+ *    and update VITE_GOOGLE_APPS_SCRIPT_URL in your project .env file.
  * ============================================================================
  */
+
+var OFFICIAL_SENDER_EMAIL = 'hashcore@seu.ac.lk';
+var OFFICIAL_SENDER_NAME = "SEUSL HASHCORE '26";
+
+/**
+ * Dispatches an HTML email ensuring:
+ * - Sender display name is "SEUSL HASHCORE '26"
+ * - Reply-To is "hashcore@seu.ac.lk"
+ * - BCC is sent to "hashcore@seu.ac.lk" for registration records
+ * - Supports Gmail alias if configured
+ */
+function sendEmailNotification(options) {
+  var to = options.to;
+  var subject = options.subject;
+  var htmlBody = options.htmlBody;
+
+  var mailOptions = {
+    to: to,
+    bcc: OFFICIAL_SENDER_EMAIL,
+    subject: subject,
+    htmlBody: htmlBody,
+    name: OFFICIAL_SENDER_NAME,
+    replyTo: OFFICIAL_SENDER_EMAIL
+  };
+
+  // If executing under a Google account that has hashcore@seu.ac.lk configured as send-as alias
+  try {
+    var aliases = GmailApp.getAliases();
+    if (aliases && aliases.indexOf(OFFICIAL_SENDER_EMAIL) !== -1) {
+      mailOptions.from = OFFICIAL_SENDER_EMAIL;
+    }
+  } catch (aliasErr) {
+    Logger.log('Alias check skipped/unsupported: ' + aliasErr.toString());
+  }
+
+  // Attempt sending via GmailApp (which respects 'from' alias)
+  try {
+    if (mailOptions.from) {
+      GmailApp.sendEmail(mailOptions.to, mailOptions.subject, "", {
+        htmlBody: mailOptions.htmlBody,
+        name: mailOptions.name,
+        replyTo: mailOptions.replyTo,
+        bcc: mailOptions.bcc,
+        from: mailOptions.from
+      });
+      return;
+    }
+  } catch (gmailErr) {
+    Logger.log('GmailApp send warning: ' + gmailErr.toString());
+  }
+
+  // Standard MailApp send (sends from the account executing the script)
+  MailApp.sendEmail({
+    to: mailOptions.to,
+    bcc: mailOptions.bcc,
+    subject: mailOptions.subject,
+    htmlBody: mailOptions.htmlBody,
+    name: mailOptions.name,
+    replyTo: mailOptions.replyTo
+  });
+}
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -31,6 +99,17 @@ function doPost(e) {
       data = JSON.parse(e.postData.contents);
     } catch (parseErr) {
       return jsonResponse({ success: false, error: 'Malformed JSON payload' });
+    }
+
+    // Direct test trigger via POST: { action: "test", email: "verifyxcode@gmail.com" }
+    if (data.action === 'test' || data.action === 'verify') {
+      var targetEmail = data.email || 'verifyxcode@gmail.com';
+      var testResult = testSendEmailToVerifyXcode(targetEmail);
+      return jsonResponse({
+        success: true,
+        message: 'Verification test email sent to ' + targetEmail,
+        details: testResult
+      });
     }
 
     // 1. Validate & Normalize fields
@@ -159,7 +238,7 @@ function doPost(e) {
       ticketId = compShort + '-2026-' + randNum;
     }
 
-    // 4. SEND CONFIRMATION EMAIL TO PARTICIPANT (ALWAYS EXECUTED!)
+    // 4. SEND CONFIRMATION EMAIL TO PARTICIPANT FROM hashcore@seu.ac.lk
     var emailSent = false;
     var emailErrorMessage = '';
 
@@ -178,13 +257,10 @@ function doPost(e) {
         registrationDate: registrationDate
       });
 
-      MailApp.sendEmail({
+      sendEmailNotification({
         to: rawEmail,
-        bcc: "hashcore@seu.ac.lk",
         subject: subject,
-        htmlBody: htmlBody,
-        name: "SEUSL HASHCORE '26",
-        replyTo: "hashcore@seu.ac.lk"
+        htmlBody: htmlBody
       });
 
       emailSent = true;
@@ -273,13 +349,10 @@ function onFormSubmit(e) {
       registrationDate: registrationDate
     });
 
-    MailApp.sendEmail({
+    sendEmailNotification({
       to: rawEmail,
-      bcc: "hashcore@seu.ac.lk",
       subject: subject,
-      htmlBody: htmlBody,
-      name: "SEUSL HASHCORE '26",
-      replyTo: "hashcore@seu.ac.lk"
+      htmlBody: htmlBody
     });
 
   } catch (err) {
@@ -467,10 +540,97 @@ function jsonResponse(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+/**
+ * ============================================================================
+ * TEST & VERIFICATION FUNCTION
+ * ============================================================================
+ * Sends a test confirmation ticket pass from hashcore@seu.ac.lk to verifyxcode@gmail.com.
+ * 
+ * HOW TO RUN IN GOOGLE APPS SCRIPT:
+ * 1. Log in to Google as: hashcore@seu.ac.lk
+ * 2. Open this script in https://script.google.com
+ * 3. In the toolbar at the top, select "testSendEmailToVerifyXcode" from the function list.
+ * 4. Click "Run" (▶️).
+ * 5. Check the verifyxcode@gmail.com inbox!
+ */
+function testSendEmailToVerifyXcode(recipient) {
+  var testEmail = recipient || 'verifyxcode@gmail.com';
+  var testTicketId = 'WEB-2026-TEST01';
+  var testDate = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
+
+  var subject = "Test Verification – Web Development Competition [Pass: " + testTicketId + "]";
+  var htmlBody = buildConfirmationEmailHtml({
+    participantName: "Xcode Verifier",
+    competitionTitle: "Web Development Competition",
+    batch: "2021/2022",
+    faculty: "Technology",
+    regNo: "SEU/IS/21/TEST/001",
+    email: testEmail,
+    contactNo: "+94 77 123 4567",
+    whatsappNo: "+94 77 123 4567",
+    ticketId: testTicketId,
+    registrationDate: testDate
+  });
+
+  sendEmailNotification({
+    to: testEmail,
+    subject: subject,
+    htmlBody: htmlBody
+  });
+
+  var sender = 'Unknown';
+  try {
+    sender = Session.getActiveUser().getEmail() || Session.getEffectiveUser().getEmail();
+  } catch (e) {}
+
+  Logger.log("✅ Verification email successfully dispatched to: " + testEmail + " (Executed as: " + sender + ")");
+  return {
+    success: true,
+    sender: sender,
+    recipient: testEmail,
+    ticketId: testTicketId,
+    timestamp: testDate
+  };
+}
+
 function doGet(e) {
+  var params = (e && e.parameter) || {};
+
+  // Trigger test email check directly:
+  // e.g. visit: https://script.google.com/macros/s/.../exec?action=test&email=verifyxcode@gmail.com
+  if (params.action === 'test' || params.action === 'verify') {
+    var targetEmail = params.email || 'verifyxcode@gmail.com';
+    try {
+      var testResult = testSendEmailToVerifyXcode(targetEmail);
+      return jsonResponse({
+        status: 'success',
+        message: 'Verification test email sent to ' + targetEmail,
+        officialEmail: OFFICIAL_SENDER_EMAIL,
+        details: testResult
+      });
+    } catch (err) {
+      return jsonResponse({
+        status: 'error',
+        message: 'Failed to send test email: ' + err.toString(),
+        officialEmail: OFFICIAL_SENDER_EMAIL
+      });
+    }
+  }
+
+  var activeUser = 'N/A';
+  var effectiveUser = 'N/A';
+  try {
+    activeUser = Session.getActiveUser().getEmail();
+    effectiveUser = Session.getEffectiveUser().getEmail();
+  } catch (uErr) {}
+
   return jsonResponse({
     status: 'active',
     service: 'SEUSL HASHCORE 2026 Registration & Email API',
+    officialEmail: OFFICIAL_SENDER_EMAIL,
+    activeUser: activeUser,
+    effectiveUser: effectiveUser,
     timestamp: new Date()
   });
 }
+
