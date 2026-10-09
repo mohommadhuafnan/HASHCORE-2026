@@ -9,25 +9,14 @@ import './App.css';
 
 // Lazy load the full registration journey to supercharge initial page speed
 const RegisterPortal = lazy(() => import('./components/Register/RegisterPortal'));
+const OrganizerPortal = lazy(() => import('./components/Admin/OrganizerPortal'));
 
 /**
  * South Eastern University of Sri Lanka (SEUSL) — HASHCORE '26
  * Flagship Cyber Citadel & Hackathon Championship
- * 
- * Architecture:
- * 1. Navbar — Clean single-layer transparent glass cyber navigation
- * 2. Hero — 240-frame interactive flight camera sequence
- *    - End frame (Frame 240) stays fixed in the background
- * 3. Timeline — Dual-track animated schedule (CTF + Web Dev) scrolling over Frame 240
- * 4. Team — Organizing Committee & community architects with portraits
- * 5. Posters — Shareable transmission posters with download & live social share
- * 6. Partners — Organized by SICT & Official Media Partner Agni Vision
- * 7. Footer — Animated 00148.png sentinel stage, summit directory & registration
- * 8. Register Portal — Automatic 240-frame flight sequence into Frame 240 background,
- *    CTF & Web Dev competition awareness tracks, welcome animation, single submission form.
  */
 function App() {
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'register'
+  const [currentView, setCurrentView] = useState('home'); // 'home' | 'register' | 'admin'
   const [initialRegisterTrack, setInitialRegisterTrack] = useState(null); // 'CTF' | 'WEB' | null
 
   // URL Hash Listener & Deep Linking
@@ -36,6 +25,8 @@ function App() {
       const hash = window.location.hash;
       if (hash === '#register') {
         setCurrentView('register');
+      } else if (hash === '#admin' || hash === '#scan' || hash === '#dashboard' || hash === '#organizer') {
+        setCurrentView('admin');
       } else {
         setCurrentView('home');
       }
@@ -151,6 +142,33 @@ function App() {
             onBackToHome={handleNavigateHome}
             initialTrack={initialRegisterTrack}
           />
+        </Suspense>
+      ) : currentView === 'admin' ? (
+        /* Organizer & Attendance QR Scanner Portal */
+        <Suspense fallback={
+          <div className="citadel-portal-loader" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            background: '#030805',
+            color: '#00f59b',
+            fontFamily: 'var(--font-mono, monospace)',
+            gap: '16px'
+          }}>
+            <div className="portal-spinner-ring" style={{
+              width: '44px',
+              height: '44px',
+              border: '3px solid rgba(0, 245, 155, 0.15)',
+              borderTopColor: '#00f59b',
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite'
+            }} />
+            <span style={{ letterSpacing: '0.15em', fontSize: '0.85rem' }}>INITIALIZING ORGANIZER CITADEL...</span>
+          </div>
+        }>
+          <OrganizerPortal onBackToHome={handleNavigateHome} />
         </Suspense>
       ) : (
         /* Standard Citadel Landing Page Experience */

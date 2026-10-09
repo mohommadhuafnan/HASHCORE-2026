@@ -14,6 +14,8 @@ dist-ssr
 .temp-profile
 .env
 .env.local
+backend/.env
+
 
 # Editor directories and files
 .vscode/*

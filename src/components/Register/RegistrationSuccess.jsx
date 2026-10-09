@@ -182,12 +182,23 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
           )}
         </div>
 
-          {/* Ticket Footer (Clean - No Google Sheet/Form mentions) */}
+          {/* Ticket Footer with Real Scannable QR Ticket */}
           <div className="pass-footer">
-            <div className="pass-barcode-wrap font-mono">
-              <div className="mock-barcode" />
-              <span className="barcode-text">SEUSL CITADEL ACCESS PROTOCOL // VERIFIED</span>
-            </div>
+            {registration.qrDataUrl ? (
+              <div className="pass-qr-badge-wrap font-mono" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
+                <div style={{ background: '#ffffff', padding: '6px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)', border: '2px solid #00f59b' }}>
+                  <img src={registration.qrDataUrl} alt="Entry QR Ticket" style={{ width: '84px', height: '84px', display: 'block' }} />
+                </div>
+                <span className="barcode-text" style={{ fontSize: '0.65rem', color: '#00f59b', letterSpacing: '0.05em' }}>
+                  &bull; OFFICIAL ENTRY QR PASS &bull;
+                </span>
+              </div>
+            ) : (
+              <div className="pass-barcode-wrap font-mono">
+                <div className="mock-barcode" />
+                <span className="barcode-text">SEUSL CITADEL ACCESS PROTOCOL // VERIFIED</span>
+              </div>
+            )}
 
             <div className="pass-stamp font-mono">
               <span className="stamp-line">SEUSL HASHCORE</span>

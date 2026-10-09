@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { registerParticipant } from '../../services/apiService';
 import { submitToGoogleForm } from '../../services/googleFormService';
 
 /**
@@ -219,7 +220,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
       const t1 = setTimeout(() => setSubmissionPhase(1), 600);
       const t2 = setTimeout(() => setSubmissionPhase(2), 1250);
 
-      const backendResult = await submitToGoogleForm(submissionPayload);
+      const backendResult = await registerParticipant(submissionPayload);
 
       clearTimeout(t1);
       clearTimeout(t2);
@@ -229,6 +230,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
         ...submissionPayload,
         regId: finalTicketId,
         ticketId: finalTicketId,
+        qrDataUrl: backendResult?.qrDataUrl || null,
         emailSent: backendResult?.emailSent !== false,
       };
 
