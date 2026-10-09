@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import posterMainImg from '../../frame/00240.webp';
 import posterCtfImg from '../../frame/00001.webp';
 import posterWebDevImg from '../../frame/00120.webp';
@@ -40,6 +40,45 @@ const POSTERS_DATA = [
 export default function Posters() {
   const [selectedPoster, setSelectedPoster] = useState(null);
   const [copiedToast, setCopiedToast] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(1); // Default to center poster
+  const [isPaused, setIsPaused] = useState(false);
+
+  const touchStartXRef = useRef(0);
+  const touchEndXRef = useRef(0);
+
+  // Auto-looping carousel with pause on hover
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % POSTERS_DATA.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + POSTERS_DATA.length) % POSTERS_DATA.length);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % POSTERS_DATA.length);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartXRef.current - touchEndXRef.current;
+    if (diff > 45) {
+      handleNext();
+    } else if (diff < -45) {
+      handlePrev();
+    }
+  };
 
   const handleShareLink = () => {
     if (navigator.clipboard) {
@@ -113,70 +152,166 @@ export default function Posters() {
           </div>
         </div>
 
-        {/* Posters Showcase Grid */}
-        <div className="posters-grid">
-          {POSTERS_DATA.map((poster, index) => (
-            <div key={poster.id} className={`poster-card reveal-on-scroll stagger-${index + 1}`}>
-              {/* Poster Image Container with Hover Overlay */}
-              <div className="poster-image-box" onClick={() => setSelectedPoster(poster)}>
-                <img 
-                  src={poster.image} 
-                  alt={poster.title} 
-                  className="poster-preview-img lazy-img-smooth is-loaded"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="poster-hover-overlay">
-                  <div className="zoom-btn-icon">
-                    <svg viewBox="0 0 24 24" fill="none" className="zoom-svg">
-                      <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
-                      <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      <line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+        {/* ==============================================================
+            Modern 3D Looping Poster Carousel
+            Center card is large, side cards are smaller with 3D looping flow
+            ============================================================== */}
+        <div 
+          className="posters-carousel-wrapper"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Ambient Cyber Light Glow behind center poster */}
+          <div className="carousel-ambient-glow" />
+
+          {/* Navigation Controls */}
+          <button 
+            type="button" 
+            className="carousel-nav-btn prev-btn" 
+            onClick={handlePrev}
+            aria-label="Previous poster"
+            title="Previous poster"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="nav-arrow-icon">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <button 
+            type="button" 
+            className="carousel-nav-btn next-btn" 
+            onClick={handleNext}
+            aria-label="Next poster"
+            title="Next poster"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="nav-arrow-icon">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {/* 3D Carousel Stage */}
+          <div className="posters-carousel-stage">
+            {POSTERS_DATA.map((poster, index) => {
+              const total = POSTERS_DATA.length;
+              let diff = (index - activeIndex) % total;
+              if (diff < -Math.floor(total / 2)) diff += total;
+              if (diff > Math.floor(total / 2)) diff -= total;
+
+              let positionClass = 'card-center';
+              if (diff < 0) positionClass = 'card-left';
+              if (diff > 0) positionClass = 'card-right';
+
+              const isCenter = diff === 0;
+
+              return (
+                <div 
+                  key={poster.id} 
+                  className={`poster-3d-card ${positionClass} ${isCenter ? 'is-active' : ''}`}
+                  onClick={() => {
+                    if (!isCenter) {
+                      setActiveIndex(index);
+                    }
+                  }}
+                >
+                  {/* Poster Image Container */}
+                  <div 
+                    className="poster-image-box" 
+                    onClick={(e) => {
+                      if (isCenter) {
+                        e.stopPropagation();
+                        setSelectedPoster(poster);
+                      }
+                    }}
+                  >
+                    <img 
+                      src={poster.image} 
+                      alt={poster.title} 
+                      className="poster-preview-img is-loaded"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="poster-hover-overlay">
+                      <div className="zoom-btn-icon">
+                        <svg viewBox="0 0 24 24" fill="none" className="zoom-svg">
+                          <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <span className="hover-click-hint">Click to Enlarge</span>
+                    </div>
+                    <span className="poster-badge">{poster.badge}</span>
                   </div>
-                  <span className="hover-click-hint">Click to Enlarge</span>
-                </div>
-                <span className="poster-badge">{poster.badge}</span>
-              </div>
 
-              {/* Poster Metadata & Actions */}
-              <div className="poster-card-body">
-                <span className="poster-category">{poster.category}</span>
-                <h3 className="poster-title">{poster.title}</h3>
-                <p className="poster-description">{poster.description}</p>
-                
-                <div className="poster-specs">
-                  <span>{poster.resolution}</span>
-                  <span className="spec-dot">•</span>
-                  <span>{poster.aspect}</span>
-                </div>
+                  {/* Poster Metadata & Actions */}
+                  <div className="poster-card-body">
+                    <span className="poster-category">{poster.category}</span>
+                    <h3 className="poster-title">{poster.title}</h3>
+                    <p className="poster-description">{poster.description}</p>
+                    
+                    <div className="poster-specs">
+                      <span>{poster.resolution}</span>
+                      <span className="spec-dot">•</span>
+                      <span>{poster.aspect}</span>
+                    </div>
 
-                <div className="poster-card-actions">
-                  <button 
-                    type="button" 
-                    className="btn-download-poster"
-                    onClick={() => handleDownload(poster.image, poster.id)}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" className="btn-icon">
-                      <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>Download Poster</span>
-                  </button>
+                    <div className="poster-card-actions">
+                      <button 
+                        type="button" 
+                        className="btn-download-poster"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownload(poster.image, poster.id);
+                        }}
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" className="btn-icon">
+                          <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <span>Download Poster</span>
+                      </button>
 
-                  <button 
-                    type="button" 
-                    className="btn-preview-poster"
-                    onClick={() => setSelectedPoster(poster)}
-                  >
-                    <span>Full View</span>
-                  </button>
+                      <button 
+                        type="button" 
+                        className="btn-preview-poster"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedPoster(poster);
+                        }}
+                      >
+                        <span>Full View</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
+
+          {/* Looping Dots & Auto-Loop Status Indicator */}
+          <div className="carousel-dots-pagination">
+            {POSTERS_DATA.map((p, idx) => (
+              <button
+                key={p.id}
+                type="button"
+                className={`carousel-dot ${idx === activeIndex ? 'active' : ''}`}
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`Switch to poster ${idx + 1}`}
+                title={`Switch to poster ${idx + 1}`}
+              >
+                <span className="dot-fill" />
+              </button>
+            ))}
+            <div className="carousel-loop-tag font-mono">
+              <span className={`loop-indicator ${!isPaused ? 'is-spinning' : ''}`}>⟳</span>
+              <span>{isPaused ? 'PAUSED' : 'AUTO-LOOPING'}</span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
