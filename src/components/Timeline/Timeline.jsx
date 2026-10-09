@@ -55,8 +55,8 @@ const TIMELINE_DATA = [
     status: 'LIVE SESSION',
     statusType: 'event',
     badge: 'WORKSHOP 01',
-    description: 'Live interactive masterclass on CTF competitions, challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges at SWT Hall, SEUSL (8:30 AM – 4:30 PM).',
-    highlights: ['CTF Fundamentals & Crypto', 'Web Exploitation & Forensics', 'SWT Hall, SEUSL · 8:30 AM – 4:30 PM'],
+    description: 'Live interactive masterclass on CTF competitions, challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges at Faculty of Technology, SEUSL.',
+    highlights: ['CTF Fundamentals & Crypto', 'Web Exploitation & Forensics', 'Schedule & Venue TBA'],
   },
   {
     id: 'webdev-close',
@@ -83,8 +83,8 @@ const TIMELINE_DATA = [
     status: 'LIVE SESSION',
     statusType: 'event',
     badge: 'WORKSHOP 02',
-    description: 'Explore how to turn real-world problems into web solutions, build prototypes, use modern development tools, and present projects in competitions at SWT Hall, SEUSL (8:30 AM – 4:30 PM).',
-    highlights: ['Idea Generation & UI/UX', 'AI-Assisted Web Dev', 'SWT Hall, SEUSL · 8:30 AM – 4:30 PM'],
+    description: 'Explore how to turn real-world problems into web solutions, build prototypes, use modern development tools, and present projects in competitions at Faculty of Technology, SEUSL.',
+    highlights: ['Idea Generation & UI/UX', 'AI-Assisted Web Dev', 'Schedule & Venue TBA'],
   },
 ];
 
@@ -320,70 +320,110 @@ export default function Timeline({ onNavigateRegister }) {
           </div>
 
           <div className="event-details-grid">
-            <div className="detail-card">
-              <div className="detail-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
-                  <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+            <div className="detail-card is-locked">
+              <div className="detail-card-header">
+                <div className="detail-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
+                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <div className="detail-lock-tag" title="Official dates not yet published">
+                  <svg viewBox="0 0 24 24" fill="none" className="lock-svg-icon">
+                    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                  </svg>
+                  <span>LOCKED</span>
+                </div>
               </div>
               <div className="detail-info">
                 <span className="detail-tag font-mono">DATES</span>
-                <h4 className="detail-title">24 October & 31 October 2026</h4>
-                <p className="detail-desc">Two scheduled full-day workshops</p>
+                <h4 className="detail-title">To Be Announced</h4>
+                <p className="detail-desc">October 2026 • Two scheduled full-day workshops</p>
               </div>
             </div>
 
-            <div className="detail-card">
-              <div className="detail-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+            <div className="detail-card is-locked">
+              <div className="detail-card-header">
+                <div className="detail-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <div className="detail-lock-tag" title="Session timings not yet published">
+                  <svg viewBox="0 0 24 24" fill="none" className="lock-svg-icon">
+                    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                  </svg>
+                  <span>LOCKED</span>
+                </div>
               </div>
               <div className="detail-info">
                 <span className="detail-tag font-mono">TIME</span>
-                <h4 className="detail-title">8:30 AM – 4:30 PM</h4>
+                <h4 className="detail-title">To Be Announced</h4>
                 <p className="detail-desc">Full-day interactive hands-on sessions</p>
               </div>
             </div>
 
-            <div className="detail-card">
-              <div className="detail-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
-                  <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 5.02944 7.02944 1 12 1C16.9706 1 21 5.02944 21 10Z" stroke="currentColor" strokeWidth="1.8" />
-                  <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+            <div className="detail-card is-locked">
+              <div className="detail-card-header">
+                <div className="detail-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
+                    <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 5.02944 7.02944 1 12 1C16.9706 1 21 5.02944 21 10Z" stroke="currentColor" strokeWidth="1.8" />
+                    <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <div className="detail-lock-tag" title="Venue details not yet published">
+                  <svg viewBox="0 0 24 24" fill="none" className="lock-svg-icon">
+                    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                  </svg>
+                  <span>LOCKED</span>
+                </div>
               </div>
               <div className="detail-info">
                 <span className="detail-tag font-mono">VENUE</span>
-                <h4 className="detail-title">SWT Hall, SEUSL</h4>
-                <p className="detail-desc">South Eastern University of Sri Lanka</p>
+                <h4 className="detail-title">To Be Announced</h4>
+                <p className="detail-desc">Faculty of Technology, SEUSL (Hall TBA)</p>
               </div>
             </div>
 
             <div className="detail-card">
-              <div className="detail-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
-                  <path d="M17 21V19C17 16.7909 15.2091 15 13 15H5C2.79086 15 1 16.7909 1 19V21" stroke="currentColor" strokeWidth="1.8" />
-                  <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M23 21V19C22.9986 17.1771 21.765 15.5857 20 15.13" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M16 3.13C17.7699 3.58316 19.0078 5.17799 19.0078 7.005C19.0078 8.83201 17.7699 10.4268 16 10.88" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+              <div className="detail-card-header">
+                <div className="detail-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
+                    <path d="M17 21V19C17 16.7909 15.2091 15 13 15H5C2.79086 15 1 16.7909 1 19V21" stroke="currentColor" strokeWidth="1.8" />
+                    <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M23 21V19C22.9986 17.1771 21.765 15.5857 20 15.13" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M16 3.13C17.7699 3.58316 19.0078 5.17799 19.0078 7.005C19.0078 8.83201 17.7699 10.4268 16 10.88" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <div className="detail-confirmed-tag">
+                  <span>CONFIRMED</span>
+                </div>
               </div>
               <div className="detail-info">
                 <span className="detail-tag font-mono">TARGET AUDIENCE</span>
                 <h4 className="detail-title">Faculty of Technology</h4>
-                <p className="detail-desc">Students of all batches in Faculty of Technology , SEUSL</p>
+                <p className="detail-desc">Students of all batches in Faculty of Technology, SEUSL</p>
               </div>
             </div>
 
             <div className="detail-card highlight-card">
-              <div className="detail-icon-wrap emerald">
-                <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
-                  <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+              <div className="detail-card-header">
+                <div className="detail-icon-wrap emerald">
+                  <svg viewBox="0 0 24 24" fill="none" className="detail-svg">
+                    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <div className="detail-open-tag">
+                  <span>FREE PASS</span>
+                </div>
               </div>
               <div className="detail-info">
                 <span className="detail-tag font-mono emerald">PARTICIPATION</span>

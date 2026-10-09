@@ -11,11 +11,10 @@ export default function Partners() {
         <div className="section-header text-center reveal-on-scroll">
           <span className="section-badge font-mono">EVENT ORGANIZERS</span>
           <h2 className="section-title">
-            ORGANIZED BY <span className="title-gradient">SICT</span>
+            ORGANIZED BY <span className="title-gradient">SICT x DICT</span>
           </h2>
           <p className="section-desc">
-            Organized by the Society of ICT (SICT), under the Department of Information and Communication Technology (DICT),
-            Faculty of Technology, South Eastern University of Sri Lanka (SEUSL).
+            Organized by SICT, in collaboration with DICT, Faculty of Technology, SEUSL.
           </p>
         </div>
 

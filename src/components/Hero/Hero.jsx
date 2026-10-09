@@ -356,12 +356,11 @@ export default function Hero({ onNavigateRegister }) {
         <div ref={textStage2Ref} className="hero-text-stage stage-2">
           <div className="stage-content">
             <h2 className="stage-heading">
-              FORGE YOUR CODE.<br />
-              <span className="gradient-text-emerald">DEFEND THE REALM.</span>
+              LEARN. BUILD. WIN..<br />
+              <span className="gradient-text-emerald">Grow.</span>
             </h2>
             <p className="stage-description">
-              Where Sri Lanka’s sharpest computational minds converge. Step into a proving
-              ground of real-time offensive security, cryptographic defense, and scalable engineering.
+              Where ICT students step into technical competitions. Explore cybersecurity challenges, modern web development, and practical innovation in a student-led environment designed for all skill levels.
             </p>
           </div>
         </div>
@@ -373,7 +372,7 @@ export default function Hero({ onNavigateRegister }) {
         <div ref={textStage3Ref} className="hero-text-stage stage-3">
           <div className="stage-content wide">
             <h2 className="stage-heading compact">
-              TWO BATTLEGROUNDS. ONE DESTINY.
+              TWO BATTLEGROUNDS. TWO WORLDS
             </h2>
 
             <div className="tracks-grid">
@@ -474,7 +473,7 @@ export default function Hero({ onNavigateRegister }) {
         <div ref={textStage4Ref} className="hero-text-stage stage-4">
           <div className="stage-content">
             <h2 className="stage-heading large">
-              ENTER THE <span className="gradient-text-emerald">CITADEL</span>
+              START YOUR  <span className="gradient-text-emerald">COMPETITIVE JOURNEY</span>
             </h2>
             <p className="stage-description">
               South Eastern University of Sri Lanka welcomes all developers, security researchers,
