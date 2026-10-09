@@ -2,9 +2,22 @@ import { useState, useEffect, useRef } from 'react';
 import posterMainImg from '../../frame/00240.webp';
 import posterCtfImg from '../../frame/00001.webp';
 import posterWebDevImg from '../../frame/00120.webp';
+import posterLaunchImg from '../../assets/posters/poster-launch.jpg';
+import posterTeaserImg from '../../assets/posters/poster-teaser.jpg';
 import './Posters.css';
 
 const POSTERS_DATA = [
+  {
+    id: 'poster-launch',
+    title: 'SEUSL HASHCORE 2026 — Official Website Launch',
+    category: 'WEBSITE LAUNCH ANNOUNCEMENT',
+    resolution: '2048 x 2048 Ultra HD',
+    aspect: '1:1 Square Edition',
+    image: posterLaunchImg,
+    isSquare: true,
+    description: '"We are Launching Our Website" — Official key announcement celebrating the live unveiling of the SEUSL HASHCORE portal by SICT × DICT.',
+    badge: 'OFFICIAL LAUNCH TEASER',
+  },
   {
     id: 'poster-main',
     title: 'SEUSL HASHCORE 2026 — Official Summit Poster',
@@ -12,8 +25,20 @@ const POSTERS_DATA = [
     resolution: '1920 x 1080 Full HD',
     aspect: '16:9 Landscape',
     image: posterMainImg,
+    isSquare: false,
     description: 'The master citadel key visual featuring the grand castle of South Eastern University of Sri Lanka.',
     badge: 'OFFICIAL KEY VISUAL',
+  },
+  {
+    id: 'poster-teaser',
+    title: 'Battles of Minds in Two Worlds — Something Big is on the Way',
+    category: 'SUMMIT TEASER VISUAL',
+    resolution: '2048 x 2048 Ultra HD',
+    aspect: '1:1 Square Edition',
+    image: posterTeaserImg,
+    isSquare: true,
+    description: '"Something Big is on the Way" — Epic visual representing the collision of Software Technology and Network & Security arenas.',
+    badge: 'COMING SOON TEASER',
   },
   {
     id: 'poster-ctf',
@@ -22,6 +47,7 @@ const POSTERS_DATA = [
     resolution: '1920 x 1080 Full HD',
     aspect: '16:9 Landscape',
     image: posterCtfImg,
+    isSquare: false,
     description: 'Dedicated promotional artwork for the CTF tournament, reverse engineering labs, and network defense arena.',
     badge: 'TRACK 01 PROMO',
   },
@@ -32,6 +58,7 @@ const POSTERS_DATA = [
     resolution: '1920 x 1080 Full HD',
     aspect: '16:9 Landscape',
     image: posterWebDevImg,
+    isSquare: false,
     description: 'Official visual for the 24-hour fullstack engineering challenge and UI/UX design masterclass.',
     badge: 'TRACK 02 PROMO',
   },
@@ -40,7 +67,7 @@ const POSTERS_DATA = [
 export default function Posters() {
   const [selectedPoster, setSelectedPoster] = useState(null);
   const [copiedToast, setCopiedToast] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(1); // Default to center poster
+  const [activeIndex, setActiveIndex] = useState(0); // Focus on the new Launch Poster first
   const [isPaused, setIsPaused] = useState(false);
 
   const touchStartXRef = useRef(0);
@@ -88,13 +115,26 @@ export default function Posters() {
     }
   };
 
-  const handleDownload = (imgUrl, filename) => {
-    const a = document.createElement('a');
-    a.href = imgUrl;
-    a.download = `${filename}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const handleDownload = async (imgUrl, filename) => {
+    try {
+      const response = await fetch(imgUrl);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = `${filename}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+    } catch {
+      const a = document.createElement('a');
+      a.href = imgUrl;
+      a.download = `${filename}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   return (
@@ -201,8 +241,10 @@ export default function Posters() {
               if (diff > Math.floor(total / 2)) diff -= total;
 
               let positionClass = 'card-center';
-              if (diff < 0) positionClass = 'card-left';
-              if (diff > 0) positionClass = 'card-right';
+              if (diff === -1) positionClass = 'card-left';
+              else if (diff === 1) positionClass = 'card-right';
+              else if (diff < -1) positionClass = 'card-far-left';
+              else if (diff > 1) positionClass = 'card-far-right';
 
               const isCenter = diff === 0;
 
@@ -218,7 +260,7 @@ export default function Posters() {
                 >
                   {/* Poster Image Container */}
                   <div 
-                    className="poster-image-box" 
+                    className={`poster-image-box ${poster.isSquare ? 'is-square' : ''}`} 
                     onClick={(e) => {
                       if (isCenter) {
                         e.stopPropagation();
@@ -226,6 +268,12 @@ export default function Posters() {
                       }
                     }}
                   >
+                    {poster.isSquare && (
+                      <div 
+                        className="poster-bg-blur" 
+                        style={{ backgroundImage: `url(${poster.image})` }} 
+                      />
+                    )}
                     <img 
                       src={poster.image} 
                       alt={poster.title} 
