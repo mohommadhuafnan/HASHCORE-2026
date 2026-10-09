@@ -4,28 +4,21 @@
  * Automated Competition Registration, Duplicate Prevention & Participant Email Dispatcher
  * ============================================================================
  * 
- * INSTRUCTIONS TO DEPLOY:
- * 1. Open your Google Sheet (the one linked to your Google Form via "Link to Sheets").
- * 2. In Google Sheets, click "Extensions" -> "Apps Script".
- * 3. Delete any code in the editor, and paste this entire Code.gs file.
- * 4. Click the blue "Save" (💾) icon.
- * 5. Click "Deploy" -> "New deployment".
- * 6. Click the gear icon (⚙️) next to "Select type" and choose "Web app".
- * 7. Set:
- *    - Description: "HASHCORE 2026 Registration Service"
- *    - Execute as: "Me"
- *    - Who has access: "Anyone" (VERY IMPORTANT)
- * 8. Click "Deploy", authorize Google account permissions when prompted.
- * 9. Copy the Web App URL (e.g., https://script.google.com/macros/s/.../exec).
- * 10. Paste it into your project's `.env` file:
- *     VITE_GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/.../exec
- * 
+ * IMPORTANT FOR SENDER EMAIL:
+ * To send emails FROM "hashcore@seu.ac.lk":
+ * 1. Log in to your Google Account as: hashcore@seu.ac.lk
+ * 2. Open Google Sheets (linked to your Google Form) OR go to https://script.google.com
+ * 3. Paste this code and click Save (💾).
+ * 4. Click "Deploy" -> "New deployment" -> "Web app"
+ *    - Execute as: "Me (hashcore@seu.ac.lk)"
+ *    - Who has access: "Anyone"
+ * 5. Authorize with hashcore@seu.ac.lk and copy the Web App URL.
  * ============================================================================
  */
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
-  // Wait up to 30 seconds for concurrent requests to avoid race condition duplicates
+  // Wait up to 30 seconds for concurrent requests to avoid race conditions
   lock.tryLock(30000);
 
   try {
@@ -38,32 +31,6 @@ function doPost(e) {
       data = JSON.parse(e.postData.contents);
     } catch (parseErr) {
       return jsonResponse({ success: false, error: 'Malformed JSON payload' });
-    }
-
-    // 1. Access Google Sheet (container-bound or via Sheet ID)
-    var ss = null;
-    try {
-      ss = SpreadsheetApp.getActiveSpreadsheet();
-    } catch (ssErr) {}
-
-    // If script was created standalone in script.google.com, specify your Sheet ID here:
-    var SPREADSHEET_ID = ''; // e.g. '1abc...xyz' from https://docs.google.com/spreadsheets/d/1abc...xyz/edit
-    if (!ss && SPREADSHEET_ID) {
-      try {
-        ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-      } catch (openErr) {}
-    }
-
-    if (!ss) {
-      return jsonResponse({
-        success: false,
-        error: 'Could not access Google Sheet. Please either: (1) Open your Google Sheet and go to Extensions > Apps Script, or (2) Paste your Google Sheet ID into SPREADSHEET_ID at line 48 of Code.gs and re-deploy.'
-      });
-    }
-
-    var sheet = ss.getActiveSheet() || ss.getSheets()[0];
-    if (!sheet) {
-      return jsonResponse({ success: false, error: 'Could not find active worksheet.' });
     }
 
     // 1. Validate & Normalize fields
@@ -93,79 +60,106 @@ function doPost(e) {
       return jsonResponse({ success: false, error: 'University Registration Number is required.' });
     }
 
-    // Ensure Headers Exist
-    ensureSheetHeaders(sheet);
+    // 2. Access Google Sheet (if bound or SPREADSHEET_ID provided)
+    var ss = null;
+    try {
+      ss = SpreadsheetApp.getActiveSpreadsheet();
+    } catch (ssErr) {}
 
-    // 2. DUPLICATE REGISTRATION PROTECTION
-    var dataRange = sheet.getDataRange().getValues();
-    var headers = dataRange[0] || [];
-    var regColIdx = -1;
-    var ticketColIdx = -1;
-    var compColIdx = -1;
-
-    for (var c = 0; c < headers.length; c++) {
-      var h = String(headers[c] || '').toLowerCase();
-      if (h.indexOf('reg') !== -1 || h.indexOf('university') !== -1) regColIdx = c;
-      if (h.indexOf('ticket') !== -1) ticketColIdx = c;
-      if (h.indexOf('comp') !== -1 || h.indexOf('track') !== -1) compColIdx = c;
+    var SPREADSHEET_ID = ''; // Optional: paste sheet ID if script is standalone
+    if (!ss && SPREADSHEET_ID) {
+      try {
+        ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      } catch (openErr) {}
     }
 
-    if (regColIdx === -1) regColIdx = 6;
-    if (ticketColIdx === -1) ticketColIdx = 1;
-    if (compColIdx === -1) compColIdx = 2;
-
-    for (var r = 1; r < dataRange.length; r++) {
-      var existingRegNo = String(dataRange[r][regColIdx] || '').trim().toUpperCase();
-      var existingTicket = String(dataRange[r][ticketColIdx] || '').trim();
-
-      if (existingRegNo && existingRegNo === regNo) {
-        return jsonResponse({
-          success: false,
-          duplicate: true,
-          error: 'You have already registered for this event.',
-          existingTicketId: existingTicket || null,
-          universityRegNo: regNo
-        });
-      }
+    var sheet = null;
+    if (ss) {
+      sheet = ss.getActiveSheet() || ss.getSheets()[0];
     }
 
-    // 3. GENERATE UNIQUE TICKET ID
-    var countForTrack = 0;
-    for (var i = 1; i < dataRange.length; i++) {
-      var rowComp = String(dataRange[i][compColIdx] || '');
-      if (rowComp.indexOf(compShort) !== -1 || (isCTF && rowComp.indexOf('CTF') !== -1) || (!isCTF && rowComp.indexOf('Web') !== -1)) {
-        countForTrack++;
-      }
-    }
-    var nextNum = countForTrack + 1;
-    var paddedNum = ('00000' + nextNum).slice(-5);
-    var ticketId = compShort + '-2026-' + paddedNum;
+    var ticketId = '';
     var registrationDate = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
 
-    // 4. PREPARE SHEET ROW
-    // Columns:
-    // 1. Timestamp | 2. Ticket ID | 3. Competition | 4. Name | 5. Batch | 6. Faculty |
-    // 7. University Reg No | 8. Email | 9. Contact Number | 10. WhatsApp Number |
-    // 11. Registration Status | 12. Email Status
-    var rowData = [
-      new Date(),
-      ticketId,
-      competitionTitle,
-      participantName,
-      batch,
-      faculty,
-      regNo,
-      rawEmail,
-      contactNo,
-      whatsappNo,
-      'Confirmed',
-      'Pending'
-    ];
+    // 3. Handle Sheet storage & Duplicate Protection if sheet is connected
+    var newRowIndex = -1;
+    if (sheet) {
+      try {
+        ensureSheetHeaders(sheet);
+        var dataRange = sheet.getDataRange().getValues();
+        var headers = dataRange[0] || [];
+        var regColIdx = -1;
+        var ticketColIdx = -1;
+        var compColIdx = -1;
 
-    sheet.appendRow(rowData);
-    var newRowIndex = sheet.getLastRow();
+        for (var c = 0; c < headers.length; c++) {
+          var h = String(headers[c] || '').toLowerCase();
+          if (h.indexOf('reg') !== -1 || h.indexOf('university') !== -1) regColIdx = c;
+          if (h.indexOf('ticket') !== -1) ticketColIdx = c;
+          if (h.indexOf('comp') !== -1 || h.indexOf('track') !== -1) compColIdx = c;
+        }
 
-    // 5. SEND CONFIRMATION EMAIL TO SUBMITTED EMAIL ADDRESS
+        if (regColIdx === -1) regColIdx = 6;
+        if (ticketColIdx === -1) ticketColIdx = 1;
+        if (compColIdx === -1) compColIdx = 2;
+
+        // Check for duplicates
+        for (var r = 1; r < dataRange.length; r++) {
+          var existingRegNo = String(dataRange[r][regColIdx] || '').trim().toUpperCase();
+          var existingTicket = String(dataRange[r][ticketColIdx] || '').trim();
+
+          if (existingRegNo && existingRegNo === regNo) {
+            return jsonResponse({
+              success: false,
+              duplicate: true,
+              error: 'You have already registered for this event.',
+              existingTicketId: existingTicket || null,
+              universityRegNo: regNo
+            });
+          }
+        }
+
+        // Sequential Ticket Numbering
+        var countForTrack = 0;
+        for (var i = 1; i < dataRange.length; i++) {
+          var rowComp = String(dataRange[i][compColIdx] || '');
+          if (rowComp.indexOf(compShort) !== -1 || (isCTF && rowComp.indexOf('CTF') !== -1) || (!isCTF && rowComp.indexOf('Web') !== -1)) {
+            countForTrack++;
+          }
+        }
+        var nextNum = countForTrack + 1;
+        var paddedNum = ('00000' + nextNum).slice(-5);
+        ticketId = compShort + '-2026-' + paddedNum;
+
+        var rowData = [
+          new Date(),
+          ticketId,
+          competitionTitle,
+          participantName,
+          batch,
+          faculty,
+          regNo,
+          rawEmail,
+          contactNo,
+          whatsappNo,
+          'Confirmed',
+          'Pending'
+        ];
+
+        sheet.appendRow(rowData);
+        newRowIndex = sheet.getLastRow();
+      } catch (sheetErr) {
+        Logger.log('Sheet logging warning: ' + sheetErr.toString());
+      }
+    }
+
+    // Fallback Ticket ID if sheet was not connected
+    if (!ticketId) {
+      var randNum = ('00000' + Math.floor(1000 + Math.random() * 90000)).slice(-5);
+      ticketId = compShort + '-2026-' + randNum;
+    }
+
+    // 4. SEND CONFIRMATION EMAIL TO PARTICIPANT (ALWAYS EXECUTED!)
     var emailSent = false;
     var emailErrorMessage = '';
 
@@ -184,7 +178,6 @@ function doPost(e) {
         registrationDate: registrationDate
       });
 
-      // Send email as official SEUSL HASHCORE '26 transmission
       MailApp.sendEmail({
         to: rawEmail,
         subject: subject,
@@ -194,14 +187,18 @@ function doPost(e) {
       });
 
       emailSent = true;
-      sheet.getRange(newRowIndex, 12).setValue('Sent');
+      if (sheet && newRowIndex > 0) {
+        sheet.getRange(newRowIndex, 12).setValue('Sent');
+      }
     } catch (mailErr) {
       Logger.log('Mail send error: ' + mailErr.toString());
       emailErrorMessage = mailErr.toString();
-      sheet.getRange(newRowIndex, 12).setValue('Failed');
+      if (sheet && newRowIndex > 0) {
+        sheet.getRange(newRowIndex, 12).setValue('Failed');
+      }
     }
 
-    // 6. RETURN SUCCESS RESPONSE TO FRONTEND
+    // 5. RETURN SUCCESS RESPONSE TO FRONTEND
     return jsonResponse({
       success: true,
       ticketId: ticketId,
@@ -225,6 +222,66 @@ function doPost(e) {
     });
   } finally {
     lock.releaseLock();
+  }
+}
+
+/**
+ * Trigger function for Google Forms / Sheets "On form submit"
+ * If you link this script to the Google Sheet connected to your Google Form,
+ * this function automatically fires when anyone submits the Google Form!
+ */
+function onFormSubmit(e) {
+  try {
+    if (!e) return;
+    var values = e.namedValues || {};
+    var getVal = function(key) {
+      var match = Object.keys(values).find(function(k) {
+        return k.toLowerCase().indexOf(key.toLowerCase()) !== -1;
+      });
+      return match && values[match] && values[match][0] ? values[match][0].trim() : '';
+    };
+
+    var rawEmail = getVal('email') || getVal('mail');
+    if (!rawEmail) return;
+
+    var participantName = getVal('name') || getVal('initials') || 'Participant';
+    var regNo = getVal('reg') || getVal('university') || '';
+    var faculty = getVal('faculty') || 'Technology';
+    var batch = getVal('batch') || '';
+    var contactNo = getVal('contact') || getVal('phone') || '';
+    var whatsappNo = getVal('whatsapp') || contactNo;
+    var competition = getVal('track') || getVal('competition') || 'Web';
+    var isCTF = competition.toUpperCase().indexOf('CTF') !== -1;
+    var compShort = isCTF ? 'CTF' : 'WEB';
+    var competitionTitle = isCTF ? 'CTF Competition' : 'Web Development Competition';
+
+    var ticketId = compShort + '-2026-' + ('00000' + Math.floor(1000 + Math.random() * 90000)).slice(-5);
+    var registrationDate = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
+
+    var subject = 'Registration Confirmed – ' + competitionTitle + " [Pass: " + ticketId + "]";
+    var htmlBody = buildConfirmationEmailHtml({
+      participantName: participantName,
+      competitionTitle: competitionTitle,
+      batch: batch,
+      faculty: faculty,
+      regNo: regNo,
+      email: rawEmail,
+      contactNo: contactNo,
+      whatsappNo: whatsappNo,
+      ticketId: ticketId,
+      registrationDate: registrationDate
+    });
+
+    MailApp.sendEmail({
+      to: rawEmail,
+      subject: subject,
+      htmlBody: htmlBody,
+      name: "SEUSL HASHCORE '26",
+      replyTo: "hashcore@seu.ac.lk"
+    });
+
+  } catch (err) {
+    Logger.log('onFormSubmit trigger error: ' + err.toString());
   }
 }
 
