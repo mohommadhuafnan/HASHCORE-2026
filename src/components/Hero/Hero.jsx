@@ -476,8 +476,7 @@ export default function Hero({ onNavigateRegister }) {
               START YOUR  <span className="gradient-text-emerald">COMPETITIVE JOURNEY</span>
             </h2>
             <p className="stage-description">
-              South Eastern University of Sri Lanka welcomes all developers, security researchers,
-              and visionaries. Registrations commencing soon.
+              Faculty of Technology at SEUSL welcomes students of all batches to explore technical competitions and build practical skills.
             </p>
             <div className="stage-actions">
               <a

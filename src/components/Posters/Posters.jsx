@@ -101,11 +101,10 @@ export default function Posters() {
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
           <h2 className="section-title">
-            TRANSMISSION <span className="title-gradient">POSTERS</span>
+            EVENT  <span className="title-gradient">MEDIA & POSTERS</span>
           </h2>
           <p className="section-desc">
-            Spread the word across your colleguses and social networks.
-            Download high-resolution official posters and share event transmissions.
+            Support spread the word across campus and student communities. Download high-resolution official posters and share event updates with fellow students.
           </p>
         </div>
 

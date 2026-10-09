@@ -160,8 +160,7 @@ export default function Timeline({ onNavigateRegister }) {
             DUAL-TRACK <span className="title-gradient">TIMELINE</span>
           </h2>
           <p className="section-desc">
-            Two specialized tracks, synchronized execution. Track key registration windows,
-            hands-on workshop sessions, and milestones for HASHCORE v0.1 – 2026.
+            Track registration deadlines, workshop dates, and key learning milestones for HASHCORE v0.1 – 2026.
           </p>
 
           {/* Interactive Filter Pills */}
