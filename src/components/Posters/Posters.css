@@ -144,32 +144,32 @@
 .poster-3d-card {
   position: absolute;
   width: 100%;
-  max-width: 440px;
-  background: var(--liquid-glass-bg);
-  backdrop-filter: var(--liquid-glass-blur);
-  -webkit-backdrop-filter: var(--liquid-glass-blur);
-  border: 1.5px solid var(--liquid-glass-border);
-  border-radius: 22px;
+  max-width: 480px;
+  background: rgba(3, 12, 7, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: none;
+  outline: none;
+  border-radius: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.75s ease,
               filter 0.75s ease,
-              box-shadow 0.75s ease,
-              border-color 0.5s ease;
+              box-shadow 0.75s ease;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
   will-change: transform, opacity;
 }
 
-/* Center Card — Large & Prominent */
+/* Center Card — Large & Prominent, Borderless with Emerald Ambient Depth */
 .poster-3d-card.card-center {
   transform: translateX(0) scale(1.08) translateZ(90px);
   z-index: 10;
   opacity: 1;
   filter: none;
-  border-color: #00f59b;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 245, 155, 0.32);
+  border: none;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 55px rgba(0, 245, 155, 0.28);
 }
 
 /* Left Card — Smaller & angled in 3D perspective */
@@ -179,6 +179,7 @@
   opacity: 0.62;
   filter: brightness(0.7) saturate(0.82);
   cursor: pointer;
+  border: none;
 }
 
 .poster-3d-card.card-left:hover {
@@ -194,6 +195,7 @@
   opacity: 0.62;
   filter: brightness(0.7) saturate(0.82);
   cursor: pointer;
+  border: none;
 }
 
 .poster-3d-card.card-right:hover {
@@ -325,53 +327,39 @@
 }
 
 /* Poster Image Box */
+/* Poster Image Container — Displays Full Uncropped Artwork */
 .poster-image-box {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #020604;
   overflow: hidden;
   cursor: pointer;
-  background: #040806;
-}
-
-.poster-image-box.is-square {
-  aspect-ratio: 1 / 1;
-  max-height: 290px;
-}
-
-.poster-bg-blur {
-  position: absolute;
-  inset: -15px;
-  background-size: cover;
-  background-position: center;
-  filter: blur(18px) brightness(0.38);
-  transform: scale(1.15);
-  z-index: 1;
-  pointer-events: none;
+  border-radius: 20px 20px 0 0;
 }
 
 .poster-preview-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* NEVER CROPS! Complete poster is 100% visible */
   display: block;
-  position: relative;
-  z-index: 2;
-}
-
-.poster-image-box.is-square .poster-preview-img {
-  object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
 }
 
 .poster-image-box:hover .poster-preview-img {
-  transform: scale(1.04);
+  transform: scale(1.02);
 }
 
 .poster-hover-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(4, 15, 10, 0.65);
+  background: rgba(4, 15, 10, 0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -412,76 +400,34 @@
   text-transform: uppercase;
 }
 
-.poster-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  padding: 0.22rem 0.65rem;
-  background: rgba(4, 15, 10, 0.85);
-  border: 1px solid rgba(0, 245, 155, 0.4);
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent-emerald);
-}
-
-/* Card Body */
-.poster-card-body {
-  padding: 1.8rem;
+/* Compact Clean Action Bar (No Bulky Text, Borderless) */
+.poster-card-actions-bar {
+  padding: 0.9rem 1.25rem 1.1rem;
+  background: rgba(3, 11, 7, 0.98);
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 0.75rem;
+  border-radius: 0 0 20px 20px;
 }
 
-.poster-category {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--accent-emerald);
-  margin-bottom: 0.4rem;
-}
-
-.poster-title {
+.poster-clean-title {
   font-family: var(--font-heading);
-  font-size: 1.22rem;
-  font-weight: 800;
-  line-height: 1.3;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: #ffffff;
-  margin-bottom: 0.6rem;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
-.poster-description {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: #94a3b8;
-  margin-bottom: 1.2rem;
-  flex-grow: 1;
-}
-
-.poster-specs {
+.poster-action-btns {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: #64748b;
-  margin-bottom: 1.4rem;
-}
-
-.spec-dot {
-  color: var(--accent-emerald);
-}
-
-.poster-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.2rem;
+  gap: 0.75rem;
+  width: 100%;
 }
 
 .btn-download-poster {
@@ -692,11 +638,15 @@
   }
 
   .posters-carousel-stage {
-    height: 540px;
+    height: 470px;
   }
 
   .poster-3d-card {
     max-width: 320px;
+  }
+
+  .poster-image-box {
+    height: 320px;
   }
 
   .poster-3d-card.card-center {

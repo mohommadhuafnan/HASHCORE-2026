@@ -258,9 +258,9 @@ export default function Posters() {
                     }
                   }}
                 >
-                  {/* Poster Image Container */}
+                  {/* Poster Image Container — 100% Uncropped Full Artwork */}
                   <div 
-                    className={`poster-image-box ${poster.isSquare ? 'is-square' : ''}`} 
+                    className="poster-image-box" 
                     onClick={(e) => {
                       if (isCenter) {
                         e.stopPropagation();
@@ -268,12 +268,6 @@ export default function Posters() {
                       }
                     }}
                   >
-                    {poster.isSquare && (
-                      <div 
-                        className="poster-bg-blur" 
-                        style={{ backgroundImage: `url(${poster.image})` }} 
-                      />
-                    )}
                     <img 
                       src={poster.image} 
                       alt={poster.title} 
@@ -292,22 +286,12 @@ export default function Posters() {
                       </div>
                       <span className="hover-click-hint">Click to Enlarge</span>
                     </div>
-                    <span className="poster-badge">{poster.badge}</span>
                   </div>
 
-                  {/* Poster Metadata & Actions */}
-                  <div className="poster-card-body">
-                    <span className="poster-category">{poster.category}</span>
-                    <h3 className="poster-title">{poster.title}</h3>
-                    <p className="poster-description">{poster.description}</p>
-                    
-                    <div className="poster-specs">
-                      <span>{poster.resolution}</span>
-                      <span className="spec-dot">•</span>
-                      <span>{poster.aspect}</span>
-                    </div>
-
-                    <div className="poster-card-actions">
+                  {/* Clean Minimal Action Bar — No Bulky Text, Borderless */}
+                  <div className="poster-card-actions-bar">
+                    <h3 className="poster-clean-title" title={poster.title}>{poster.title}</h3>
+                    <div className="poster-action-btns">
                       <button 
                         type="button" 
                         className="btn-download-poster"
@@ -321,7 +305,7 @@ export default function Posters() {
                           <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        <span>Download Poster</span>
+                        <span>Download</span>
                       </button>
 
                       <button 
