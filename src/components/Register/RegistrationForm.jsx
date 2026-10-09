@@ -12,7 +12,7 @@ import { submitToGoogleForm } from '../../services/googleFormService';
  * - 3 Consent checkboxes (all required)
  * - Submit button: "Submit Registration", loading: "Submitting...", duplicate click protection
  * - Below button: "⚠ Only one submission is allowed per participant."
- * - Background submission to Google Form (https://forms.gle/r5BmVKvHAaYGhiBf6)
+ * - Background submission to Google Form (https://forms.gle/fwiHPJk2DrYo7zyE9)
  * - Error message: "Registration could not be submitted. Please try again." without clearing data
  */
 export default function RegistrationForm({ track, onBackToCategories, onSuccess }) {

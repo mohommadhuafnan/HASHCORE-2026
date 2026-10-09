@@ -1,31 +1,31 @@
 /**
  * Google Form & Apps Script Integration Service for SEUSL HASHCORE '26
- * Form URL: https://forms.gle/r5BmVKvHAaYGhiBf6
- * Form Action: https://docs.google.com/forms/d/e/1FAIpQLSfgltpwHS4ysB6RJj_aTU_G29pzHTWOr4EOyjugXGco13Rg-A/formResponse
+ * Form URL: https://forms.gle/fwiHPJk2DrYo7zyE9
+ * Form Action: https://docs.google.com/forms/d/e/1FAIpQLSf-zQtRjiFFSYXMorP7SWRQLsHCQxQStp_QxYfCQG48FZAKrA/formResponse
  */
 
 export const GOOGLE_FORM_CONFIG = {
-  formId: '1FAIpQLSfgltpwHS4ysB6RJj_aTU_G29pzHTWOr4EOyjugXGco13Rg-A',
-  formActionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfgltpwHS4ysB6RJj_aTU_G29pzHTWOr4EOyjugXGco13Rg-A/formResponse',
-  viewFormUrl: 'https://forms.gle/r5BmVKvHAaYGhiBf6',
+  formId: '1FAIpQLSf-zQtRjiFFSYXMorP7SWRQLsHCQxQStp_QxYfCQG48FZAKrA',
+  formActionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf-zQtRjiFFSYXMorP7SWRQLsHCQxQStp_QxYfCQG48FZAKrA/formResponse',
+  viewFormUrl: 'https://forms.gle/fwiHPJk2DrYo7zyE9',
   
-  // Real, verified field entry IDs
+  // Real, verified field entry IDs for new Google Form
   entryIds: {
-    initialsWithName: 'entry.76375722',
-    batch: 'entry.31862707',
-    faculty: 'entry.1767337826',
-    universityRegNo: 'entry.2071694137',
-    email: 'entry.1026507812',
-    contactNo: 'entry.332798540',
-    whatsappNo: 'entry.1465247396',
-    competition: 'entry.893739711',
-    consentGuidelines: 'entry.874966380',
-    consentAccuracy: 'entry.1596152163',
-    consentUpdates: 'entry.133352343',
+    initialsWithName: 'entry.4872230',
+    universityRegNo: 'entry.1324525460',
+    faculty: 'entry.1565242725',
+    batch: 'entry.1725670981',
+    email: 'entry.1758629376',
+    contactNo: 'entry.1724561456',
+    whatsappNo: 'entry.278691388',
+    competition: 'entry.2098792527',
+    consentGuidelines: 'entry.2038822511',
+    consentAccuracy: 'entry.1965085977',
+    consentUpdates: 'entry.297542819',
   },
 
-  // Google Apps Script Web App Endpoint URL (configured via environment variable or deployed script)
-  appsScriptUrl: import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyevmhcY8Abn0GSPWPMBZb0QjENrfIPWTFlb8NgsHN-AC5sUJPxlk1vkyh6ojSCeRiwAg/exec',
+  // Google Apps Script Web App Endpoint URL (configured via environment variable if deployed on new account)
+  appsScriptUrl: import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL || '',
 };
 
 /**
@@ -76,17 +76,19 @@ export async function submitToGoogleForm(formData) {
   const url = GOOGLE_FORM_CONFIG.formActionUrl;
   const params = new URLSearchParams();
 
+  const compOption = isCTF ? 'CTF' : 'Web';
+
   params.append(GOOGLE_FORM_CONFIG.entryIds.initialsWithName, formData.initialsWithName || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.batch, 'Option 1');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.faculty, 'Technology');
   params.append(GOOGLE_FORM_CONFIG.entryIds.universityRegNo, cleanRegNo);
+  params.append(GOOGLE_FORM_CONFIG.entryIds.faculty, formData.faculty || 'Technology');
+  params.append(GOOGLE_FORM_CONFIG.entryIds.batch, formData.batch || '');
   params.append(GOOGLE_FORM_CONFIG.entryIds.email, cleanEmail);
   params.append(GOOGLE_FORM_CONFIG.entryIds.contactNo, formData.contactNo || '');
   params.append(GOOGLE_FORM_CONFIG.entryIds.whatsappNo, formData.whatsappNo || '');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.competition, formData.competition || (isCTF ? 'CTF Competition' : 'Web Development Competition'));
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentGuidelines, 'I agree');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentAccuracy, 'Option 1');
-  params.append(GOOGLE_FORM_CONFIG.entryIds.consentUpdates, 'Option 1');
+  params.append(GOOGLE_FORM_CONFIG.entryIds.competition, compOption);
+  params.append(GOOGLE_FORM_CONFIG.entryIds.consentGuidelines, 'I have read the pre-workshop preparation guidelines and understand that I am responsible for setting up my laptop and required software before attending the workshop.');
+  params.append(GOOGLE_FORM_CONFIG.entryIds.consentAccuracy, 'I confirm that the information provided is accurate.');
+  params.append(GOOGLE_FORM_CONFIG.entryIds.consentUpdates, 'I agree to receive workshop-related updates and announcements.');
 
   await fetch(url, {
     method: 'POST',
