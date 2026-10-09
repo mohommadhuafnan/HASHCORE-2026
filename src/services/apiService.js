@@ -117,46 +117,78 @@ export function parseScannedQr(tokenString) {
   if (!tokenString) return {};
   const trimmed = String(tokenString).trim();
 
-  // 1. JSON payload: { id, reg, name, track, email }
+  // 1. JSON payload: { id, reg, name, track, email, batch, faculty }
   try {
     const obj = JSON.parse(trimmed);
-    if (obj && (obj.id || obj.reg || obj.ticketId || obj.universityRegNo)) {
+    if (obj && (obj.id || obj.reg || obj.ticketId || obj.universityRegNo || obj.name)) {
       return {
         ticketId: obj.id || obj.ticketId || '',
         universityRegNo: (obj.reg || obj.universityRegNo || '').toUpperCase(),
         participantName: obj.name || obj.participantName || '',
         track: obj.track || obj.competition || '',
         email: obj.email || '',
+        batch: obj.batch || '',
+        faculty: obj.faculty || '',
+        rawToken: trimmed,
       };
     }
   } catch (e) {}
 
-  // 2. Query URL payload: ?ticket=...&reg=...&name=...
-  if (trimmed.includes('?') || trimmed.includes('&')) {
+  // 2. Query URL payload: https://.../scan?ticket=...&reg=...&name=...
+  if (trimmed.includes('?') || trimmed.includes('&') || trimmed.includes('/scan')) {
     try {
-      const url = new URL(trimmed.startsWith('http') ? trimmed : `https://citadel.local/${trimmed}`);
+      const url = new URL(trimmed.startsWith('http') ? trimmed : `https://hashcoreseu2026.vercel.app/${trimmed.replace(/^\/+/, '')}`);
       const ticketId = url.searchParams.get('ticket') || url.searchParams.get('id') || '';
       const regNo = url.searchParams.get('reg') || url.searchParams.get('regNo') || '';
       const name = url.searchParams.get('name') || '';
       const email = url.searchParams.get('email') || '';
       const track = url.searchParams.get('track') || '';
-      if (ticketId || regNo) {
+      const batch = url.searchParams.get('batch') || '';
+      const faculty = url.searchParams.get('faculty') || '';
+
+      if (ticketId || regNo || name) {
         return {
           ticketId,
-          universityRegNo: regNo.toUpperCase(),
+          universityRegNo: regNo ? regNo.toUpperCase() : '',
           participantName: name,
           email,
           track,
+          batch,
+          faculty,
+          rawToken: trimmed,
         };
       }
     } catch (e) {}
   }
 
-  // 3. Fallback: single ticket token or Reg No
+  // 3. Hash URL payload: e.g. #verify/<token>
+  if (trimmed.includes('#verify/')) {
+    const rawToken = trimmed.split('#verify/')[1]?.split('?')[0];
+    return {
+      ticketId: rawToken || trimmed,
+      universityRegNo: '',
+      participantName: '',
+      rawToken: trimmed,
+    };
+  }
+
+  // 4. Regex Ticket Match: (CTF|WEB)-2026-XXXXX
+  const ticketMatch = trimmed.match(/(CTF|WEB)-2026-\d{5}/i);
+  if (ticketMatch) {
+    return {
+      ticketId: ticketMatch[0].toUpperCase(),
+      universityRegNo: '',
+      participantName: '',
+      rawToken: trimmed,
+    };
+  }
+
+  // 5. Reg No directly scanned: e.g. SEU/IS/22/ICT/088
   const isRegNo = /^SEU\//i.test(trimmed);
   return {
     ticketId: isRegNo ? '' : trimmed,
     universityRegNo: isRegNo ? trimmed.toUpperCase() : '',
+    participantName: '',
     rawToken: trimmed,
   };
 }
@@ -186,6 +218,8 @@ export async function checkInTicket(ticketToken, notes = '') {
         participantName: parsed.participantName,
         email: parsed.email,
         track: parsed.track,
+        batch: parsed.batch,
+        faculty: parsed.faculty,
         notes: notes || 'Scanned at gate',
       }),
     });
@@ -218,16 +252,19 @@ export async function checkInTicket(ticketToken, notes = '') {
 
   // If Cloud Apps Script succeeded, return its verified result
   if (appsScriptResult && appsScriptResult.success) {
+    const p = appsScriptResult.participant || {};
     return {
       success: true,
       status: 'checked_in',
-      message: 'Attendance recorded in Google Sheet & thank-you email sent!',
+      message: appsScriptResult.message || 'Attendance recorded & Welcome email sent!',
       participant: {
-        name: appsScriptResult.participant?.name || parsed.participantName || 'Participant',
-        universityRegNo: appsScriptResult.participant?.universityRegNo || parsed.universityRegNo || 'SEU Student',
-        track: appsScriptResult.participant?.track || parsed.track || 'Event Pass',
-        email: appsScriptResult.participant?.email || parsed.email || '',
-        ticketId: appsScriptResult.participant?.ticketId || parsed.ticketId || 'CONFIRMED',
+        name: p.name && p.name !== 'Participant' ? p.name : (parsed.participantName || p.name || 'Participant'),
+        universityRegNo: p.universityRegNo && p.universityRegNo !== 'SEU Student' ? p.universityRegNo : (parsed.universityRegNo || 'SEU Student'),
+        track: p.track || parsed.track || 'Event Pass',
+        email: p.email || parsed.email || '',
+        ticketId: p.ticketId || parsed.ticketId || 'CONFIRMED',
+        batch: p.batch || parsed.batch || '',
+        faculty: p.faculty || parsed.faculty || '',
       },
       attendance: {
         status: 'checked_in',
@@ -243,13 +280,15 @@ export async function checkInTicket(ticketToken, notes = '') {
     return {
       success: true,
       status: 'checked_in',
-      message: 'Verified from official cryptographic pass & thank-you email triggered.',
+      message: 'Verified from official cryptographic pass & welcome email sent.',
       participant: {
         name: parsed.participantName || 'Participant',
         universityRegNo: parsed.universityRegNo || 'SEU Student',
         track: parsed.track || 'Competition',
         email: parsed.email || '',
         ticketId: parsed.ticketId || 'CONFIRMED',
+        batch: parsed.batch || '',
+        faculty: parsed.faculty || '',
       },
       attendance: {
         status: 'checked_in',

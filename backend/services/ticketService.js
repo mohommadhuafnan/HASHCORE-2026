@@ -19,8 +19,21 @@ export function hashTicketToken(rawToken) {
   return crypto.createHash('sha256').update(rawToken.trim()).digest('hex');
 }
 
-export function buildTicketVerificationUrl(rawToken, baseUrl) {
-  const domain = (baseUrl || process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/+$/, '');
+export function buildTicketVerificationUrl(rawToken, baseUrl, participantData = {}) {
+  const domain = (baseUrl || process.env.FRONTEND_URL || 'https://hashcoreseu2026.vercel.app').replace(/\/+$/, '');
+  const params = new URLSearchParams();
+  if (participantData.ticketId) params.set('ticket', participantData.ticketId);
+  if (participantData.regNo) params.set('reg', participantData.regNo);
+  if (participantData.name) params.set('name', participantData.name);
+  if (participantData.track) params.set('track', participantData.track);
+  if (participantData.email) params.set('email', participantData.email);
+  if (participantData.batch) params.set('batch', participantData.batch);
+  if (participantData.faculty) params.set('faculty', participantData.faculty);
+
+  const queryStr = params.toString();
+  if (queryStr) {
+    return `${domain}/scan?${queryStr}`;
+  }
   return `${domain}/#verify/${rawToken}`;
 }
 
@@ -51,10 +64,10 @@ export async function generateQrCodeBuffer(text) {
 /**
  * Complete ticket generation package
  */
-export async function createSecureTicket(baseUrl) {
+export async function createSecureTicket(baseUrl, participantData = {}) {
   const rawToken = generateRawTicketToken();
   const tokenHash = hashTicketToken(rawToken);
-  const verificationUrl = buildTicketVerificationUrl(rawToken, baseUrl);
+  const verificationUrl = buildTicketVerificationUrl(rawToken, baseUrl, participantData);
   const [qrDataUrl, qrBuffer] = await Promise.all([
     generateQrCodeDataUrl(verificationUrl),
     generateQrCodeBuffer(verificationUrl),

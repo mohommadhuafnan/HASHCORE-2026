@@ -68,8 +68,16 @@ router.post('/', async (req, res) => {
     const paddedNum = ('00000' + nextTicketNum).slice(-5);
     const ticketReference = `${track}-2026-${paddedNum}`;
 
-    // 5. Generate Secure Token & Local QR Code
-    const ticketPackage = await createSecureTicket(process.env.FRONTEND_URL);
+    // 5. Generate Secure Token & Local QR Code with Participant Metadata
+    const ticketPackage = await createSecureTicket(process.env.FRONTEND_URL, {
+      ticketId: ticketReference,
+      regNo,
+      name: participantName,
+      track,
+      email: rawEmail,
+      batch,
+      faculty,
+    });
 
     // 6. Save in MongoDB
     const registration = new Registration({

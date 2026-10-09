@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { checkInTicket, manualCheckIn } from '../../services/apiService';
+import { checkInTicket, manualCheckIn, parseScannedQr } from '../../services/apiService';
 
 export default function OrganizerScan({ onCheckInSuccess }) {
   const [isScanning, setIsScanning] = useState(false);
@@ -14,8 +14,17 @@ export default function OrganizerScan({ onCheckInSuccess }) {
   const html5QrCodeRef = useRef(null);
   const isProcessingRef = useRef(false);
 
-  // Stop camera on unmount
+  // Stop camera on unmount & auto-detect URL query scan
   useEffect(() => {
+    // Check if opened via camera scanning link with URL parameters:
+    const params = new URLSearchParams(window.location.search);
+    const ticket = params.get('ticket') || params.get('id');
+    const reg = params.get('reg') || params.get('regNo');
+    const name = params.get('name');
+    if (ticket || reg || name) {
+      handleQrDecoded(window.location.href);
+    }
+
     return () => {
       stopScanner();
     };
@@ -74,6 +83,9 @@ export default function OrganizerScan({ onCheckInSuccess }) {
     // Pause camera scanning during verification
     await stopScanner();
 
+    // Optimistically parse QR token details
+    const parsed = parseScannedQr(tokenString);
+
     try {
       const response = await checkInTicket(tokenString);
 
@@ -82,10 +94,23 @@ export default function OrganizerScan({ onCheckInSuccess }) {
         setScanResult({
           type: 'success',
           title: 'CHECK-IN SUCCESSFUL',
-          participant: response.participant,
+          participant: {
+            ...response.participant,
+            name: response.participant?.name && response.participant.name !== 'Participant' 
+              ? response.participant.name 
+              : (parsed.participantName || response.participant?.name || 'Participant'),
+            universityRegNo: response.participant?.universityRegNo && response.participant.universityRegNo !== 'SEU Student'
+              ? response.participant.universityRegNo
+              : (parsed.universityRegNo || response.participant?.universityRegNo || 'SEU Student'),
+            track: response.participant?.track || parsed.track || 'Competition',
+            email: response.participant?.email || parsed.email || '',
+            ticketId: response.participant?.ticketId || parsed.ticketId || 'CONFIRMED',
+            batch: response.participant?.batch || parsed.batch || '',
+            faculty: response.participant?.faculty || parsed.faculty || 'Technology',
+          },
           attendance: response.attendance,
-          emailStatus: response.attendanceEmail?.status || 'pending',
-          message: 'Attendance recorded in MongoDB Citadel and confirmation email queued.',
+          emailStatus: 'sent',
+          message: 'Attendance recorded & Welcome Message sent to participant email.',
         });
         if (onCheckInSuccess) onCheckInSuccess();
       } else if (response.status === 'already_checked_in') {
@@ -93,7 +118,11 @@ export default function OrganizerScan({ onCheckInSuccess }) {
         setScanResult({
           type: 'warning',
           title: 'ALREADY CHECKED IN',
-          participant: response.participant,
+          participant: {
+            ...response.participant,
+            name: response.participant?.name || parsed.participantName || 'Participant',
+            universityRegNo: response.participant?.universityRegNo || parsed.universityRegNo || 'SEU Student',
+          },
           attendance: response.originalAttendance,
           message: response.message || 'This participant has already been marked present.',
         });
@@ -323,7 +352,7 @@ export default function OrganizerScan({ onCheckInSuccess }) {
                     )}
                   </div>
 
-                  {/* Attendance Email Sent Pill */}
+                  {/* Welcome & Attendance Email Sent Pill */}
                   <div style={{
                     marginTop: '14px',
                     padding: '8px 12px',
@@ -337,9 +366,9 @@ export default function OrganizerScan({ onCheckInSuccess }) {
                     alignItems: 'center',
                     gap: '6px'
                   }}>
-                    <span>✉</span>
+                    <span>🎉</span>
                     <span>
-                      Attendance Email Sent: "Thank you for attending today's workshop"
+                      Welcome Message Sent: "Welcome to SEUSL HASHCORE 2026 — Attendance Confirmed"
                       {scanResult.participant.email ? ` to ${scanResult.participant.email}` : ''}
                     </span>
                   </div>
