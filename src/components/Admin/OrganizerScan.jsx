@@ -14,6 +14,64 @@ export default function OrganizerScan({ onCheckInSuccess }) {
   const html5QrCodeRef = useRef(null);
   const isProcessingRef = useRef(false);
 
+  // Persistent attendance history log stored in localStorage
+  const [scannedHistory, setScannedHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hashcore_attendance_history');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [historySearch, setHistorySearch] = useState('');
+
+  const recordAttendeeScan = (participant, status = 'Checked In') => {
+    if (!participant) return;
+    const now = new Date();
+    const formattedScanTime = participant.scanTime || (now.toLocaleDateString() + ' ' + now.toLocaleTimeString());
+    const regTime = participant.registrationDate || participant.registrationTime || participant.timestamp || 'Pre-Registered';
+
+    setScannedHistory((prev) => {
+      const ticketId = participant.ticketId || participant.registrationReference || 'PASS';
+      const regNo = participant.universityRegNo || participant.regNo || 'SEU Student';
+
+      const existingIdx = prev.findIndex(item => 
+        (item.ticketId && item.ticketId === ticketId) || 
+        (item.universityRegNo && item.universityRegNo === regNo)
+      );
+
+      const entry = {
+        id: Date.now(),
+        ticketId: ticketId,
+        name: participant.name || participant.participantName || 'Participant',
+        universityRegNo: regNo,
+        track: participant.track || participant.competition || 'Competition',
+        email: participant.email || '',
+        contactNo: participant.contactNo || '',
+        batch: participant.batch || '',
+        faculty: participant.faculty || 'Technology',
+        scanTime: formattedScanTime,
+        registrationTime: regTime,
+        status: status,
+      };
+
+      let updated;
+      if (existingIdx !== -1) {
+        updated = [...prev];
+        updated[existingIdx] = { ...updated[existingIdx], ...entry };
+      } else {
+        updated = [entry, ...prev];
+      }
+
+      try {
+        localStorage.setItem('hashcore_attendance_history', JSON.stringify(updated));
+      } catch (e) {
+        console.warn('Attendance storage save error:', e);
+      }
+      return updated;
+    });
+  };
+
   // Stop camera on unmount & auto-detect URL query scan
   useEffect(() => {
     // Check if opened via camera scanning link with URL parameters:
@@ -91,27 +149,35 @@ export default function OrganizerScan({ onCheckInSuccess }) {
 
       if (response.success && response.status === 'checked_in') {
         setScannerStatus('success');
+        const checkedInParticipant = {
+          ...response.participant,
+          name: response.participant?.name && response.participant.name !== 'Participant' 
+            ? response.participant.name 
+            : (parsed.participantName || response.participant?.name || 'Participant'),
+          universityRegNo: response.participant?.universityRegNo && response.participant.universityRegNo !== 'SEU Student'
+            ? response.participant.universityRegNo
+            : (parsed.universityRegNo || response.participant?.universityRegNo || 'SEU Student'),
+          track: response.participant?.track || parsed.track || 'Competition',
+          email: response.participant?.email || parsed.email || '',
+          ticketId: response.participant?.ticketId || parsed.ticketId || 'CONFIRMED',
+          batch: response.participant?.batch || parsed.batch || '',
+          faculty: response.participant?.faculty || parsed.faculty || 'Technology',
+          registrationTime: parsed.registrationDate || response.participant?.registrationDate || 'Pre-Registered',
+          scanTime: response.scanTime || response.participant?.scanTime || null
+        };
+
         setScanResult({
           type: 'success',
           title: 'CHECK-IN SUCCESSFUL',
-          participant: {
-            ...response.participant,
-            name: response.participant?.name && response.participant.name !== 'Participant' 
-              ? response.participant.name 
-              : (parsed.participantName || response.participant?.name || 'Participant'),
-            universityRegNo: response.participant?.universityRegNo && response.participant.universityRegNo !== 'SEU Student'
-              ? response.participant.universityRegNo
-              : (parsed.universityRegNo || response.participant?.universityRegNo || 'SEU Student'),
-            track: response.participant?.track || parsed.track || 'Competition',
-            email: response.participant?.email || parsed.email || '',
-            ticketId: response.participant?.ticketId || parsed.ticketId || 'CONFIRMED',
-            batch: response.participant?.batch || parsed.batch || '',
-            faculty: response.participant?.faculty || parsed.faculty || 'Technology',
-          },
+          participant: checkedInParticipant,
           attendance: response.attendance,
           emailStatus: 'sent',
           message: 'Attendance recorded & Welcome Message sent to participant email.',
         });
+
+        // Store attendee record with scan time & registration details
+        recordAttendeeScan(checkedInParticipant, 'Checked In');
+
         if (onCheckInSuccess) onCheckInSuccess();
       } else if (response.status === 'already_checked_in') {
         setScannerStatus('warning');
@@ -169,6 +235,7 @@ export default function OrganizerScan({ onCheckInSuccess }) {
           attendance: res.attendance,
           message: 'Participant marked present manually.',
         });
+        recordAttendeeScan(res.participant, 'Checked In (Manual)');
         setManualQuery('');
         if (onCheckInSuccess) onCheckInSuccess();
       } else if (res.status === 'already_checked_in') {
@@ -186,6 +253,68 @@ export default function OrganizerScan({ onCheckInSuccess }) {
       setManualMessage(err.message || 'Error executing manual check-in');
     } finally {
       setManualLoading(false);
+    }
+  };
+
+  const handleExportCsv = () => {
+    if (scannedHistory.length === 0) {
+      alert('No attendees scanned yet to export.');
+      return;
+    }
+
+    const headers = [
+      'Ticket ID',
+      'Participant Name',
+      'University Reg No',
+      'Competition Track',
+      'Email Address',
+      'Contact Number',
+      'Batch',
+      'Faculty',
+      'Scan Time',
+      'Registration Time',
+      'Attendance Status'
+    ];
+
+    const escapeCsv = (val) => {
+      if (val === null || val === undefined) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    const rows = scannedHistory.map(item => [
+      escapeCsv(item.ticketId),
+      escapeCsv(item.name || item.participantName),
+      escapeCsv(item.universityRegNo),
+      escapeCsv(item.track),
+      escapeCsv(item.email),
+      escapeCsv(item.contactNo),
+      escapeCsv(item.batch),
+      escapeCsv(item.faculty),
+      escapeCsv(item.scanTime),
+      escapeCsv(item.registrationTime),
+      escapeCsv(item.status),
+    ].join(','));
+
+    const csvContent = '\uFEFF' + [headers.map(h => `"${h}"`).join(','), ...rows].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const dateStr = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.setAttribute('download', `SEUSL_HASHCORE_2026_Attendance_${dateStr}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleClearHistory = () => {
+    if (window.confirm('Clear all local scanned attendance history? (Make sure to export first if needed!)')) {
+      setScannedHistory([]);
+      try {
+        localStorage.removeItem('hashcore_attendance_history');
+      } catch {}
     }
   };
 
@@ -408,7 +537,168 @@ export default function OrganizerScan({ onCheckInSuccess }) {
             <div style={{ fontSize: '0.9rem' }}>Awaiting QR scan or manual ticket submission</div>
           </div>
         )}
-      </div>
     </div>
-  );
+
+    {/* 3. Scanned Attendees Log & CSV Export Section */}
+    <div style={{
+      marginTop: '28px',
+      background: 'rgba(6, 20, 14, 0.95)',
+      border: '1.5px solid rgba(0, 245, 155, 0.35)',
+      borderRadius: '16px',
+      padding: '24px',
+      boxShadow: '0 12px 36px rgba(0, 0, 0, 0.7)'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '18px' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.3px' }}>
+              📋 Scanned Attendees Log
+            </h3>
+            <span style={{
+              background: 'rgba(0, 245, 155, 0.15)',
+              border: '1px solid #00f59b',
+              color: '#00f59b',
+              padding: '2px 10px',
+              borderRadius: '12px',
+              fontSize: '0.8rem',
+              fontWeight: 800,
+              fontFamily: 'monospace'
+            }}>
+              TOTAL CHECKED IN: {scannedHistory.length}
+            </span>
+          </div>
+          <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '4px' }}>
+            Real-time participant check-ins with scan timestamps & registration details.
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            disabled={scannedHistory.length === 0}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#00f59b',
+              color: '#030805',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 18px',
+              fontWeight: 800,
+              fontSize: '0.88rem',
+              cursor: scannedHistory.length === 0 ? 'not-allowed' : 'pointer',
+              opacity: scannedHistory.length === 0 ? 0.5 : 1,
+              boxShadow: '0 4px 16px rgba(0, 245, 155, 0.3)'
+            }}
+          >
+            📥 Export Attendance CSV
+          </button>
+
+          {scannedHistory.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearHistory}
+              style={{
+                background: 'transparent',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#f87171',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+              title="Clear stored attendance list"
+            >
+              Clear Log
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Filter / Search Bar */}
+      {scannedHistory.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <input
+            type="text"
+            placeholder="🔍 Search scanned attendees by name, reg no, or ticket ID..."
+            value={historySearch}
+            onChange={(e) => setHistorySearch(e.target.value)}
+            className="admin-input"
+            style={{ width: '100%', maxWidth: '420px', padding: '10px 14px' }}
+          />
+        </div>
+      )}
+
+      {/* Scanned Attendees Table */}
+      {scannedHistory.length === 0 ? (
+        <div style={{ padding: '36px 20px', textAlign: 'center', color: '#64748b', fontSize: '0.9rem' }}>
+          No attendees scanned yet in this session. Start scanning QR tickets above to build the attendance log.
+        </div>
+      ) : (
+        <div style={{ overflowX: 'auto', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.86rem', textAlign: 'left' }}>
+            <thead>
+              <tr style={{ background: '#020d07', color: '#00f59b', borderBottom: '1px solid rgba(0, 245, 155, 0.3)' }}>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>#</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>PASS ID</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>PARTICIPANT NAME</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>REG NUMBER</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>TRACK</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>SCAN TIME</th>
+                <th style={{ padding: '12px 14px', fontWeight: 800 }}>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scannedHistory
+                .filter((item) => {
+                  if (!historySearch.trim()) return true;
+                  const q = historySearch.toLowerCase();
+                  return (
+                    (item.name && item.name.toLowerCase().includes(q)) ||
+                    (item.universityRegNo && item.universityRegNo.toLowerCase().includes(q)) ||
+                    (item.ticketId && item.ticketId.toLowerCase().includes(q)) ||
+                    (item.track && item.track.toLowerCase().includes(q)) ||
+                    (item.email && item.email.toLowerCase().includes(q))
+                  );
+                })
+                .map((item, idx) => (
+                  <tr
+                    key={item.ticketId + '-' + idx}
+                    style={{
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                      background: idx % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent'
+                    }}
+                  >
+                    <td style={{ padding: '12px 14px', color: '#64748b', fontFamily: 'monospace' }}>{idx + 1}</td>
+                    <td style={{ padding: '12px 14px', color: '#00f59b', fontFamily: 'monospace', fontWeight: 800 }}>{item.ticketId}</td>
+                    <td style={{ padding: '12px 14px', color: '#ffffff', fontWeight: 700 }}>{item.name}</td>
+                    <td style={{ padding: '12px 14px', color: '#38bdf8', fontFamily: 'monospace', fontWeight: 800 }}>{item.universityRegNo}</td>
+                    <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>{item.track}</td>
+                    <td style={{ padding: '12px 14px', color: '#94a3b8', fontFamily: 'monospace', fontSize: '0.8rem' }}>{item.scanTime}</td>
+                    <td style={{ padding: '12px 14px' }}>
+                      <span style={{
+                        display: 'inline-block',
+                        background: 'rgba(0, 245, 155, 0.15)',
+                        border: '1px solid #00f59b',
+                        color: '#00f59b',
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        fontSize: '0.75rem',
+                        fontWeight: 800
+                      }}>
+                        &#10003; {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  </div>
+);
 }

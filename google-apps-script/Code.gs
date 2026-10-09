@@ -114,9 +114,9 @@ function getQrCodeUrl(payload) {
 }
 
 /**
- * Generates the official, cyber-styled PDF Ticket Pass matching Screenshot 1.
- * Uses 00001 Citadel Knight artwork as the full background (no solid blocking colors).
- * Embedded directly into PDF via Base64 for 100% rendering reliability.
+ * Generates the official, cyber-styled PDF Ticket Pass matching the Citadel pass design.
+ * Renders in A4 Landscape mode with real 00001 Citadel background image and black overlay.
+ * Avoids CSS text-shadow to prevent WebKit black bounding box rendering bugs.
  */
 function generateTicketPdfBlob(p, qrUrl) {
   try {
@@ -142,7 +142,7 @@ function generateTicketPdfBlob(p, qrUrl) {
       qrImgSrc = qrUrl;
     }
 
-    // 2. Fetch & Inline Citadel 00001 Background Image as Base64 for PDF
+    // 2. Fetch & Inline Citadel 00001 Background Image for PDF rendering
     var bgImgSrc = CITADEL_BG_IMAGE_URL;
     try {
       if (typeof UrlFetchApp !== 'undefined') {
@@ -161,99 +161,130 @@ function generateTicketPdfBlob(p, qrUrl) {
     var pdfHtml = '<!DOCTYPE html>' +
       '<html><head><meta charset="utf-8"/>' +
       '<style>' +
-      'body { margin: 0; padding: 12px; background-color: #020804; font-family: Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
+      '@page { size: 297mm 210mm; margin: 0; }' +
+      '* { box-sizing: border-box; }' +
+      'html, body { margin: 0; padding: 0; width: 297mm; height: 210mm; background-color: #030805; font-family: Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
+      '.page-wrapper { width: 297mm; height: 210mm; padding: 10mm; box-sizing: border-box; }' +
       '.citadel-card {' +
         'position: relative;' +
-        'border: 2.5px solid #00f59b;' +
-        'border-radius: 14px;' +
-        'background-image: url(\'' + bgImgSrc + '\');' +
-        'background-size: cover;' +
-        'background-position: center;' +
-        'background-repeat: no-repeat;' +
-        'padding: 24px 28px;' +
-        'box-sizing: border-box;' +
+        'width: 100%;' +
+        'height: 190mm;' +
+        'border: 3px solid #00f59b;' +
+        'border-radius: 18px;' +
+        'overflow: hidden;' +
+        'background-color: #040c07;' +
       '}' +
-      '.corner-tl { position: absolute; top: 8px; left: 8px; width: 14px; height: 14px; border-top: 3px solid #ffffff; border-left: 3px solid #ffffff; }' +
-      '.corner-tr { position: absolute; top: 8px; right: 8px; width: 14px; height: 14px; border-top: 3px solid #ffffff; border-right: 3px solid #ffffff; }' +
-      '.corner-bl { position: absolute; bottom: 8px; left: 8px; width: 14px; height: 14px; border-bottom: 3px solid #ffffff; border-left: 3px solid #ffffff; }' +
-      '.corner-br { position: absolute; bottom: 8px; right: 8px; width: 14px; height: 14px; border-bottom: 3px solid #ffffff; border-right: 3px solid #ffffff; }' +
-      '.inst-badge { display: inline-block; background-color: rgba(6, 43, 27, 0.85); border: 1.5px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 5px 14px; border-radius: 8px; text-transform: uppercase; letter-spacing: 1px; }' +
-      '.pass-title { font-size: 22px; font-weight: 900; color: #ffffff; margin: 8px 0 2px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }' +
-      '.pass-subtitle { font-size: 12px; color: #00f59b; font-family: monospace; font-weight: bold; text-shadow: 0 1px 4px rgba(0,0,0,0.9); letter-spacing: 1px; }' +
-      '.id-lbl { font-size: 10px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }' +
-      '.id-val { font-size: 20px; font-weight: 900; color: #00f59b; font-family: monospace; text-shadow: 0 0 12px rgba(0,245,155,0.4); }' +
+      '.bg-layer {' +
+        'position: absolute;' +
+        'top: 0;' +
+        'left: 0;' +
+        'width: 100%;' +
+        'height: 100%;' +
+        'z-index: 1;' +
+      '}' +
+      '.black-overlay {' +
+        'position: absolute;' +
+        'top: 0;' +
+        'left: 0;' +
+        'width: 100%;' +
+        'height: 100%;' +
+        'background-color: rgba(3, 12, 7, 0.72);' +
+        'z-index: 2;' +
+      '}' +
+      '.content-layer {' +
+        'position: relative;' +
+        'z-index: 5;' +
+        'padding: 24px 34px;' +
+        'height: 100%;' +
+      '}' +
+      '.corner-tl { position: absolute; top: 12px; left: 12px; width: 18px; height: 18px; border-top: 3px solid #ffffff; border-left: 3px solid #ffffff; z-index: 6; }' +
+      '.corner-tr { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-top: 3px solid #ffffff; border-right: 3px solid #ffffff; z-index: 6; }' +
+      '.corner-bl { position: absolute; bottom: 12px; left: 12px; width: 18px; height: 18px; border-bottom: 3px solid #ffffff; border-left: 3px solid #ffffff; z-index: 6; }' +
+      '.corner-br { position: absolute; bottom: 12px; right: 12px; width: 18px; height: 18px; border-bottom: 3px solid #ffffff; border-right: 3px solid #ffffff; z-index: 6; }' +
+      '.inst-badge { display: inline-block; background-color: rgba(6, 43, 27, 0.9); border: 1.5px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 5px 14px; border-radius: 8px; text-transform: uppercase; letter-spacing: 1.5px; }' +
+      '.pass-title { font-size: 24px; font-weight: 900; color: #ffffff; margin: 8px 0 2px 0; letter-spacing: -0.3px; }' +
+      '.pass-subtitle { font-size: 13px; color: #00f59b; font-family: monospace; font-weight: bold; letter-spacing: 1px; }' +
+      '.id-lbl { font-size: 11px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; }' +
+      '.id-val { font-size: 22px; font-weight: 900; color: #00f59b; font-family: monospace; }' +
       '.grid-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 14px; }' +
-      '.grid-td { width: 50%; vertical-align: top; padding: 10px 12px; border-top: 1px solid rgba(0, 245, 155, 0.3); }' +
-      '.f-lbl { font-size: 10px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }' +
-      '.f-val { font-size: 15px; font-weight: bold; color: #ffffff; text-shadow: 0 1px 6px rgba(0,0,0,0.95); }' +
-      '.f-val-cyan { font-size: 16px; font-weight: 900; color: #38bdf8; font-family: monospace; text-shadow: 0 1px 6px rgba(0,0,0,0.95); }' +
-      '.tag-sent { display: inline-block; background-color: rgba(6, 43, 27, 0.85); border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; vertical-align: middle; margin-left: 6px; }' +
-      '.qr-wrap { background-color: #ffffff; padding: 8px; border-radius: 12px; border: 2.5px solid #00f59b; display: inline-block; box-shadow: 0 6px 20px rgba(0,0,0,0.8); }' +
-      '.stamp-box { display: inline-block; border: 2.5px solid #00f59b; background-color: rgba(6, 43, 27, 0.85); border-radius: 10px; padding: 10px 20px; text-align: center; }' +
+      '.grid-td { width: 50%; vertical-align: top; padding: 12px 14px; border-top: 1px solid rgba(0, 245, 155, 0.35); }' +
+      '.f-lbl { font-size: 10px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }' +
+      '.f-val { font-size: 16px; font-weight: bold; color: #ffffff; }' +
+      '.f-val-cyan { font-size: 17px; font-weight: 900; color: #38bdf8; font-family: monospace; }' +
+      '.tag-sent { display: inline-block; background-color: rgba(6, 43, 27, 0.9); border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; vertical-align: middle; margin-left: 6px; }' +
+      '.qr-wrap { background-color: #ffffff; padding: 8px; border-radius: 12px; border: 2.5px solid #00f59b; display: inline-block; }' +
+      '.stamp-box { display: inline-block; border: 2.5px solid #00f59b; background-color: rgba(6, 43, 27, 0.9); border-radius: 12px; padding: 12px 24px; text-align: center; }' +
       '</style></head><body>' +
-      '<div class="citadel-card">' +
-        '<div class="corner-tl"></div><div class="corner-tr"></div>' +
-        '<div class="corner-bl"></div><div class="corner-br"></div>' +
-        '<table width="100%" cellpadding="0" cellspacing="0" border="0">' +
-          '<tr>' +
-            '<td valign="top">' +
-              '<div class="inst-badge">SEUSL &bull; FACULTY OF TECHNOLOGY</div>' +
-              '<div class="pass-title">HASHCORE \'26 CITADEL PASS</div>' +
-              '<div class="pass-subtitle">' + compTrack + '</div>' +
-            '</td>' +
-            '<td align="right" valign="top">' +
-              '<div class="id-lbl">OFFICIAL PASS ID</div>' +
-              '<div class="id-val">' + ticketId + '</div>' +
-            '</td>' +
-          '</tr>' +
-        '</table>' +
-        '<table class="grid-table" cellpadding="0" cellspacing="0" border="0">' +
-          '<tr>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">PARTICIPANT NAME</div>' +
-              '<div class="f-val" style="font-size: 16px;">' + p.participantName + '</div>' +
-            '</td>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">UNIVERSITY REG NUMBER</div>' +
-              '<div class="f-val-cyan">' + p.regNo + '</div>' +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">ACADEMIC BATCH</div>' +
-              '<div class="f-val">' + batch + '</div>' +
-            '</td>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">FACULTY</div>' +
-              '<div class="f-val">' + faculty + '</div>' +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">EMAIL ADDRESS</div>' +
-              '<div class="f-val" style="font-family: monospace; font-size: 13px;">' + p.email + ' <span class="tag-sent">&check; EMAIL SENT</span></div>' +
-            '</td>' +
-            '<td class="grid-td">' +
-              '<div class="f-lbl">CONTACT NUMBER</div>' +
-              '<div class="f-val" style="font-family: monospace;">' + contactNo + '</div>' +
-            '</td>' +
-          '</tr>' +
-        '</table>' +
-        '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 18px;">' +
-          '<tr>' +
-            '<td valign="bottom">' +
-              '<div class="qr-wrap"><img src="' + qrImgSrc + '" width="135" height="135" style="display: block;" /></div>' +
-              '<div style="font-size: 10px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 6px; letter-spacing: 0.5px;">&bull; OFFICIAL ENTRY QR PASS &bull;</div>' +
-            '</td>' +
-            '<td align="right" valign="bottom">' +
-              '<div class="stamp-box">' +
-                '<div style="font-size: 10px; color: #94a3b8; font-weight: bold; font-family: monospace; letter-spacing: 1px;">SEUSL HASHCORE</div>' +
-                '<div style="font-size: 16px; color: #00f59b; font-weight: 900; font-family: monospace; letter-spacing: 1.5px;">CONFIRMED</div>' +
-              '</div>' +
-            '</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div></body></html>';
+      '<div class="page-wrapper">' +
+        '<div class="citadel-card">' +
+          '<img src="' + bgImgSrc + '" class="bg-layer" style="width: 100%; height: 100%; object-fit: cover;" />' +
+          '<div class="black-overlay"></div>' +
+          '<div class="corner-tl"></div><div class="corner-tr"></div>' +
+          '<div class="corner-bl"></div><div class="corner-br"></div>' +
+          '<div class="content-layer">' +
+            '<table width="100%" cellpadding="0" cellspacing="0" border="0">' +
+              '<tr>' +
+                '<td valign="top">' +
+                  '<div class="inst-badge">SEUSL &bull; FACULTY OF TECHNOLOGY</div>' +
+                  '<div class="pass-title">HASHCORE \'26 CITADEL PASS</div>' +
+                  '<div class="pass-subtitle">' + compTrack + '</div>' +
+                '</td>' +
+                '<td align="right" valign="top">' +
+                  '<div class="id-lbl">OFFICIAL PASS ID</div>' +
+                  '<div class="id-val">' + ticketId + '</div>' +
+                '</td>' +
+              '</tr>' +
+            '</table>' +
+            '<table class="grid-table" cellpadding="0" cellspacing="0" border="0">' +
+              '<tr>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">PARTICIPANT NAME</div>' +
+                  '<div class="f-val" style="font-size: 17px;">' + p.participantName + '</div>' +
+                '</td>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">UNIVERSITY REG NUMBER</div>' +
+                  '<div class="f-val-cyan">' + p.regNo + '</div>' +
+                '</td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">ACADEMIC BATCH</div>' +
+                  '<div class="f-val">' + batch + '</div>' +
+                '</td>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">FACULTY</div>' +
+                  '<div class="f-val">' + faculty + '</div>' +
+                '</td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">EMAIL ADDRESS</div>' +
+                  '<div class="f-val" style="font-family: monospace; font-size: 13px;">' + p.email + ' <span class="tag-sent">&#10003; EMAIL SENT</span></div>' +
+                '</td>' +
+                '<td class="grid-td">' +
+                  '<div class="f-lbl">CONTACT NUMBER</div>' +
+                  '<div class="f-val" style="font-family: monospace;">' + contactNo + '</div>' +
+                '</td>' +
+              '</tr>' +
+            '</table>' +
+            '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 16px;">' +
+              '<tr>' +
+                '<td valign="bottom">' +
+                  '<div class="qr-wrap"><img src="' + qrImgSrc + '" width="155" height="155" style="display: block;" /></div>' +
+                  '<div style="font-size: 10px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 6px; letter-spacing: 0.8px;">&bull; OFFICIAL ENTRY QR PASS &bull;</div>' +
+                '</td>' +
+                '<td align="right" valign="bottom">' +
+                  '<div class="stamp-box">' +
+                    '<div style="font-size: 11px; color: #94a3b8; font-weight: bold; font-family: monospace; letter-spacing: 1.5px;">SEUSL HASHCORE</div>' +
+                    '<div style="font-size: 18px; color: #00f59b; font-weight: 900; font-family: monospace; letter-spacing: 2px;">CONFIRMED</div>' +
+                  '</div>' +
+                '</td>' +
+              '</tr>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '</body></html>';
 
     var blob = Utilities.newBlob(pdfHtml, 'text/html', 'ticket.html');
     return blob.getAs('application/pdf').setName('SEUSL_HASHCORE_PASS_' + ticketId + '.pdf');
@@ -918,32 +949,33 @@ function buildConfirmationEmailHtml(p, qrUrl) {
           '</td>' +
         '</tr>' +
 
-        '<!-- Official Pass Card (Full Citadel 00001 Background with NO Solid Blocking Colors) -->' +
+        '<!-- Official Pass Card (Full Citadel 00001 Background with Semi-Transparent Black Layer for 100% Text Legibility) -->' +
         '<tr>' +
           '<td style="padding: 0;">' +
             '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" background="' + CITADEL_BG_IMAGE_URL + '" style="border-radius: 16px; border: 2.5px solid #00f59b; background-image: url(\'' + CITADEL_BG_IMAGE_URL + '\'); background-size: cover; background-position: center; background-repeat: no-repeat; border-collapse: separate; overflow: hidden; box-shadow: 0 12px 36px rgba(0,0,0,0.85);">' +
               '<tr>' +
-                '<td style="padding: 26px 22px;">' +
+                '<!-- Semi-Transparent Black Layer on top of image layer for high contrast and legible text -->' +
+                '<td style="background-color: rgba(2, 10, 5, 0.82); padding: 28px 22px;">' +
                   
                   '<!-- Pass Header -->' +
                   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' +
                     '<tr>' +
                       '<td valign="top">' +
-                        '<div style="display: inline-block; background-color: rgba(6, 43, 27, 0.85); border: 1.5px solid #00f59b; border-radius: 8px; padding: 4px 12px; font-size: 10px; font-weight: 700; color: #00f59b; letter-spacing: 1.5px; text-transform: uppercase;">' +
+                        '<div style="display: inline-block; background-color: rgba(6, 43, 27, 0.9); border: 1.5px solid #00f59b; border-radius: 8px; padding: 4px 12px; font-size: 10px; font-weight: 700; color: #00f59b; letter-spacing: 1.5px; text-transform: uppercase;">' +
                           'SEUSL &bull; FACULTY OF TECHNOLOGY' +
                         '</div>' +
-                        '<div style="font-size: 20px; font-weight: 900; color: #ffffff; margin-top: 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.95); letter-spacing: -0.3px;">' +
+                        '<div style="font-size: 20px; font-weight: 900; color: #ffffff; margin-top: 6px; letter-spacing: -0.3px;">' +
                           'HASHCORE \'26 CITADEL PASS' +
                         '</div>' +
-                        '<div style="font-size: 12px; font-weight: 700; color: #00f59b; font-family: monospace; margin-top: 3px; letter-spacing: 1px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">' +
+                        '<div style="font-size: 12px; font-weight: 700; color: #00f59b; font-family: monospace; margin-top: 3px; letter-spacing: 1px;">' +
                           (p.competitionTitle || 'CTF Competition').toUpperCase() +
                         '</div>' +
                       '</td>' +
                       '<td align="right" valign="top">' +
-                        '<div style="font-size: 10px; font-weight: 700; color: #cbd5e1; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">' +
+                        '<div style="font-size: 10px; font-weight: 700; color: #cbd5e1; letter-spacing: 1px; text-transform: uppercase;">' +
                           'OFFICIAL PASS ID' +
                         '</div>' +
-                        '<div style="font-size: 18px; font-weight: 900; color: #00f59b; font-family: Consolas, monospace; margin-top: 2px; text-shadow: 0 0 12px rgba(0,245,155,0.45);">' +
+                        '<div style="font-size: 18px; font-weight: 900; color: #00f59b; font-family: Consolas, monospace; margin-top: 2px;">' +
                           p.ticketId +
                         '</div>' +
                       '</td>' +
@@ -954,10 +986,10 @@ function buildConfirmationEmailHtml(p, qrUrl) {
                   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 22px 0 18px;">' +
                     '<tr>' +
                       '<td align="center">' +
-                        '<div style="display: inline-block; background-color: #ffffff; padding: 10px; border-radius: 12px; border: 2.5px solid #00f59b; box-shadow: 0 6px 24px rgba(0,0,0,0.85);">' +
-                          '<img src="' + qrUrl + '" width="150" height="150" alt="Official Ticket QR Code" style="display: block; margin: 0 auto;" />' +
+                        '<div style="display: inline-block; background-color: #ffffff; padding: 12px; border-radius: 14px; border: 2.5px solid #00f59b; box-shadow: 0 8px 28px rgba(0,0,0,0.85);">' +
+                          '<img src="' + qrUrl + '" width="170" height="170" alt="Official Ticket QR Code" style="display: block; margin: 0 auto;" />' +
                         '</div>' +
-                        '<div style="font-size: 11px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 8px; letter-spacing: 1.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">' +
+                        '<div style="font-size: 11px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 8px; letter-spacing: 1.5px;">' +
                           '&bull; OFFICIAL ENTRY QR PASS &bull;' +
                         '</div>' +
                       '</td>' +
@@ -968,34 +1000,34 @@ function buildConfirmationEmailHtml(p, qrUrl) {
                   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 14px;">' +
                     '<tr>' +
                       '<td width="50%" valign="top" style="padding: 10px 8px 8px 0; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">Participant Name</div>' +
-                        '<div style="font-size: 15px; font-weight: 800; color: #ffffff; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' + p.participantName + '</div>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Participant Name</div>' +
+                        '<div style="font-size: 15px; font-weight: 800; color: #ffffff; margin-top: 2px;">' + p.participantName + '</div>' +
                       '</td>' +
                       '<td width="50%" valign="top" style="padding: 10px 0 8px 8px; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">University Reg No</div>' +
-                        '<div style="font-size: 15px; font-weight: 900; color: #38bdf8; font-family: Consolas, monospace; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' + p.regNo + '</div>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">University Reg No</div>' +
+                        '<div style="font-size: 15px; font-weight: 900; color: #38bdf8; font-family: Consolas, monospace; margin-top: 2px;">' + p.regNo + '</div>' +
                       '</td>' +
                     '</tr>' +
                     '<tr>' +
                       '<td width="50%" valign="top" style="padding: 10px 8px 8px 0; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">Academic Batch</div>' +
-                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' + (p.batch || '2022/2023') + '</div>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Academic Batch</div>' +
+                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px;">' + (p.batch || '2022/2023') + '</div>' +
                       '</td>' +
                       '<td width="50%" valign="top" style="padding: 10px 0 8px 8px; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">Faculty</div>' +
-                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' + (p.faculty || 'Technology') + '</div>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Faculty</div>' +
+                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; margin-top: 2px;">' + (p.faculty || 'Technology') + '</div>' +
                       '</td>' +
                     '</tr>' +
                     '<tr>' +
                       '<td width="50%" valign="top" style="padding: 10px 8px 8px 0; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">Registered Email</div>' +
-                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' +
-                          p.email + ' <span style="display: inline-block; background-color: rgba(6, 43, 27, 0.85); border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; vertical-align: middle;">&check; SENT</span>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Registered Email</div>' +
+                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px;">' +
+                          p.email + ' <span style="display: inline-block; background-color: rgba(6, 43, 27, 0.9); border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; vertical-align: middle;">&#10003; SENT</span>' +
                         '</div>' +
                       '</td>' +
                       '<td width="50%" valign="top" style="padding: 10px 0 8px 8px; border-top: 1px solid rgba(0, 245, 155, 0.35);">' +
-                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">Contact Number</div>' +
-                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.95);">' + p.contactNo + '</div>' +
+                        '<div style="font-size: 10px; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Contact Number</div>' +
+                        '<div style="font-size: 13px; font-weight: 700; color: #ffffff; font-family: Consolas, monospace; margin-top: 2px;">' + p.contactNo + '</div>' +
                       '</td>' +
                     '</tr>' +
                   '</table>' +
@@ -1004,15 +1036,15 @@ function buildConfirmationEmailHtml(p, qrUrl) {
                   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid rgba(0, 245, 155, 0.35); padding-top: 16px; margin-top: 18px;">' +
                     '<tr>' +
                       '<td valign="middle">' +
-                        '<div style="font-size: 12px; color: #00f59b; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">' +
-                          '&check; PASS STATUS: VERIFIED & CONFIRMED' +
+                        '<div style="font-size: 12px; color: #00f59b; font-weight: 700;">' +
+                          '&#10003; PASS STATUS: VERIFIED & CONFIRMED' +
                         '</div>' +
-                        '<div style="font-size: 11px; color: #cbd5e1; margin-top: 2px; text-shadow: 0 1px 4px rgba(0,0,0,0.95);">' +
+                        '<div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">' +
                           'Faculty of Technology, SEUSL' +
                         '</div>' +
                       '</td>' +
                       '<td align="right" valign="middle">' +
-                        '<div style="display: inline-block; border: 2px solid #00f59b; background-color: rgba(6, 43, 27, 0.85); border-radius: 8px; padding: 8px 16px; text-align: center;">' +
+                        '<div style="display: inline-block; border: 2px solid #00f59b; background-color: rgba(6, 43, 27, 0.9); border-radius: 8px; padding: 8px 16px; text-align: center;">' +
                           '<div style="font-size: 9px; color: #94a3b8; font-weight: bold; font-family: Consolas, monospace; letter-spacing: 1px;">SEUSL HASHCORE</div>' +
                           '<div style="font-size: 14px; color: #00f59b; font-weight: 900; font-family: Consolas, monospace; letter-spacing: 1.5px;">CONFIRMED</div>' +
                         '</div>' +
@@ -1115,6 +1147,30 @@ function doGet(e) {
     var checkTrack = params.track || params.competition || 'Workshop';
     var checkBatch = (params.batch || '').trim();
     var checkFaculty = (params.faculty || '').trim();
+    var scanTime = Utilities.formatDate(new Date(), 'Asia/Colombo', "yyyy-MM-dd HH:mm:ss");
+
+    // Update active sheet Attendance Status (Col 13) and Check-In Time (Col 14)
+    try {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss ? (ss.getSheetByName('Registrations') || ss.getActiveSheet()) : null;
+      if (sheet && sheet.getLastRow() > 1) {
+        var data = sheet.getDataRange().getValues();
+        for (var i = 1; i < data.length; i++) {
+          var rowTicket = String(data[i][1] || '').trim();
+          var rowReg = String(data[i][6] || '').trim().toUpperCase();
+          var rowMail = String(data[i][7] || '').trim().toLowerCase();
+          if ((checkTicketId && rowTicket === checkTicketId) ||
+              (checkRegNo && rowReg === checkRegNo) ||
+              (checkEmail && rowMail === checkEmail)) {
+            sheet.getRange(i + 1, 13).setValue('Checked In');
+            sheet.getRange(i + 1, 14).setValue(scanTime);
+            break;
+          }
+        }
+      }
+    } catch (sheetLogErr) {
+      Logger.log('Sheet attendance update notice: ' + sheetLogErr.toString());
+    }
 
     var emailSent = false;
     if (checkEmail && checkEmail.indexOf('@') !== -1) {
@@ -1139,6 +1195,7 @@ function doGet(e) {
       status: 'checked_in',
       message: 'Attendance confirmed & Welcome email sent to ' + (checkEmail || 'participant'),
       emailSent: emailSent,
+      scanTime: scanTime,
       participant: {
         name: checkName || 'Participant',
         universityRegNo: checkRegNo || 'SEU Student',
@@ -1146,7 +1203,8 @@ function doGet(e) {
         email: checkEmail,
         ticketId: checkTicketId || 'PASS',
         batch: checkBatch,
-        faculty: checkFaculty
+        faculty: checkFaculty,
+        scanTime: scanTime
       }
     });
   }
