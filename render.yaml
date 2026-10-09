@@ -1,0 +1,18 @@
+services:
+  # ==============================================================================
+  # HASHCORE 2026 — RENDER BLUEPRINT CONFIGURATION
+  # ==============================================================================
+  # Frontend: Static Site (React + Vite)
+  - type: web
+    name: hashcore-2026
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      # Single-Page Application (SPA) Client-Side Routing
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_GOOGLE_APPS_SCRIPT_URL
+        value: https://script.google.com/macros/s/AKfycbxJmu8DAufBbbC1sblxtanMV8hsSN1USoUle4bTkYFn_WDye22LFlOjKvbbY6LcWOm8wQ/exec
