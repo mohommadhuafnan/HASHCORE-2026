@@ -26,10 +26,6 @@ export default function Footer({ onNavigateRegister }) {
 
         {/* Floating Call to Action over the Knight Image */}
         <div className="footer-cta-container reveal-on-scroll">
-          <div className="cta-badge">
-            <span className="cta-pulse-dot" />
-            <span>FINAL DESTINATION // THE CITADEL AWAITS</span>
-          </div>
           <h2 className="cta-heading">
             BECOME A LEGEND AT <span className="text-glow">HASHCORE '26</span>
           </h2>

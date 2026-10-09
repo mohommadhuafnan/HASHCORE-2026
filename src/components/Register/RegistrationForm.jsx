@@ -301,7 +301,6 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                 </div>
 
                 <div className="transit-badge font-mono">
-                  <span className="transit-beacon-dot" />
                   <span>CITADEL REGISTRATION UPLINK ACTIVE</span>
                 </div>
 
@@ -357,7 +356,6 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
         </button>
 
         <div className={`selected-track-pill ${isCTF ? 'ctf' : 'web'}`}>
-          <span className="pill-dot" />
           <span className="font-mono">{competitionValue.toUpperCase()}</span>
         </div>
       </div>

@@ -222,7 +222,6 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
           >
             <span className="btn-glow" />
             <span className="btn-content">
-              <span className="btn-dot" />
               Register Now
             </span>
           </a>
@@ -321,7 +320,6 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
               onClick={handleRegisterClick}
             >
               <span className="btn-content">
-                <span className="btn-dot" />
                 Register Now
               </span>
             </a>

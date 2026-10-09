@@ -63,10 +63,6 @@ export default function Posters() {
       <div className="section-container">
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
-          <div className="header-badge">
-            <span className="badge-pulse-dot" />
-            <span>MEDIA ASSETS // SHAREABLE ARCHIVES</span>
-          </div>
           <h2 className="section-title">
             TRANSMISSION <span className="title-gradient">POSTERS</span>
           </h2>

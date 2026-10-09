@@ -153,10 +153,6 @@ export default function Timeline({ onNavigateRegister }) {
       <div className="section-container">
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
-          <div className="header-badge">
-            <span className="badge-pulse-dot" />
-            <span>OPERATIONAL SCHEDULE // HASHCORE '26</span>
-          </div>
           <h2 className="section-title">
             DUAL-TRACK <span className="title-gradient">TIMELINE</span>
           </h2>

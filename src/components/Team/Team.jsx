@@ -111,10 +111,6 @@ export default function Team() {
       <div className="section-container">
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
-          <div className="header-badge">
-            <span className="badge-pulse-dot" />
-            <span>ORGANIZATIONAL HIERARCHY // COMMUNITY LEADS</span>
-          </div>
           <h2 className="section-title">
             CITADEL <span className="title-gradient">ARCHITECTS</span>
           </h2>
