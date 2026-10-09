@@ -22,7 +22,7 @@ var OFFICIAL_SENDER_NAME = 'SEUSL HASHCORE 2026';
 
 /**
  * Dispatches an email notification via GmailApp (with MailApp fallback).
- * Supports attachments (PDF passes).
+ * Supports attachments (PDF passes) with automatic retry without attachments if delivery fails.
  */
 function sendEmailNotification(options) {
   var to = options.to;
@@ -51,24 +51,58 @@ function sendEmailNotification(options) {
     Logger.log('Alias check note: ' + aliasErr.toString());
   }
 
-  // 1. Primary: Send via GmailApp (Produces clean multipart/alternative with DKIM)
+  // 1. Primary: Try GmailApp with attachments
   try {
     GmailApp.sendEmail(to, subject, plainText, mailOptions);
-    return;
+    return true;
   } catch (gmailErr) {
-    Logger.log('GmailApp send notice: ' + gmailErr.toString());
+    Logger.log('GmailApp send with attachments notice: ' + gmailErr.toString());
   }
 
-  // 2. Fallback: MailApp
-  MailApp.sendEmail({
-    to: to,
-    subject: subject,
-    body: plainText,
-    htmlBody: htmlBody,
-    name: mailOptions.name,
-    replyTo: mailOptions.replyTo,
-    attachments: attachments
-  });
+  // 2. Secondary: Fallback to MailApp
+  try {
+    var mailAppOptions = {
+      to: to,
+      subject: subject,
+      body: plainText,
+      htmlBody: htmlBody,
+      name: mailOptions.name,
+      replyTo: mailOptions.replyTo
+    };
+    if (attachments && attachments.length > 0) {
+      mailAppOptions.attachments = attachments;
+    }
+    MailApp.sendEmail(mailAppOptions);
+    return true;
+  } catch (mailErr) {
+    Logger.log('MailApp send notice: ' + mailErr.toString());
+  }
+
+  // 3. Guaranteed Delivery Fallback: If sending with attachments failed, retry without attachments
+  if (attachments && attachments.length > 0) {
+    Logger.log('Retrying email dispatch without attachments to ensure delivery to ' + to);
+    delete mailOptions.attachments;
+    try {
+      GmailApp.sendEmail(to, subject, plainText, mailOptions);
+      return true;
+    } catch (gRetryErr) {
+      try {
+        MailApp.sendEmail({
+          to: to,
+          subject: subject,
+          body: plainText,
+          htmlBody: htmlBody,
+          name: mailOptions.name,
+          replyTo: mailOptions.replyTo
+        });
+        return true;
+      } catch (mRetryErr) {
+        Logger.log('CRITICAL: All email delivery attempts failed: ' + mRetryErr.toString());
+      }
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -83,112 +117,110 @@ function getQrCodeUrl(payload) {
  * Embedded directly into PDF via Base64 QR code image for 100% rendering reliability.
  */
 function generateTicketPdfBlob(p, qrUrl) {
-  var qrImgSrc = qrUrl;
   try {
-    var qrResp = UrlFetchApp.fetch(qrUrl, { muteHttpExceptions: true });
-    if (qrResp.getResponseCode() === 200) {
-      var base64Data = Utilities.base64Encode(qrResp.getBlob().getBytes());
-      qrImgSrc = 'data:image/png;base64,' + base64Data;
+    var ticketId = p.ticketId || 'CTF-2026-00001';
+    var compTrack = (p.competitionTitle || 'CTF Competition').toUpperCase();
+    var batch = p.batch || '2022/2023';
+    var faculty = p.faculty || 'Technology';
+    var contactNo = p.contactNo || '0772117131';
+
+    // Safe QR image source (defaults to direct URL, attempts inlining if possible)
+    var qrImgSrc = qrUrl;
+    try {
+      if (typeof UrlFetchApp !== 'undefined') {
+        var qrResp = UrlFetchApp.fetch(qrUrl, { muteHttpExceptions: true, deadline: 10 });
+        if (qrResp && qrResp.getResponseCode() === 200) {
+          var base64Data = Utilities.base64Encode(qrResp.getBlob().getBytes());
+          if (base64Data) {
+            qrImgSrc = 'data:image/png;base64,' + base64Data;
+          }
+        }
+      }
+    } catch (qrErr) {
+      qrImgSrc = qrUrl;
     }
-  } catch (fetchErr) {
-    Logger.log('QR code base64 inlining notice: ' + fetchErr.toString());
-  }
 
-  var compTrack = (p.competitionTitle || 'CTF Competition').toUpperCase();
-  var ticketId = p.ticketId || 'CTF-2026-00001';
-  var batch = p.batch || '2022/2023';
-  var faculty = p.faculty || 'Technology';
-  var contactNo = p.contactNo || '0772117131';
+    var pdfHtml = '<!DOCTYPE html>' +
+      '<html><head><meta charset="utf-8"/>' +
+      '<style>' +
+      'body { margin: 0; padding: 16px; background-color: #030805; font-family: Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
+      '.citadel-card { border: 2px solid #00f59b; border-radius: 12px; background-color: #061910; padding: 24px; }' +
+      '.inst-badge { display: inline-block; background-color: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 4px 12px; border-radius: 8px; text-transform: uppercase; }' +
+      '.pass-title { font-size: 22px; font-weight: 900; color: #ffffff; margin: 8px 0 2px 0; }' +
+      '.pass-subtitle { font-size: 12px; color: #00f59b; font-family: monospace; font-weight: bold; }' +
+      '.id-lbl { font-size: 10px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }' +
+      '.id-val { font-size: 20px; font-weight: 900; color: #00f59b; font-family: monospace; }' +
+      '.grid-table { width: 100%; border-collapse: collapse; margin-top: 14px; }' +
+      '.grid-td { width: 50%; vertical-align: top; padding: 8px; border-top: 1px solid #143825; }' +
+      '.f-lbl { font-size: 10px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 3px; }' +
+      '.f-val { font-size: 14px; font-weight: bold; color: #ffffff; }' +
+      '.f-val-cyan { font-size: 15px; font-weight: 900; color: #38bdf8; font-family: monospace; }' +
+      '.tag-sent { display: inline-block; background-color: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }' +
+      '.qr-wrap { background-color: #ffffff; padding: 6px; border-radius: 8px; border: 2px solid #00f59b; display: inline-block; }' +
+      '.stamp-box { display: inline-block; border: 2px solid #00f59b; background-color: #062b1b; border-radius: 8px; padding: 8px 16px; text-align: center; }' +
+      '</style></head><body>' +
+      '<div class="citadel-card">' +
+        '<table width="100%" cellpadding="0" cellspacing="0" border="0">' +
+          '<tr>' +
+            '<td valign="top">' +
+              '<div class="inst-badge">SEUSL &bull; FACULTY OF TECHNOLOGY</div>' +
+              '<div class="pass-title">HASHCORE \'26 CITADEL PASS</div>' +
+              '<div class="pass-subtitle">' + compTrack + '</div>' +
+            '</td>' +
+            '<td align="right" valign="top">' +
+              '<div class="id-lbl">OFFICIAL PASS ID</div>' +
+              '<div class="id-val">' + ticketId + '</div>' +
+            '</td>' +
+          '</tr>' +
+        '</table>' +
+        '<table class="grid-table" cellpadding="0" cellspacing="0" border="0">' +
+          '<tr>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">PARTICIPANT NAME</div>' +
+              '<div class="f-val" style="font-size: 16px;">' + p.participantName + '</div>' +
+            '</td>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">UNIVERSITY REG NUMBER</div>' +
+              '<div class="f-val-cyan">' + p.regNo + '</div>' +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">ACADEMIC BATCH</div>' +
+              '<div class="f-val">' + batch + '</div>' +
+            '</td>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">FACULTY</div>' +
+              '<div class="f-val">' + faculty + '</div>' +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">EMAIL ADDRESS</div>' +
+              '<div class="f-val" style="font-family: monospace; font-size: 12px;">' + p.email + ' <span class="tag-sent">&check; EMAIL SENT</span></div>' +
+            '</td>' +
+            '<td class="grid-td">' +
+              '<div class="f-lbl">CONTACT NUMBER</div>' +
+              '<div class="f-val" style="font-family: monospace;">' + contactNo + '</div>' +
+            '</td>' +
+          '</tr>' +
+        '</table>' +
+        '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 14px;">' +
+          '<tr>' +
+            '<td valign="bottom">' +
+              '<div class="qr-wrap"><img src="' + qrImgSrc + '" width="88" height="88" style="display: block;" /></div>' +
+              '<div style="font-size: 9px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 4px;">&bull; OFFICIAL ENTRY QR PASS &bull;</div>' +
+            '</td>' +
+            '<td align="right" valign="bottom">' +
+              '<div class="stamp-box">' +
+                '<div style="font-size: 10px; color: #94a3b8; font-weight: bold; font-family: monospace;">SEUSL HASHCORE</div>' +
+                '<div style="font-size: 15px; color: #00f59b; font-weight: 900; font-family: monospace;">CONFIRMED</div>' +
+              '</div>' +
+            '</td>' +
+          '</tr>' +
+        '</table>' +
+      '</div></body></html>';
 
-  var pdfHtml = '<!DOCTYPE html>' +
-    '<html><head><meta charset="utf-8"/>' +
-    '<style>' +
-    '@page { size: landscape; margin: 12mm; }' +
-    'body { margin: 0; padding: 0; background-color: #030805; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #f1f5f9; }' +
-    '.citadel-card { position: relative; border: 2px solid #00f59b; border-radius: 16px; background: #05140b; background-image: radial-gradient(circle at 50% 30%, #0a2618 0%, #030a06 100%); padding: 32px 36px; box-sizing: border-box; }' +
-    '.bracket-tl { position: absolute; top: 12px; left: 12px; width: 22px; height: 22px; border-top: 3px solid #00f59b; border-left: 3px solid #00f59b; }' +
-    '.bracket-tr { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-top: 3px solid #00f59b; border-right: 3px solid #00f59b; }' +
-    '.bracket-bl { position: absolute; bottom: 12px; left: 12px; width: 22px; height: 22px; border-bottom: 3px solid #00f59b; border-left: 3px solid #00f59b; }' +
-    '.bracket-br { position: absolute; bottom: 12px; right: 12px; width: 22px; height: 22px; border-bottom: 3px solid #00f59b; border-right: 3px solid #00f59b; }' +
-    '.inst-badge { display: inline-block; background: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 11px; font-weight: bold; padding: 5px 14px; border-radius: 12px; text-transform: uppercase; letter-spacing: 1.5px; }' +
-    '.pass-title { font-size: 26px; font-weight: 900; color: #ffffff; margin: 10px 0 3px 0; letter-spacing: -0.5px; text-transform: uppercase; }' +
-    '.pass-subtitle { font-size: 13px; color: #00f59b; font-family: monospace; font-weight: 800; letter-spacing: 1px; margin: 0; }' +
-    '.id-lbl { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }' +
-    '.id-val { font-size: 24px; font-weight: 900; color: #00f59b; font-family: monospace; letter-spacing: 1.5px; margin-top: 2px; }' +
-    '.grid-table { width: 100%; border-collapse: separate; border-spacing: 0 14px; margin-top: 18px; }' +
-    '.grid-td { width: 50%; vertical-align: top; padding: 8px 12px; border-top: 1px solid rgba(0, 245, 155, 0.2); }' +
-    '.f-lbl { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }' +
-    '.f-val { font-size: 15px; font-weight: 800; color: #ffffff; }' +
-    '.f-val-cyan { font-size: 17px; font-weight: 900; color: #38bdf8; font-family: monospace; letter-spacing: 0.8px; }' +
-    '.tag-sent { display: inline-block; background: #062b1b; border: 1px solid #00f59b; color: #00f59b; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }' +
-    '.qr-wrap { background: #ffffff; padding: 8px; border-radius: 10px; border: 2px solid #00f59b; display: inline-block; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }' +
-    '.stamp-box { display: inline-block; border: 2px solid #00f59b; background: rgba(0, 245, 155, 0.1); border-radius: 10px; padding: 10px 22px; transform: rotate(-2deg); text-align: center; }' +
-    '</style></head><body>' +
-    '<div class="citadel-card">' +
-      '<div class="bracket-tl"></div><div class="bracket-tr"></div>' +
-      '<div class="bracket-bl"></div><div class="bracket-br"></div>' +
-      '<table width="100%" cellpadding="0" cellspacing="0" border="0">' +
-        '<tr>' +
-          '<td valign="top">' +
-            '<div class="inst-badge">SEUSL &bull; FACULTY OF TECHNOLOGY</div>' +
-            '<div class="pass-title">HASHCORE \'26 CITADEL PASS</div>' +
-            '<div class="pass-subtitle">' + compTrack + '</div>' +
-          '</td>' +
-          '<td align="right" valign="top">' +
-            '<div class="id-lbl">OFFICIAL PASS ID</div>' +
-            '<div class="id-val">' + ticketId + '</div>' +
-          '</td>' +
-        '</tr>' +
-      '</table>' +
-      '<table class="grid-table" cellpadding="0" cellspacing="0" border="0">' +
-        '<tr>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">PARTICIPANT NAME</div>' +
-            '<div class="f-val" style="font-size: 18px;">' + p.participantName + '</div>' +
-          '</td>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">UNIVERSITY REG NUMBER</div>' +
-            '<div class="f-val-cyan">' + p.regNo + '</div>' +
-          '</td>' +
-        '</tr>' +
-        '<tr>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">ACADEMIC BATCH</div>' +
-            '<div class="f-val">' + batch + '</div>' +
-          '</td>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">FACULTY</div>' +
-            '<div class="f-val">' + faculty + '</div>' +
-          '</td>' +
-        '</tr>' +
-        '<tr>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">EMAIL ADDRESS</div>' +
-            '<div class="f-val" style="font-family: monospace; font-size: 13px;">' + p.email + '<span class="tag-sent">&check; EMAIL SENT</span></div>' +
-          '</td>' +
-          '<td class="grid-td">' +
-            '<div class="f-lbl">CONTACT NUMBER</div>' +
-            '<div class="f-val" style="font-family: monospace;">' + contactNo + '</div>' +
-          '</td>' +
-        '</tr>' +
-      '</table>' +
-      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 18px;">' +
-        '<tr>' +
-          '<td valign="bottom">' +
-            '<div class="qr-wrap"><img src="' + qrImgSrc + '" width="92" height="92" style="display: block;" /></div>' +
-            '<div style="font-size: 10px; color: #00f59b; font-family: monospace; font-weight: bold; margin-top: 6px; letter-spacing: 1px;">&bull; OFFICIAL ENTRY QR PASS &bull;</div>' +
-          '</td>' +
-          '<td align="right" valign="bottom">' +
-            '<div class="stamp-box">' +
-              '<div style="font-size: 11px; color: #94a3b8; font-weight: 700; letter-spacing: 1px; font-family: monospace;">SEUSL HASHCORE</div>' +
-              '<div style="font-size: 17px; color: #00f59b; font-weight: 900; letter-spacing: 2px; font-family: monospace;">CONFIRMED</div>' +
-            '</div>' +
-          '</td>' +
-        '</tr>' +
-      '</table>' +
-    '</div></body></html>';
-
-  try {
     var blob = Utilities.newBlob(pdfHtml, 'text/html', 'ticket.html');
     return blob.getAs('application/pdf').setName('SEUSL_HASHCORE_PASS_' + ticketId + '.pdf');
   } catch (err) {
@@ -610,15 +642,22 @@ function doPost(e) {
         whatsappNo: whatsappNo,
         ticketId: ticketId,
         registrationDate: registrationDate,
-        qrPayload: qrPayload
+        qrPayload: qrTargetUrl
       };
 
       var plainText = buildPlainTextEmail(emailParams);
       var htmlBody = buildConfirmationEmailHtml(emailParams, qrCodeImageUrl);
 
-      // Generate the official PDF Ticket Pass
-      var pdfAttachment = generateTicketPdfBlob(emailParams, qrCodeImageUrl);
-      var attachments = pdfAttachment ? [pdfAttachment] : [];
+      // Generate the official PDF Ticket Pass safely
+      var attachments = [];
+      try {
+        var pdfAttachment = generateTicketPdfBlob(emailParams, qrCodeImageUrl);
+        if (pdfAttachment) {
+          attachments.push(pdfAttachment);
+        }
+      } catch (pdfErr) {
+        Logger.log('PDF generation error, continuing with email: ' + pdfErr.toString());
+      }
 
       sendEmailNotification({
         to: rawEmail,
@@ -720,19 +759,28 @@ function onFormSubmit(e) {
       whatsappNo: whatsappNo,
       ticketId: ticketId,
       registrationDate: registrationDate,
-      qrPayload: qrPayload
+      qrPayload: qrTargetUrl
     };
 
     var plainText = buildPlainTextEmail(emailParams);
     var htmlBody = buildConfirmationEmailHtml(emailParams, qrCodeImageUrl);
-    var pdfAttachment = generateTicketPdfBlob(emailParams, qrCodeImageUrl);
+
+    var attachments = [];
+    try {
+      var pdfAttachment = generateTicketPdfBlob(emailParams, qrCodeImageUrl);
+      if (pdfAttachment) {
+        attachments.push(pdfAttachment);
+      }
+    } catch (pdfErr) {
+      Logger.log('PDF generation skipped in onFormSubmit: ' + pdfErr.toString());
+    }
 
     sendEmailNotification({
       to: rawEmail,
       subject: "SEUSL HASHCORE 2026 Registration Confirmed: " + competitionTitle + " [" + ticketId + "]",
       plainText: plainText,
       htmlBody: htmlBody,
-      attachments: pdfAttachment ? [pdfAttachment] : []
+      attachments: attachments
     });
   } catch (err) {
     Logger.log('onFormSubmit error: ' + err.toString());
