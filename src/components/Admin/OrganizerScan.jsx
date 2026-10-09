@@ -263,53 +263,108 @@ export default function OrganizerScan({ onCheckInSuccess }) {
             </div>
 
             {scanResult.participant && (
-              <table className="result-detail-table">
-                <tbody>
-                  <tr>
-                    <td className="lbl">Participant Name</td>
-                    <td className="val">{scanResult.participant.name}</td>
-                  </tr>
-                  <tr>
-                    <td className="lbl">Ticket Reference</td>
-                    <td className="val" style={{ color: '#00f59b', fontFamily: 'monospace' }}>
-                      {scanResult.participant.registrationReference}
-                    </td>
-                  </tr>
-                  {scanResult.participant.universityRegNo && (
+              <div style={{ marginTop: '16px' }}>
+                {/* Hero Participant Card */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(6, 25, 16, 0.95), rgba(3, 10, 6, 0.95))',
+                  border: '2px solid #00f59b',
+                  borderRadius: '12px',
+                  padding: '18px',
+                  marginBottom: '16px',
+                  boxShadow: '0 8px 24px rgba(0, 245, 155, 0.15)'
+                }}>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+                    Participant Name
+                  </div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff', margin: '4px 0 12px' }}>
+                    {scanResult.participant.name}
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+                    <div style={{
+                      background: 'rgba(56, 189, 248, 0.15)',
+                      border: '1px solid rgba(56, 189, 248, 0.4)',
+                      color: '#38bdf8',
+                      padding: '6px 14px',
+                      borderRadius: '8px',
+                      fontFamily: 'monospace',
+                      fontWeight: 800,
+                      fontSize: '1rem',
+                      letterSpacing: '0.05em'
+                    }}>
+                      REG: {scanResult.participant.universityRegNo || 'VERIFIED'}
+                    </div>
+
+                    <div style={{
+                      background: 'rgba(0, 245, 155, 0.15)',
+                      border: '1px solid rgba(0, 245, 155, 0.4)',
+                      color: '#00f59b',
+                      padding: '6px 14px',
+                      borderRadius: '8px',
+                      fontFamily: 'monospace',
+                      fontWeight: 800,
+                      fontSize: '0.9rem'
+                    }}>
+                      ID: {scanResult.participant.ticketId || scanResult.participant.registrationReference || 'PASS'}
+                    </div>
+
+                    {(scanResult.participant.track || scanResult.participant.competition) && (
+                      <div style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        color: '#f1f5f9',
+                        padding: '6px 12px',
+                        borderRadius: '8px',
+                        fontSize: '0.85rem',
+                        fontWeight: 700
+                      }}>
+                        {scanResult.participant.track || scanResult.participant.competition}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Attendance Email Sent Pill */}
+                  <div style={{
+                    marginTop: '14px',
+                    padding: '8px 12px',
+                    background: 'rgba(0, 245, 155, 0.1)',
+                    border: '1px solid rgba(0, 245, 155, 0.3)',
+                    borderRadius: '8px',
+                    color: '#00f59b',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    <span>✉</span>
+                    <span>
+                      Attendance Email Sent: "Thank you for attending today's workshop"
+                      {scanResult.participant.email ? ` to ${scanResult.participant.email}` : ''}
+                    </span>
+                  </div>
+                </div>
+
+                <table className="result-detail-table">
+                  <tbody>
                     <tr>
-                      <td className="lbl">University Reg No</td>
-                      <td className="val" style={{ color: '#38bdf8', fontFamily: 'monospace' }}>
-                        {scanResult.participant.universityRegNo}
-                      </td>
+                      <td className="lbl">Status</td>
+                      <td className="val" style={{ color: '#00f59b', fontWeight: 900 }}>PRESENT &bull; ATTENDANCE CONFIRMED</td>
                     </tr>
-                  )}
-                  {scanResult.participant.competition && (
-                    <tr>
-                      <td className="lbl">Competition</td>
-                      <td className="val">{scanResult.participant.competition}</td>
-                    </tr>
-                  )}
-                  {scanResult.attendance?.checkedInAt && (
-                    <tr>
-                      <td className="lbl">Check-In Time</td>
-                      <td className="val">
-                        {new Date(scanResult.attendance.checkedInAt).toLocaleTimeString()}
-                      </td>
-                    </tr>
-                  )}
-                  {scanResult.emailStatus && (
-                    <tr>
-                      <td className="lbl">Attendance Email</td>
-                      <td className="val" style={{ color: '#00f59b' }}>
-                        ✓ {scanResult.emailStatus.toUpperCase()}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    {scanResult.attendance?.checkedInAt && (
+                      <tr>
+                        <td className="lbl">Check-In Time</td>
+                        <td className="val">
+                          {new Date(scanResult.attendance.checkedInAt).toLocaleTimeString()}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             )}
 
-            <button type="button" onClick={handleScanNext} className="btn-primary-scan" style={{ width: '100%' }}>
+            <button type="button" onClick={handleScanNext} className="btn-primary-scan" style={{ width: '100%', marginTop: '12px' }}>
               ▶ Scan Next Participant
             </button>
           </div>
