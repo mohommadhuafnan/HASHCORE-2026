@@ -1,43 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import QRCode from 'qrcode';
 import ticketBgImg from '../../frame/00144.webp';
 
 /**
  * RegistrationSuccess:
  * Displays the successful registration confirmation on Frame 240 background.
- * Exact Requirements:
- * ✓ Registration Confirmed
- * Welcome, [Participant Name]!
- * Your registration has been successfully completed.
- * Displays:
- * - Competition
- * - Ticket ID (CTF-2026-00001 / WEB-2026-00001)
- * - Registered Email (Confirmation email sent to participant@gmail.com)
- * - "Please check your inbox and spam/junk folder for your confirmation email."
- * - Pure Frame 00144.webp background (NO overlay layers on top of background image)
- * - Buttons at bottom: [Back to Home] [Download Ticket]
  */
 export default function RegistrationSuccess({ registration, onBackToHome }) {
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const [localQrUrl, setLocalQrUrl] = useState(registration?.qrDataUrl || null);
 
-  if (!registration) {
-    return (
-      <div className="reg-success-container">
-        <div className="citadel-pass-card pass-ctf" style={{ textAlign: 'center', padding: '40px 20px' }}>
-          <h3 className="pass-event" style={{ marginBottom: '16px' }}>NO REGISTRATION RECORD FOUND</h3>
-          <p style={{ color: '#94a3b8', marginBottom: '24px' }}>
-            No registration details found in this session. Please select a competition track and complete the registration form.
-          </p>
-          <button type="button" onClick={onBackToHome} className="btn-back-home-primary" style={{ margin: '0 auto' }}>
-            <span>Back to Home</span>
-          </button>
-        </div>
-      </div>
-    );
-  }
-  const isCTF = registration.track === 'CTF' || (registration.competition && registration.competition.includes('CTF'));
-  const competitionName = registration.competition || (isCTF ? 'CTF Competition' : 'Web Development Competition');
-  const ticketId = registration.ticketId || registration.regId || (isCTF ? 'CTF-2026-00001' : 'WEB-2026-00001');
-  const isEmailSent = registration.emailSent !== false;
+  const isCTF = registration?.track === 'CTF' || (registration?.competition && registration.competition.includes('CTF'));
+  const competitionName = registration?.competition || (isCTF ? 'CTF Competition' : 'Web Development Competition');
+  const ticketId = registration?.ticketId || registration?.regId || (isCTF ? 'CTF-2026-00001' : 'WEB-2026-00001');
+  const isEmailSent = registration?.emailSent !== false;
+
+  useEffect(() => {
+    if (registration && !localQrUrl) {
+      const qrPayload = JSON.stringify({
+        id: ticketId,
+        reg: registration.universityRegNo,
+        name: registration.participantName || registration.initialsWithName,
+        track: isCTF ? 'CTF' : 'WEB',
+        email: registration.email,
+      });
+
+      QRCode.toDataURL(qrPayload, {
+        width: 280,
+        margin: 2,
+        color: { dark: '#020905', light: '#ffffff' },
+      })
+        .then((url) => setLocalQrUrl(url))
+        .catch(() => {});
+    }
+  }, [registration, ticketId, localQrUrl, isCTF]);
 
   const handleDownloadPdf = async () => {
     setIsDownloadingPdf(true);
@@ -184,10 +180,10 @@ export default function RegistrationSuccess({ registration, onBackToHome }) {
 
           {/* Ticket Footer with Real Scannable QR Ticket */}
           <div className="pass-footer">
-            {registration.qrDataUrl ? (
+            {(localQrUrl || registration.qrDataUrl) ? (
               <div className="pass-qr-badge-wrap font-mono" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
                 <div style={{ background: '#ffffff', padding: '6px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)', border: '2px solid #00f59b' }}>
-                  <img src={registration.qrDataUrl} alt="Entry QR Ticket" style={{ width: '84px', height: '84px', display: 'block' }} />
+                  <img src={localQrUrl || registration.qrDataUrl} alt="Entry QR Ticket" style={{ width: '84px', height: '84px', display: 'block' }} />
                 </div>
                 <span className="barcode-text" style={{ fontSize: '0.65rem', color: '#00f59b', letterSpacing: '0.05em' }}>
                   &bull; OFFICIAL ENTRY QR PASS &bull;
