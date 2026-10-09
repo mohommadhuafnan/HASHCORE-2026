@@ -2,7 +2,6 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import Timeline from './components/Timeline/Timeline';
-import Team from './components/Team/Team';
 import Posters from './components/Posters/Posters';
 import Partners from './components/Partners/Partners';
 import Footer from './components/Footer/Footer';
@@ -163,11 +162,6 @@ function App() {
           <div className="citadel-scrolling-content">
             {/* Dual-Track Chronological Timeline */}
             <Timeline onNavigateRegister={handleNavigateRegister} />
-
-            <div className="section-cyber-divider" aria-hidden="true" />
-
-            {/* Organizing Committee & Community Leads */}
-            <Team />
 
             <div className="section-cyber-divider" aria-hidden="true" />
 

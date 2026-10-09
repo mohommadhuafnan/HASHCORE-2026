@@ -94,10 +94,9 @@ export default function Footer({ onNavigateRegister }) {
               <ul className="footer-nav-links">
                 <li><a href="#home">01 // Citadel Chamber (Hero)</a></li>
                 <li><a href="#timeline">02 // Operational Timeline</a></li>
-                <li><a href="#team">03 // Organizing Committee</a></li>
-                <li><a href="#posters">04 // Posters & Share</a></li>
-                <li><a href="#partners">05 // Organizers & Partners</a></li>
-                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister(); } }}>06 // Registration Portal</a></li>
+                <li><a href="#posters">03 // Posters & Share</a></li>
+                <li><a href="#partners">04 // Organizers & Partners</a></li>
+                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister(); } }}>05 // Registration Portal</a></li>
               </ul>
             </div>
 
