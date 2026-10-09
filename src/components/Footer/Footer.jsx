@@ -1,5 +1,6 @@
 import footerKnightImg from '../../frame/00148.webp';
 import sictLogo from '../../assets/SICT.png';
+import agniLogo from '../../assets/Agnivision.png';
 import logoOriginalImg from '../../assets/logo-original.png';
 import './Footer.css';
 
@@ -120,7 +121,12 @@ export default function Footer({ onNavigateRegister }) {
                 </div>
                 <div className="mini-partner">
                   <span className="partner-type">Official Media Partner</span>
-                  <span className="partner-title amber">Agni Vision</span>
+                  <div className="mini-partner-brand">
+                    <div className="mini-sict-icon-wrap mini-agni-icon-wrap">
+                      <img src={agniLogo} alt="Agni Vision Logo" className="mini-sict-logo" />
+                    </div>
+                    <span className="partner-title amber">Agni Vision</span>
+                  </div>
                 </div>
               </div>
               <p className="contact-detail">
