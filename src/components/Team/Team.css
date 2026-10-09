@@ -308,7 +308,7 @@
   padding: 0.22rem 0.65rem;
   background: rgba(0, 245, 155, 0.1);
   border: 1px solid rgba(0, 245, 155, 0.35);
-  border-radius: 9999px;
+  border-radius: 4px;
   color: var(--accent-emerald);
   margin-bottom: 0.75rem;
 }

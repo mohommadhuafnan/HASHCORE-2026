@@ -164,7 +164,6 @@ export default function AutoFramePlayer({ onComplete, onSkip }) {
       {/* Cyber Hyperdrive HUD Header */}
       <div className="auto-player-header">
         <div className="hud-badge">
-          <span className="hud-dot pulsing" />
           <span>AUTONAV PROTOCOL // SEUSL CITADEL TRANSIT</span>
         </div>
         <button 

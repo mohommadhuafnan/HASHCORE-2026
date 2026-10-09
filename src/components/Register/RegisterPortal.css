@@ -94,30 +94,12 @@
 .hud-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(0, 245, 155, 0.08);
-  border: 1px solid rgba(0, 245, 155, 0.3);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   color: var(--accent-emerald-light);
-  box-shadow: 0 0 15px rgba(0, 245, 155, 0.2);
-}
-
-.hud-dot.pulsing {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 10px var(--accent-emerald);
-  animation: pulse-hud 1.2s infinite alternate;
-}
-
-@keyframes pulse-hud {
-  0% { transform: scale(0.8); opacity: 0.6; }
-  100% { transform: scale(1.3); opacity: 1; }
+  text-shadow: 0 0 14px rgba(0, 245, 155, 0.45);
 }
 
 .btn-skip-warp {
@@ -397,23 +379,14 @@
 .cat-nav-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.1em;
   color: var(--text-subtle);
-}
-
-.live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
 }
 
 /* Existing Registration Banner */
@@ -647,8 +620,8 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  padding: 3px 10px;
-  border-radius: 999px;
+  padding: 3px 8px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-main);
   text-transform: uppercase;
@@ -828,8 +801,8 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 20px;
-  border-radius: 9999px;
+  padding: 10px 22px;
+  border-radius: 12px;
   background: var(--liquid-glass-bg);
   border: 1px solid var(--liquid-glass-border);
   backdrop-filter: var(--liquid-glass-blur);
@@ -991,15 +964,14 @@
 .welcome-track-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 0.78rem;
   letter-spacing: 0.15em;
   color: var(--accent-emerald-light);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .welcome-loader-overlay.web-theme .welcome-track-badge {
@@ -1197,9 +1169,8 @@
 .selected-track-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 16px;
-  border-radius: 999px;
+  padding: 6px 14px;
+  border-radius: 6px;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   font-weight: 700;
@@ -1215,14 +1186,6 @@
   background: rgba(6, 182, 212, 0.12);
   border: 1px solid rgba(6, 182, 212, 0.35);
   color: var(--accent-cyan);
-}
-
-.selected-track-pill .pill-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 8px currentColor;
 }
 
 /* Strict Single Submission Notice Banner */
@@ -1679,8 +1642,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 24px;
-  border-radius: 999px;
+  padding: 8px 20px;
+  border-radius: 8px;
   background: rgba(10, 25, 18, 0.85);
   border: 1px solid rgba(0, 245, 155, 0.4);
   color: var(--accent-emerald-light);
@@ -2405,24 +2368,14 @@
 .transit-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 5px 12px;
+  border-radius: 6px;
   background: rgba(0, 245, 155, 0.08);
   border: 1px solid rgba(0, 245, 155, 0.28);
   font-size: 0.74rem;
   letter-spacing: 0.14em;
   color: var(--accent-emerald-light);
   margin-bottom: 12px;
-}
-
-.transit-beacon-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #00f59b;
-  box-shadow: 0 0 8px #00f59b;
-  animation: pulse-beacon 1s infinite alternate;
 }
 
 @keyframes pulse-beacon {
@@ -2568,9 +2521,8 @@
 .celebrate-pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 24px;
-  border-radius: 999px;
+  padding: 8px 18px;
+  border-radius: 8px;
   background: rgba(0, 245, 155, 0.12);
   border: 1px solid rgba(0, 245, 155, 0.45);
   color: #00f59b;
@@ -2578,7 +2530,6 @@
   letter-spacing: 0.12em;
   font-weight: 700;
   box-shadow: 0 0 20px rgba(0, 245, 155, 0.25);
-  animation: pulse-beacon 1.2s infinite alternate;
 }
 
 /* ==========================================================================

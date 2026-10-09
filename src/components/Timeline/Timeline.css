@@ -29,37 +29,6 @@
   text-align: center;
 }
 
-.header-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.42rem 1.15rem;
-  background: var(--liquid-glass-bg);
-  border: 1px solid var(--liquid-glass-border);
-  border-radius: 9999px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  color: var(--accent-emerald);
-  margin-bottom: 1.2rem;
-  backdrop-filter: var(--liquid-glass-blur);
-  -webkit-backdrop-filter: var(--liquid-glass-blur);
-  box-shadow: 
-    0 10px 25px -5px rgba(0, 0, 0, 0.6),
-    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 2px 0 rgba(0, 245, 155, 0.2);
-}
-
-.badge-pulse-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
-  animation: pulse-dot 1.8s infinite ease-in-out;
-}
-
 .section-title {
   font-family: var(--font-heading);
   font-size: clamp(2.4rem, 4.5vw, 3.8rem);

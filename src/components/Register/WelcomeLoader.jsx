@@ -84,7 +84,6 @@ export default function WelcomeLoader({ track, onComplete }) {
 
         {/* Track Welcome Headers */}
         <div className="welcome-track-badge font-mono">
-          <span className="badge-signal" />
           <span>{isCTF ? '[ TRACK 01 // CTF SECURITY ]' : '[ TRACK 02 // WEB DEVELOPMENT ]'}</span>
         </div>
 

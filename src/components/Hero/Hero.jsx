@@ -332,10 +332,9 @@ export default function Hero({ onNavigateRegister }) {
             ================================================================== */}
         <div ref={textStage1Ref} className="hero-text-stage stage-1">
           <div className="stage-content">
-            <div className="hero-pill-badge">
-              <span className="badge-pulse" />
-              <span>SOUTH EASTERN UNIVERSITY OF SRI LANKA</span>
-            </div>
+            <span className="hero-eyebrow">
+              SOUTH EASTERN UNIVERSITY OF SRI LANKA
+            </span>
             <h1 className="hero-main-title">
               HASHCORE<span className="title-highlight">'26</span>
             </h1>
@@ -357,9 +356,6 @@ export default function Hero({ onNavigateRegister }) {
             ================================================================== */}
         <div ref={textStage2Ref} className="hero-text-stage stage-2">
           <div className="stage-content">
-            <div className="hero-pill-badge cyan">
-              <span>SYSTEM PROTOCOL // ZERO COMPROMISE</span>
-            </div>
             <h2 className="stage-heading">
               FORGE YOUR CODE.<br />
               <span className="gradient-text-emerald">DEFEND THE REALM.</span>
@@ -377,9 +373,6 @@ export default function Hero({ onNavigateRegister }) {
             ================================================================== */}
         <div ref={textStage3Ref} className="hero-text-stage stage-3">
           <div className="stage-content wide">
-            <div className="hero-pill-badge">
-              <span>FLAGSHIP WORKSHOPS & TRACKS</span>
-            </div>
             <h2 className="stage-heading compact">
               TWO BATTLEGROUNDS. ONE DESTINY.
             </h2>
@@ -475,10 +468,6 @@ export default function Hero({ onNavigateRegister }) {
             ================================================================== */}
         <div ref={textStage4Ref} className="hero-text-stage stage-4">
           <div className="stage-content">
-            <div className="hero-pill-badge glow">
-              <span className="badge-pulse active" />
-              <span>THE GATES ARE OPEN // FRAME 240 STABLE</span>
-            </div>
             <h2 className="stage-heading large">
               ENTER THE <span className="gradient-text-emerald">CITADEL</span>
             </h2>

@@ -7,10 +7,6 @@ export default function Partners() {
       <div className="section-container">
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
-          <div className="header-badge">
-            <span className="badge-pulse-dot" />
-            <span>ORGANIZATIONAL MATRIX // PATRONAGE</span>
-          </div>
           <h2 className="section-title">
             ORGANIZED BY <span className="title-gradient">& MEDIA PARTNERS</span>
           </h2>
@@ -25,7 +21,6 @@ export default function Partners() {
           {/* Organizer Card: SICT */}
           <div className="partner-card organizer-card reveal-on-scroll stagger-1">
             <div className="card-top-tag">
-              <span className="dot emerald-pulse" />
               <span>OFFICIAL ORGANIZER</span>
             </div>
 
@@ -63,7 +58,6 @@ export default function Partners() {
           {/* Media Partner Card: Agni Vision */}
           <div className="partner-card media-card reveal-on-scroll stagger-2">
             <div className="card-top-tag media-tag">
-              <span className="dot amber-pulse" />
               <span>OFFICIAL MEDIA PARTNER</span>
             </div>
 

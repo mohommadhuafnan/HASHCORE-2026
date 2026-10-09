@@ -20,7 +20,6 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
         </button>
 
         <div className="cat-nav-badge">
-          <span className="live-dot" />
           <span>SEUSL REGISTRATION MAINFRAME // 2026</span>
         </div>
       </div>
