@@ -101,14 +101,15 @@ export default function Partners() {
           <div className="host-crest-icon">
             <img
               src={seusllogo}
-              alt="Society of ICT (SICT) Official Logo"
-              className="sict-logo-img"
+              alt="South Eastern University of Sri Lanka Official Crest"
+              className="host-crest-img"
               loading="lazy"
             />
           </div>
           <div className="host-details">
+            <span className="host-badge-tag">INSTITUTIONAL HOST & PATRON</span>
             <h4 className="host-title">SOUTH EASTERN UNIVERSITY OF SRI LANKA</h4>
-            <p className="host-campus">Faculty of Technology • University Park, Oluvil #32360, Sri Lanka</p>
+            <p className="host-campus">Faculty of Technology •Department of ICT, SEUSL</p>
           </div>
         </div>
       </div>
