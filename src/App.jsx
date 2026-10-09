@@ -19,22 +19,39 @@ function App() {
   const [currentView, setCurrentView] = useState('home'); // 'home' | 'register' | 'admin'
   const [initialRegisterTrack, setInitialRegisterTrack] = useState(null); // 'CTF' | 'WEB' | null
 
-  // URL Hash Listener & Deep Linking
+  // URL Hash & Path Listener & Deep Linking (Supports /scan, #scan, /admin, #admin, etc.)
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash;
-      if (hash === '#register') {
-        setCurrentView('register');
-      } else if (hash === '#admin' || hash === '#scan' || hash === '#dashboard' || hash === '#organizer') {
+    const handleNavigation = () => {
+      const hash = (window.location.hash || '').toLowerCase();
+      const path = (window.location.pathname || '').toLowerCase().replace(/\/+$/, '');
+
+      if (
+        path === '/scan' ||
+        path.startsWith('/scan') ||
+        hash === '#scan' ||
+        path === '/admin' ||
+        path.startsWith('/admin') ||
+        hash === '#admin' ||
+        hash === '#dashboard' ||
+        path === '/dashboard' ||
+        hash === '#organizer' ||
+        path === '/organizer'
+      ) {
         setCurrentView('admin');
+      } else if (path === '/register' || hash === '#register') {
+        setCurrentView('register');
       } else {
         setCurrentView('home');
       }
     };
 
-    handleHash();
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+    handleNavigation();
+    window.addEventListener('hashchange', handleNavigation);
+    window.addEventListener('popstate', handleNavigation);
+    return () => {
+      window.removeEventListener('hashchange', handleNavigation);
+      window.removeEventListener('popstate', handleNavigation);
+    };
   }, []);
 
   // Bulletproof Global Scroll Reveal System: Guarantees no section is ever hidden
@@ -100,6 +117,9 @@ function App() {
   const handleNavigateHome = () => {
     setInitialRegisterTrack(null);
     setCurrentView('home');
+    if (window.location.pathname !== '/' && window.location.pathname !== '') {
+      window.history.pushState(null, '', '/');
+    }
     window.location.hash = '#home';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
