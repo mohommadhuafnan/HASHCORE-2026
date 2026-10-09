@@ -1,4 +1,33 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Ensure reliable SRV DNS resolution on Windows and cloud environments
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore if custom servers cannot be set
+}
+
+const resolver = new dns.Resolver();
+try {
+  resolver.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore if custom servers cannot be set
+}
+
+function customLookup(hostname, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  resolver.resolve4(hostname, (err, addresses) => {
+    if (err) return dns.lookup(hostname, options, callback);
+    if (options && options.all) {
+      return callback(null, addresses.map(a => ({ address: a, family: 4 })));
+    }
+    return callback(null, addresses[0], 4);
+  });
+}
 
 /**
  * Shared MongoDB connection module with auto-reconnect and safe logging
@@ -10,16 +39,31 @@ export async function connectDB(uri) {
     return mongoose.connection;
   }
 
-  const mongoUri = uri || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/hashcore2026';
+  const directAtlasUri = 'mongodb://mohommadhuafnan756_db_user:Eya8Pq00OvkY4Voq@ac-ehwovdb-shard-00-00.kvtj40f.mongodb.net:27017,ac-ehwovdb-shard-00-01.kvtj40f.mongodb.net:27017,ac-ehwovdb-shard-00-02.kvtj40f.mongodb.net:27017/hashcore2026?ssl=true&authSource=admin&retryWrites=true&w=majority';
+  const mongoUri = uri || process.env.MONGODB_URI || directAtlasUri;
+
+  const connectOptions = {
+    serverSelectionTimeoutMS: 10000,
+    autoIndex: true,
+    lookup: customLookup,
+  };
 
   try {
-    const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 5000,
-      autoIndex: true,
-    });
+    let conn;
+    try {
+      conn = await mongoose.connect(mongoUri, connectOptions);
+    } catch (primaryErr) {
+      // If SRV lookup fails due to local router DNS, try direct Atlas shard replica set
+      if (mongoUri.includes('mongodb+srv') && directAtlasUri !== mongoUri) {
+        console.warn('[MongoDB] SRV connect warning:', primaryErr.message, '-> Retrying direct Atlas shards...');
+        conn = await mongoose.connect(directAtlasUri, connectOptions);
+      } else {
+        throw primaryErr;
+      }
+    }
 
     isConnected = true;
-    const safeHost = conn.connection.host || 'local';
+    const safeHost = conn.connection.host || 'Atlas Cloud';
     const safeDb = conn.connection.name || 'hashcore2026';
     console.log(`[MongoDB] Connected successfully to [${safeHost}/${safeDb}]`);
 
