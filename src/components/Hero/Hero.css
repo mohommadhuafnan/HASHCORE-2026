@@ -612,22 +612,61 @@
 
   .tracks-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    max-height: 52vh;
-    overflow-y: auto;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 0.6rem;
   }
 
   .track-card {
-    padding: 1.4rem 1.25rem;
+    padding: 1.15rem 1.25rem;
+    border-radius: 18px;
+    overflow: visible;
+  }
+
+  .track-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .track-badge-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .track-badge-icon .icon-svg {
+    width: 17px;
+    height: 17px;
   }
 
   .track-title {
-    font-size: 1.2rem;
+    font-size: 1.12rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.25;
   }
 
   .track-desc {
-    font-size: 0.88rem;
-    margin-bottom: 0.8rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-bottom: 0.65rem;
+  }
+
+  .track-tags {
+    gap: 0.35rem;
+  }
+
+  .track-tags span {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .track-card-action {
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+  }
+
+  .track-enroll-btn {
+    padding: 7px 14px;
+    font-size: 0.78rem;
   }
 
   .stage-actions {
@@ -646,6 +685,19 @@
 }
 
 @media (max-width: 600px) {
+  .hero-text-stage {
+    padding: 4.8rem 1.1rem 1.5rem;
+  }
+
+  .stage-content {
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .stage-content.wide {
+    gap: 0.55rem;
+  }
+
   .hero-main-title {
     font-size: clamp(2.3rem, 10vw, 2.8rem);
   }
@@ -658,11 +710,20 @@
   .stage-heading {
     font-size: 1.9rem;
   }
+
+  .stage-heading.compact {
+    font-size: clamp(1.25rem, 5.5vw, 1.55rem);
+    margin-bottom: 0.2rem;
+  }
 }
 
 @media (max-width: 480px) {
   .hero-text-stage {
-    padding: 4rem 1.2rem 1.5rem;
+    padding: 4.6rem 0.85rem 1.2rem;
+  }
+
+  .stage-content.wide {
+    gap: 0.45rem;
   }
 
   .hero-main-title {
@@ -674,12 +735,51 @@
     font-size: 1.65rem;
   }
 
+  .stage-heading.compact {
+    font-size: 1.28rem;
+  }
+
   .stage-subheading {
     font-size: 0.95rem;
   }
 
+  .tracks-grid {
+    gap: 0.65rem;
+  }
+
   .track-card {
-    padding: 1.2rem 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+  }
+
+  .track-header {
+    margin-bottom: 0.35rem;
+  }
+
+  .track-title {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .track-desc {
+    font-size: 0.77rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .track-tags span {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .track-card-action {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .track-enroll-btn {
+    padding: 6px 12px;
+    font-size: 0.74rem;
   }
 }
 
@@ -690,5 +790,13 @@
 
   .stage-heading {
     font-size: 1.45rem;
+  }
+
+  .stage-heading.compact {
+    font-size: 1.15rem;
+  }
+
+  .track-card {
+    padding: 0.75rem 0.85rem;
   }
 }
