@@ -24,16 +24,18 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.7rem 1.6rem;
-  background: rgba(0, 245, 155, 0.12);
-  border: 1px solid rgba(0, 245, 155, 0.4);
+  padding: 0.65rem 1.6rem;
+  background: var(--liquid-glass-bg);
+  border: 1px solid var(--liquid-glass-border);
   border-radius: 9999px;
   color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.92rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 245, 155, 0.2);
+  backdrop-filter: var(--liquid-glass-blur);
+  -webkit-backdrop-filter: var(--liquid-glass-blur);
+  box-shadow: var(--liquid-glass-shadow);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .share-link-btn .share-icon {
@@ -43,14 +45,11 @@
 }
 
 .share-link-btn:hover {
-  background: #00f59b;
-  color: #040806;
-  box-shadow: 0 0 30px rgba(0, 245, 155, 0.5);
+  background: var(--liquid-glass-bg-hover);
+  border-color: var(--liquid-glass-border-hover);
+  box-shadow: var(--liquid-glass-shadow-hover);
+  color: #00f59b;
   transform: translateY(-2px);
-}
-
-.share-link-btn:hover .share-icon {
-  color: #040806;
 }
 
 .social-quick-shares {
@@ -62,21 +61,31 @@
 .social-share-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.65rem 1.2rem;
+  padding: 0.62rem 1.25rem;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #cbd5e1;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .social-share-pill:hover {
-  background: rgba(0, 245, 155, 0.15);
-  border-color: var(--accent-emerald);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.22) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  border-color: rgba(0, 245, 155, 0.45);
+  box-shadow: 
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.4),
+    0 0 18px rgba(0, 245, 155, 0.28);
   color: var(--accent-emerald);
   transform: translateY(-2px);
 }
@@ -94,22 +103,23 @@
 
 .poster-card {
   position: relative;
-  background: rgba(6, 15, 11, 0.8);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(0, 245, 155, 0.22);
-  border-radius: 18px;
+  background: var(--liquid-glass-bg);
+  backdrop-filter: var(--liquid-glass-blur);
+  -webkit-backdrop-filter: var(--liquid-glass-blur);
+  border: 1px solid var(--liquid-glass-border);
+  border-radius: 22px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--liquid-glass-shadow);
 }
 
 .poster-card:hover {
   transform: translateY(-6px);
-  border-color: var(--accent-emerald);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 155, 0.2);
+  background: var(--liquid-glass-bg-hover);
+  border-color: var(--liquid-glass-border-hover);
+  box-shadow: var(--liquid-glass-shadow-hover);
 }
 
 /* Poster Image Box */
@@ -256,15 +266,39 @@
   gap: 0.5rem;
   flex-grow: 1;
   justify-content: center;
-  padding: 0.65rem 1rem;
-  background: rgba(0, 245, 155, 0.1);
-  border: 1px solid rgba(0, 245, 155, 0.4);
-  border-radius: 8px;
+  padding: 0.65rem 1.2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.22) 0%,
+    rgba(0, 245, 155, 0.08) 50%,
+    rgba(4, 25, 16, 0.4) 100%
+  );
+  border: 1px solid rgba(0, 245, 155, 0.45);
+  box-shadow: 
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.3);
+  border-radius: 9999px;
   color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.88rem;
   font-weight: 600;
-  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-download-poster:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.35) 0%,
+    rgba(0, 245, 155, 0.15) 50%,
+    rgba(4, 30, 19, 0.5) 100%
+  );
+  border-color: #00f59b;
+  box-shadow: 
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.7),
+    0 0 22px rgba(0, 245, 155, 0.45);
+  transform: translateY(-1.5px);
 }
 
 .btn-download-poster .btn-icon {

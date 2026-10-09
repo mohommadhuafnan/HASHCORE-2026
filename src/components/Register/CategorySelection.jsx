@@ -1,3 +1,5 @@
+import sictLogo from '../../assets/SICT.png';
+
 /**
  * CategorySelection:
  * Displays the two official tracks:
@@ -253,9 +255,10 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
 
       {/* Footer Subtext */}
       <div className="cat-footer-note">
-        <p>
-          Organized by Society of Information and Communication Technology (SICT) • Faculty of Technology • South Eastern University of Sri Lanka
-        </p>
+        <div className="cat-organizer-pill">
+          <img src={sictLogo} alt="SICT Logo" className="cat-sict-logo" />
+          <span>Organized by Society of Information and Communication Technology (SICT) • Faculty of Technology • South Eastern University of Sri Lanka</span>
+        </div>
       </div>
     </div>
   );

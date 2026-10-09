@@ -1,6 +1,6 @@
 /* ==========================================================================
-   NAVBAR COMPONENT STYLES — SEUSL HASHCODE '26
-   Clean, Single-Layer Premium Glass Interface (No nested layers)
+   NAVBAR COMPONENT STYLES — SEUSL HASHCORE '26
+   Theme: Liquid Glass (Refractive, Fluid Caustics, Specular Rim Highlights)
    ========================================================================== */
 
 .navbar-header {
@@ -10,65 +10,166 @@
   right: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.35rem 3rem;
+  padding: 1.15rem 2rem 0.5rem;
   background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid transparent;
-  box-shadow: none;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: auto;
+  pointer-events: none; /* Allows click-through outside the floating capsule */
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar-header.is-scrolled {
-  padding: 0.85rem 3rem;
-  background: rgba(4, 10, 7, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 245, 155, 0.22);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+  padding: 0.65rem 2rem 0.4rem;
 }
 
-.navbar-container {
-  max-width: 1400px;
+/* ==========================================================================
+   Liquid Glass Capsule (Floating Interactive Island)
+   ========================================================================== */
+.liquid-glass-capsule {
+  position: relative;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.65rem 1.6rem;
+  border-radius: 9999px;
+  pointer-events: auto; /* Re-enable pointer events for the capsule itself */
+  
+  /* Liquid Refraction & Ultra-Deep Frost */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(8, 26, 17, 0.52) 30%,
+    rgba(3, 12, 8, 0.68) 100%
+  );
+  backdrop-filter: blur(28px) saturate(200%) brightness(106%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(106%);
+  
+  /* Precision Liquid Rim Lighting & Specular Bevel */
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    0 20px 40px -15px rgba(0, 0, 0, 0.75),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1.5px 2px 0 rgba(0, 245, 155, 0.22),
+    inset 1.5px 0 2px 0 rgba(255, 255, 255, 0.08),
+    0 0 35px -5px rgba(0, 245, 155, 0.12);
+  
+  overflow: hidden;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar-header.is-scrolled .liquid-glass-capsule {
+  padding: 0.52rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(6, 22, 14, 0.72) 32%,
+    rgba(2, 9, 6, 0.88) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.88),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -1.5px 2.5px 0 rgba(0, 245, 155, 0.28),
+    0 0 42px -4px rgba(0, 245, 155, 0.2);
+}
+
+/* ==========================================================================
+   Liquid Optical Layers (Caustics, Top Prismatic Sheen & Edge Dispersion)
+   ========================================================================== */
+.liquid-glass-reflection {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(0, 245, 155, 0.6) 80%,
+    transparent 100%
+  );
+  filter: blur(0.4px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    750px circle at 50% -20%,
+    rgba(0, 245, 155, 0.16) 0%,
+    rgba(0, 245, 155, 0.04) 45%,
+    transparent 75%
+  );
+  animation: liquid-glow-pulse 8s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+@keyframes liquid-glow-pulse {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.98) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02) translateY(1px);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.liquid-glass-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 16px rgba(0, 245, 155, 0.05);
+  z-index: 1;
 }
 
 /* ==========================================================================
    Brand Logo & Identity
    ========================================================================== */
 .navbar-brand {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   text-decoration: none;
   cursor: pointer;
-  padding: 0.15rem 0;
+  padding: 0.15rem 0.2rem;
 }
 
 .navbar-brand-logo {
-  height: 45px;
+  height: 40px;
   width: auto;
-  max-width: 205px;
+  max-width: 195px;
   object-fit: contain;
   display: block;
-  /* Invert black logo to crisp white/silver for dark cyber aesthetic */
-  filter: invert(1);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  /* Invert black logo to crisp silver-white */
+  filter: invert(1) brightness(1.05);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), filter 0.32s ease;
   user-select: none;
 }
 
 .navbar-brand:hover .navbar-brand-logo {
   transform: translateY(-1px) scale(1.03);
-  filter: invert(1) drop-shadow(0 0 10px rgba(0, 245, 155, 0.5));
+  filter: invert(1) brightness(1.2) drop-shadow(0 0 12px rgba(0, 245, 155, 0.6));
 }
 
 /* ==========================================================================
-   Desktop Navigation Links (Clean Single-Layer, No Pill Container)
+   Desktop Navigation Links (Liquid Glass Pill Nav)
    ========================================================================== */
 .navbar-nav {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
 }
@@ -76,12 +177,13 @@
 .nav-list {
   display: flex;
   align-items: center;
-  gap: 2.6rem;
+  gap: 0.5rem;
   list-style: none;
-  background: transparent;
-  /* No inner box layer */
-  border: none;
-  padding: 0;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.25rem 0.35rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
   margin: 0;
 }
 
@@ -92,63 +194,94 @@
 .nav-link {
   position: relative;
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   font-family: var(--font-heading);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: #cbd5e1;
-  padding: 0.4rem 0.2rem;
-  transition: color 0.25s ease;
+  padding: 0.42rem 1.05rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 .link-indicator {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--accent-emerald);
-  border-radius: 2px;
-  transform: translateX(-50%);
-  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 8px var(--accent-emerald);
+  display: none; /* Deprecated in liquid glass pill design */
 }
 
+/* Liquid Glass Hover Effect */
 .nav-link:hover {
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-0.5px);
 }
 
-.nav-link:hover .link-indicator,
-.nav-link.active .link-indicator {
-  width: 100%;
-}
-
+/* Liquid Glass Active State */
 .nav-link.active {
-  color: var(--accent-emerald);
+  color: #00f59b;
+  font-weight: 600;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.2) 0%,
+    rgba(0, 245, 155, 0.06) 100%
+  );
+  border-color: rgba(0, 245, 155, 0.45);
+  box-shadow: 
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(0, 245, 155, 0.2),
+    0 0 16px rgba(0, 245, 155, 0.25);
 }
 
 /* ==========================================================================
-   CTA Button
+   CTA Register Button — Liquid Emerald Drop
    ========================================================================== */
+.navbar-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
 .btn-register-cta {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 1.35rem;
+  padding: 0.52rem 1.3rem;
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: #ffffff;
-  background: rgba(0, 245, 155, 0.1);
-  border: 1px solid rgba(0, 245, 155, 0.4);
-  border-radius: 8px;
+  text-decoration: none;
+  border-radius: 9999px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
+  
+  /* Liquid Glass Gem Surface */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.26) 0%,
+    rgba(0, 245, 155, 0.1) 45%,
+    rgba(4, 25, 16, 0.45) 100%
+  );
+  border: 1px solid rgba(0, 245, 155, 0.55);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1.5px 2px 0 rgba(0, 245, 155, 0.25),
+    0 8px 24px -5px rgba(0, 245, 155, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-content {
@@ -156,49 +289,69 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
 
 .btn-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
-  animation: pulse-dot 2s infinite ease-in-out;
+  box-shadow: 0 0 10px var(--accent-emerald);
+  animation: liquid-dot-pulse 2s infinite ease-in-out;
 }
 
-@keyframes pulse-dot {
-
-  0%,
-  100% {
+@keyframes liquid-dot-pulse {
+  0%, 100% {
     transform: scale(1);
+    box-shadow: 0 0 8px var(--accent-emerald);
     opacity: 1;
   }
-
   50% {
     transform: scale(1.4);
-    opacity: 0.6;
+    box-shadow: 0 0 16px var(--accent-emerald), 0 0 24px var(--accent-emerald);
+    opacity: 0.8;
   }
 }
 
 .btn-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 245, 155, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(0, 245, 155, 0.45) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
 }
 
 .btn-register-cta:hover {
-  background: rgba(0, 245, 155, 0.2);
-  border-color: var(--accent-emerald);
-  box-shadow: 0 0 20px rgba(0, 245, 155, 0.35);
-  transform: translateY(-1px);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.38) 0%,
+    rgba(0, 245, 155, 0.16) 45%,
+    rgba(4, 30, 19, 0.55) 100%
+  );
+  border-color: #00f59b;
+  box-shadow: 
+    inset 0 1.5px 2.5px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1.5px 2.5px 0 rgba(0, 245, 155, 0.35),
+    0 0 30px rgba(0, 245, 155, 0.55),
+    0 4px 14px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1.5px) scale(1.02);
 }
 
 .btn-register-cta:hover .btn-glow {
   opacity: 1;
+}
+
+.btn-register-cta.is-active {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.42) 0%,
+    rgba(0, 245, 155, 0.22) 100%
+  );
+  border-color: #00f59b;
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.8),
+    0 0 25px rgba(0, 245, 155, 0.6);
 }
 
 .btn-register-cta.full-width {
@@ -206,7 +359,7 @@
 }
 
 /* ==========================================================================
-   Mobile Hamburger & Drawer
+   Mobile Controls & Liquid Glass Drawer
    ========================================================================== */
 .mobile-only {
   display: none;
@@ -218,14 +371,19 @@
 
 .hamburger-btn {
   display: none;
+  position: relative;
+  z-index: 1010;
   flex-direction: column;
   justify-content: space-around;
-  width: 32px;
-  height: 28px;
-  padding: 4px;
-  background: transparent;
+  width: 38px;
+  height: 38px;
+  padding: 8px 7px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
   cursor: pointer;
-  z-index: 1010;
+  backdrop-filter: blur(10px);
 }
 
 .hamburger-btn .bar {
@@ -237,7 +395,7 @@
 }
 
 .hamburger-btn.open .bar-1 {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(6.5px) rotate(45deg);
   background: var(--accent-emerald);
 }
 
@@ -247,7 +405,7 @@
 }
 
 .hamburger-btn.open .bar-3 {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-6.5px) rotate(-45deg);
   background: var(--accent-emerald);
 }
 
@@ -258,9 +416,12 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(4, 8, 6, 0.94);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  
+  /* Liquid Deep Frost Sheet */
+  background: rgba(3, 10, 6, 0.86);
+  backdrop-filter: blur(36px) saturate(210%) contrast(105%);
+  -webkit-backdrop-filter: blur(36px) saturate(210%) contrast(105%);
+  
   z-index: 999;
   opacity: 0;
   pointer-events: none;
@@ -290,7 +451,7 @@
 .drawer-nav {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.9rem;
 }
 
 .drawer-link {
@@ -298,17 +459,21 @@
   align-items: center;
   gap: 1rem;
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: #cbd5e1;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.25s ease;
+  padding: 0.75rem 1.2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .drawer-num {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--accent-emerald);
   font-weight: 600;
 }
@@ -316,8 +481,16 @@
 .drawer-link:hover,
 .drawer-link.active {
   color: #ffffff;
-  padding-left: 0.5rem;
-  border-bottom-color: var(--accent-emerald);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 155, 0.18) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border-color: rgba(0, 245, 155, 0.4);
+  box-shadow: 
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.35),
+    0 0 20px rgba(0, 245, 155, 0.2);
+  transform: translateX(4px);
 }
 
 .drawer-cta-wrap {
@@ -335,8 +508,10 @@
   letter-spacing: 0.05em;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 820px) {
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 900px) {
   .desktop-only {
     display: none !important;
   }
@@ -346,28 +521,31 @@
   }
 
   .navbar-header {
-    padding: 0.9rem 1.5rem;
+    padding: 0.8rem 1.2rem 0.4rem;
+  }
+
+  .liquid-glass-capsule {
+    padding: 0.55rem 1.1rem;
+    border-radius: 9999px;
+  }
+
+  .navbar-brand-logo {
+    height: 36px;
+    max-width: 160px;
   }
 }
 
 @media (max-width: 480px) {
   .navbar-header {
-    padding: 0.75rem 1rem;
+    padding: 0.65rem 0.85rem 0.3rem;
+  }
+
+  .liquid-glass-capsule {
+    padding: 0.48rem 0.95rem;
   }
 
   .navbar-brand-logo {
-    height: 35px;
-    max-width: 145px;
-  }
-}
-
-@media (max-width: 360px) {
-  .navbar-header {
-    padding: 0.65rem 0.8rem;
-  }
-
-  .navbar-brand-logo {
-    height: 30px;
-    max-width: 125px;
+    height: 32px;
+    max-width: 140px;
   }
 }
