@@ -81,25 +81,7 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
                 <span className="link-indicator" />
               </a>
             </li>
-            <li className="nav-item">
-              <a 
-                href="#team" 
-                className="nav-link"
-                onClick={(e) => {
-                  if (currentView !== 'home' && onNavigateHome) {
-                    e.preventDefault();
-                    onNavigateHome();
-                    setTimeout(() => {
-                      const el = document.getElementById('team');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }
-                }}
-              >
-                <span className="link-text">Team</span>
-                <span className="link-indicator" />
-              </a>
-            </li>
+
             <li className="nav-item">
               <a 
                 href="#posters" 
@@ -200,24 +182,7 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
               <span className="drawer-num">02</span>
               <span>Timeline</span>
             </a>
-            <a 
-              href="#team" 
-              className="drawer-link" 
-              onClick={(e) => {
-                closeMenu();
-                if (currentView !== 'home' && onNavigateHome) {
-                  e.preventDefault();
-                  onNavigateHome();
-                  setTimeout(() => {
-                    const el = document.getElementById('team');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }
-              }}
-            >
-              <span className="drawer-num">03</span>
-              <span>Organizing Team</span>
-            </a>
+
             <a 
               href="#posters" 
               className="drawer-link" 
