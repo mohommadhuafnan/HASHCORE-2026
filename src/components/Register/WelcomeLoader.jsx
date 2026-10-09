@@ -4,30 +4,30 @@ import './WelcomeLoader.css';
 
 // Static streams outside the component to prevent re-render recreation & timer reset loops
 const CTF_CODE_STREAM = [
-  { type: 'comment', text: '# SEUSL HASHCORE 2026 // CTF DEFENSE ARENA' },
-  { type: 'import',  text: 'import socket, ssl, hashlib, struct' },
-  { type: 'info',    text: '[*] TARGET: arena.hashcore2026.tech:1337' },
-  { type: 'cmd',     text: 's = socket.socket(AF_INET, SOCK_STREAM)' },
-  { type: 'success', text: '[+] Socket stream connected. Latency: 4ms' },
-  { type: 'info',    text: '[*] Scanning ports: 22, 80, 443, 31337 [OPEN]' },
-  { type: 'warn',    text: '[!] Cryptographic: RSA-4096 + AES-256-GCM' },
-  { type: 'cmd',     text: 'payload = b"A"*72 + p64(0x7fff5fbff7c0)' },
-  { type: 'success', text: '[+] Memory leak: 0x7fff5fbff7c0 -> Verified' },
-  { type: 'special', text: '[✓] HASHCORE{S3USL_CTF_2026_ACC3SS_GR4NT3D}' },
-  { type: 'highlight', text: '[>>>] ACCESS 100% GRANTED // OPENING FORM' },
+  { type: 'comment', text: '# SEUSL HASHCORE v0.1 – 2026 // WORKSHOP 01' },
+  { type: 'import',  text: 'import ctf_prep, cryptography, forensics' },
+  { type: 'info',    text: '[*] TOPIC: CTF: From Awareness to Challenge' },
+  { type: 'cmd',     text: 'roadmap = ctf_prep.load_beginner_roadmap()' },
+  { type: 'success', text: '[+] Loading Web Exploitation & OWASP modules' },
+  { type: 'info',    text: '[*] Initializing Cryptography & Ciphers lab' },
+  { type: 'warn',    text: '[!] Hands-on cybersecurity challenges ready' },
+  { type: 'cmd',     text: 'verify_session(date="24-OCT-2026", venue="SWT Hall")' },
+  { type: 'success', text: '[+] Session verified: 8:30 AM – 4:30 PM' },
+  { type: 'special', text: '[✓] HASHCORE{CTF_AWARENESS_WORKSHOP_READY}' },
+  { type: 'highlight', text: '[>>>] MODULES READY // OPENING REGISTRATION FORM' },
 ];
 
 const WEB_CODE_STREAM = [
-  { type: 'comment', text: '// SEUSL HASHCORE 2026 // FULLSTACK RUNTIME' },
-  { type: 'import',  text: 'import React, { useState } from "react";' },
-  { type: 'info',    text: '$ vite build --mode production' },
-  { type: 'success', text: '✓ 148 modules transformed in 38ms' },
-  { type: 'cmd',     text: 'const db = await MongoClient.connect(URI);' },
-  { type: 'info',    text: '[db] Atlas cluster verified: seusl.mongodb.net' },
-  { type: 'warn',    text: '[tailwind] Liquid glass UI tokens compiled' },
-  { type: 'success', text: '✓ WebSocket secure stream connected' },
-  { type: 'special', text: 'dist/assets/index.js 288 kB │ gzip: 86 kB' },
-  { type: 'highlight', text: '[✓] WORKSPACE 100% READY // OPENING FORM' },
+  { type: 'comment', text: '// SEUSL HASHCORE v0.1 – 2026 // WORKSHOP 02' },
+  { type: 'import',  text: 'import { IdeaToImpact, Prototyping } from "workshop";' },
+  { type: 'info',    text: '$ vite init --template from-idea-to-impact' },
+  { type: 'success', text: '✓ UI/UX & Web Development curriculum loaded' },
+  { type: 'cmd',     text: 'const workshop = new WebDevAwareness();' },
+  { type: 'info',    text: '[topics] Idea Generation, AI-Assisted Tools, Pitching' },
+  { type: 'warn',    text: '[session] 31 October 2026 @ SWT Hall, SEUSL' },
+  { type: 'success', text: '✓ Environment configured: 8:30 AM – 4:30 PM' },
+  { type: 'special', text: 'dist/modules/web-dev-impact.js compiled [OK]' },
+  { type: 'highlight', text: '[✓] MODULES READY // OPENING REGISTRATION FORM' },
 ];
 
 export default function WelcomeLoader({ track, onComplete }) {
@@ -86,14 +86,14 @@ export default function WelcomeLoader({ track, onComplete }) {
         {/* Track Badge & Title */}
         <div className="hud-badge font-mono">
           <span className="hud-pulsing-dot" />
-          <span>{isCTF ? 'TRACK 01 // CTF DEFENSE ARENA' : 'TRACK 02 // FULLSTACK WEB DEV'}</span>
+          <span>{isCTF ? 'WORKSHOP 01 // CTF: FROM AWARENESS TO CHALLENGE' : 'WORKSHOP 02 // FROM IDEA TO IMPACT (WEB DEV)'}</span>
         </div>
 
         <h2 className="hud-title">
           {isCTF ? (
-            <>INITIALIZING <span className="hud-accent">CTF ARENA</span></>
+            <>PREPARING <span className="hud-accent">CTF WORKSHOP MODULES</span></>
           ) : (
-            <>INITIALIZING <span className="hud-accent">WEB DEV ARENA</span></>
+            <>PREPARING <span className="hud-accent">WEB DEV WORKSHOP MODULES</span></>
           )}
         </h2>
 

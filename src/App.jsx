@@ -12,8 +12,8 @@ const RegisterPortal = lazy(() => import('./components/Register/RegisterPortal')
 const OrganizerPortal = lazy(() => import('./components/Admin/OrganizerPortal'));
 
 /**
- * South Eastern University of Sri Lanka (SEUSL) — HASHCORE '26
- * Flagship Cyber Citadel & Hackathon Championship
+ * South Eastern University of Sri Lanka (SEUSL) — HASHCORE v0.1 – 2026
+ * A Student-Led Technical Competition Awareness Workshop Series
  */
 function App() {
   const [currentView, setCurrentView] = useState('home'); // 'home' | 'register' | 'admin'

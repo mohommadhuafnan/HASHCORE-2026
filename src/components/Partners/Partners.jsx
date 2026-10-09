@@ -9,12 +9,13 @@ export default function Partners() {
       <div className="section-container">
         {/* Section Header */}
         <div className="section-header text-center reveal-on-scroll">
+          <span className="section-badge font-mono">EVENT ORGANIZERS</span>
           <h2 className="section-title">
-            ORGANIZED BY <span className="title-gradient">SICT x DICT</span>
+            ORGANIZED BY <span className="title-gradient">SICT</span>
           </h2>
           <p className="section-desc">
-            Empowered by the technological leadership of the Faculty of Technology, SICT,
-            and broadcasting excellence by Agni Vision.
+            Organized by the Society of ICT (SICT), under the Department of Information and Communication Technology (DICT),
+            Faculty of Technology, South Eastern University of Sri Lanka (SEUSL).
           </p>
         </div>
 
@@ -40,7 +41,7 @@ export default function Partners() {
 
               <div className="partner-text-info">
                 <h3 className="partner-brand-name">SICT</h3>
-                <p className="partner-sub-title">Society of Information & Communication Technology</p>
+                <p className="partner-sub-title">Society of ICT • Under Department of ICT (DICT)</p>
                 <span className="partner-affil">Faculty of Technology • SEUSL</span>
               </div>
             </div>

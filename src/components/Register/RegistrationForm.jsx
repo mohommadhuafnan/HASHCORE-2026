@@ -18,7 +18,7 @@ import { submitToGoogleForm } from '../../services/googleFormService';
  */
 export default function RegistrationForm({ track, onBackToCategories, onSuccess }) {
   const isCTF = track === 'CTF';
-  const competitionValue = isCTF ? 'CTF Competition' : 'Web Development Competition';
+  const competitionValue = isCTF ? 'Workshop 01: CTF: From Awareness to Challenge' : 'Workshop 02: From Idea to Impact (Web Dev)';
 
   const [formData, setFormData] = useState({
     initialsWithName: '',
@@ -347,12 +347,12 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
           type="button" 
           onClick={onBackToCategories} 
           className="btn-switch-track"
-          title="Switch competition track"
+          title="Switch workshop track"
         >
           <svg viewBox="0 0 24 24" fill="none" className="arrow-left">
             <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span>Change Competition</span>
+          <span>Change Workshop</span>
         </button>
 
         <div className={`selected-track-pill ${isCTF ? 'ctf' : 'web'}`}>
@@ -364,12 +364,12 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
       <div className="reg-form-card">
         {/* Form Title & Context */}
         <div className="form-head-block">
-          <span className="form-kicker font-mono">SEUSL HASHCORE '26 // REGISTRATION PORTAL</span>
+          <span className="form-kicker font-mono">SEUSL HASHCORE v0.1 – 2026 // WORKSHOP REGISTRATION</span>
           <h2 className="form-title">
             Register for <span className={isCTF ? 'highlight-cyan' : 'highlight-emerald'}>{competitionValue}</span>
           </h2>
           <p className="form-subtext">
-            Complete the required information below to register for the citadel competition.
+            Complete the form below to register for the awareness workshop. Participation is free. Prior registration is required for students of the Department of ICT.
           </p>
         </div>
 
@@ -387,10 +387,10 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="reg-form-fields" noValidate>
           <div className="form-grid">
-            {/* Competition Field (Pre-filled / Auto-set) */}
+            {/* Workshop Field (Pre-filled / Auto-set) */}
             <div className="form-field full-width">
               <label htmlFor="competition" className="field-label">
-                <span>Selected Competition</span>
+                <span>Selected Workshop</span>
               </label>
               <div className="input-wrap">
                 <input
