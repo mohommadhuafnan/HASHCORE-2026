@@ -163,10 +163,10 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               <button
                 type="button"
                 className="btn-select-track is-locked-cta"
-                onClick={() => alert('Workshop 01: CTF: From Awareness to Challenge registration officially opens on October 11, 2026 at 9:30 AM.')}
-                title="Registration opens October 11, 2026 at 9:30 AM"
+                onClick={() => alert('Registration opens automatically when the countdown timer reaches zero.')}
+                title="Registration will unlock automatically when the countdown timer completes"
               >
-                <span className="btn-text">Opens October 11 · 9:30 AM</span>
+                <span className="btn-text">Registration Locked</span>
               </button>
             )}
           </div>
@@ -248,10 +248,10 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
               <button
                 type="button"
                 className="btn-select-track is-locked-cta"
-                onClick={() => alert('Workshop 02: From Idea to Impact registration officially opens on October 16, 2026 at 9:30 AM.')}
-                title="Registration opens October 16, 2026 at 9:30 AM"
+                onClick={() => alert('Registration opens automatically when the countdown timer reaches zero.')}
+                title="Registration will unlock automatically when the countdown timer completes"
               >
-                <span className="btn-text">Opens October 16 · 9:30 AM</span>
+                <span className="btn-text">Registration Locked</span>
               </button>
             )}
           </div>

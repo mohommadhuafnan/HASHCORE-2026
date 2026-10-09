@@ -5,32 +5,32 @@ import './Timeline.css';
 const TIMELINE_DATA = [
   {
     id: 'ctf-open',
-    date: 'OCTOBER 11, 2026',
-    day: '11',
-    month: 'OCT',
+    date: 'COUNTDOWN ACTIVE',
+    day: '01',
+    month: 'STAGE',
     track: 'CTF',
     trackName: 'NETWORK & SECURITY TECHNOLOGIES',
-    title: 'Workshop 01: Registration Opens (9:30 AM)',
+    title: 'Workshop 01: Registration Opening',
     status: 'OPENS SOON',
     statusType: 'opening',
     badge: 'STAGE 01',
     targetDate: WORKSHOP_UNLOCK_DATES.CTF,
-    description: 'Registration officially opens on October 11, 2026 at 9:30 AM for undergraduate students in Faculty of Technology to join Workshop 01: CTF: From Awareness to Challenge.',
+    description: 'Registration opens automatically when the countdown timer reaches zero for undergraduate students in Faculty of Technology to join Workshop 01: CTF: From Awareness to Challenge.',
     highlights: ['Cybersecurity & CTF Roadmap', 'Hands-on Security Drills', 'Prior Registration Required'],
   },
   {
     id: 'webdev-open',
-    date: 'OCTOBER 16, 2026',
-    day: '16',
-    month: 'OCT',
+    date: 'COUNTDOWN ACTIVE',
+    day: '02',
+    month: 'STAGE',
     track: 'WEBDEV',
     trackName: 'SOFTWARE TECHNOLOGIES',
-    title: 'Workshop 02: Registration Opens (9:30 AM)',
+    title: 'Workshop 02: Registration Opening',
     status: 'OPENS SOON',
     statusType: 'opening',
     badge: 'STAGE 02',
     targetDate: WORKSHOP_UNLOCK_DATES.WEB,
-    description: 'Registration officially opens on October 16, 2026 at 9:30 AM for Workshop 02: From Idea to Impact. Prior registration is required.',
+    description: 'Registration opens automatically when the countdown timer reaches zero for Workshop 02: From Idea to Impact. Prior registration is required.',
     highlights: ['Idea to Prototype Workflows', 'Modern Web & AI Tools', 'Prior Registration Required'],
   },
   {
@@ -347,7 +347,7 @@ export default function Timeline({ onNavigateRegister }) {
               <div className="detail-info">
                 <span className="detail-tag font-mono">DATES</span>
                 <h4 className="detail-title">To Be Announced</h4>
-                <p className="detail-desc">October 2026 • Revealing October 11, 9:30 AM</p>
+                <p className="detail-desc">October 2026 • Two scheduled full-day workshops</p>
               </div>
             </div>
 
@@ -371,7 +371,7 @@ export default function Timeline({ onNavigateRegister }) {
               <div className="detail-info">
                 <span className="detail-tag font-mono">TIME</span>
                 <h4 className="detail-title">To Be Announced</h4>
-                <p className="detail-desc">Full-day interactive sessions • Revealing October 11, 9:30 AM</p>
+                <p className="detail-desc">Full-day interactive hands-on sessions</p>
               </div>
             </div>
 
@@ -395,7 +395,7 @@ export default function Timeline({ onNavigateRegister }) {
               <div className="detail-info">
                 <span className="detail-tag font-mono">VENUE</span>
                 <h4 className="detail-title">To Be Announced</h4>
-                <p className="detail-desc">Faculty of Technology, SEUSL • Revealing October 11, 9:30 AM</p>
+                <p className="detail-desc">Faculty of Technology, SEUSL (Hall TBA)</p>
               </div>
             </div>
 
