@@ -439,6 +439,99 @@
   color: #cbd5e1;
 }
 
+/* Footer Direct Contact Channel Pills */
+.footer-contact-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  background: var(--liquid-glass-bg);
+  border: 1px solid var(--liquid-glass-border);
+  border-radius: 12px;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.footer-contact-item:hover {
+  background: var(--liquid-glass-bg-hover);
+  transform: translateX(4px);
+}
+
+.footer-contact-item.whatsapp-footer-item:hover {
+  border-color: rgba(37, 211, 102, 0.45);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+}
+
+.footer-contact-item.email-footer-item:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+}
+
+.footer-contact-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.footer-contact-icon.whatsapp-accent {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.footer-contact-icon.email-accent {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.f-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.footer-contact-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.fc-type {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.fc-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.whatsapp-footer-item:hover .fc-value {
+  color: #4efbc1;
+}
+
+.email-footer-item:hover .fc-value {
+  color: #7dd3fc;
+}
+
 /* ==========================================================================
    Bottom Bar
    ========================================================================== */

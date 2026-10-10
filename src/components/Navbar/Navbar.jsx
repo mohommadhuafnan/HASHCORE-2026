@@ -8,7 +8,7 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'timeline', 'posters', 'partners'].includes(hash)) return hash;
+      if (['home', 'timeline', 'posters', 'partners', 'contact'].includes(hash)) return hash;
     }
     return 'home';
   });
@@ -48,7 +48,7 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
   useEffect(() => {
     const handleHashSync = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'timeline', 'posters', 'partners'].includes(hash)) {
+      if (['home', 'timeline', 'posters', 'partners', 'contact'].includes(hash)) {
         setActiveSection(hash);
       }
     };
@@ -73,7 +73,7 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
         return;
       }
 
-      const sectionIds = ['partners', 'posters', 'timeline'];
+      const sectionIds = ['contact', 'partners', 'posters', 'timeline'];
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
@@ -210,6 +210,16 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
                 <span className="link-indicator" />
               </a>
             </li>
+            <li className="nav-item">
+              <a 
+                href="#contact" 
+                className={`nav-link ${currentView === 'home' && activeSection === 'contact' ? 'active' : ''}`}
+                onClick={(e) => handleNavClick('contact', e)}
+              >
+                <span className="link-text">Contact</span>
+                <span className="link-indicator" />
+              </a>
+            </li>
           </ul>
         </nav>
 
@@ -304,11 +314,19 @@ export default function Navbar({ onNavigateRegister, onNavigateHome, currentView
               <span>SICT & Media Partners</span>
             </a>
             <a 
+              href="#contact" 
+              className={`drawer-link ${currentView === 'home' && activeSection === 'contact' ? 'active' : ''}`} 
+              onClick={(e) => handleNavClick('contact', e)}
+            >
+              <span className="drawer-num">05</span>
+              <span>Contact Us</span>
+            </a>
+            <a 
               href="#register" 
               className={`drawer-link ${currentView === 'register' ? 'active' : ''}`} 
               onClick={handleRegisterClick}
             >
-              <span className="drawer-num">05</span>
+              <span className="drawer-num">06</span>
               <span>Register Now</span>
             </a>
           </nav>
