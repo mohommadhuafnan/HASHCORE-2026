@@ -54,7 +54,7 @@ const TIMELINE_DATA = [
     month: 'OCT',
     track: 'CTF',
     trackName: 'NETWORK & SECURITY TECHNOLOGIES',
-    title: 'Workshop 01: CTF: From Awareness to Challenge',
+    title: 'Workshop 01: From Awareness to Challenge',
     status: 'LIVE SESSION',
     statusType: 'event',
     badge: 'WORKSHOP 01',

@@ -99,7 +99,7 @@ export default function Footer({ onNavigateRegister }) {
             <div className="footer-col">
               <h4 className="col-heading">Featured Workshops</h4>
               <ul className="footer-nav-links">
-                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('CTF'); } }}>Workshop 01: CTF: From Awareness to Challenge</a></li>
+                <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('CTF'); } }}>Workshop 01: From Awareness to Challenge</a></li>
                 <li><a href="#register" onClick={(e) => { if (onNavigateRegister) { e.preventDefault(); onNavigateRegister('WEB'); } }}>Workshop 02: From Idea to Impact</a></li>
                 <li><a href="#details">Dates: October 2026 (TBA)</a></li>
                 <li><a href="#details">Time: To Be Announced</a></li>

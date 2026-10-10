@@ -5,13 +5,13 @@ import './WelcomeLoader.css';
 // Static streams outside the component to prevent re-render recreation & timer reset loops
 const CTF_CODE_STREAM = [
   { type: 'comment', text: '# SEUSL HASHCORE v0.1 – 2026 // WORKSHOP 01' },
-  { type: 'import',  text: 'import ctf_prep, cryptography, forensics' },
-  { type: 'info',    text: '[*] TOPIC: CTF: From Awareness to Challenge' },
-  { type: 'cmd',     text: 'roadmap = ctf_prep.load_beginner_roadmap()' },
+  { type: 'import', text: 'import ctf_prep, cryptography, forensics' },
+  { type: 'info', text: '[*] TOPIC: From Awareness to Challenge' },
+  { type: 'cmd', text: 'roadmap = ctf_prep.load_beginner_roadmap()' },
   { type: 'success', text: '[+] Loading Web Exploitation & OWASP modules' },
-  { type: 'info',    text: '[*] Initializing Cryptography & Ciphers lab' },
-  { type: 'warn',    text: '[!] Hands-on cybersecurity challenges ready' },
-  { type: 'cmd',     text: 'verify_session(date="24-OCT-2026", venue="SWT Hall")' },
+  { type: 'info', text: '[*] Initializing Cryptography & Ciphers lab' },
+  { type: 'warn', text: '[!] Hands-on cybersecurity challenges ready' },
+  { type: 'cmd', text: 'verify_session(date="24-OCT-2026", venue="SWT Hall")' },
   { type: 'success', text: '[+] Session verified: 8:30 AM – 4:30 PM' },
   { type: 'special', text: '[✓] HASHCORE{CTF_AWARENESS_WORKSHOP_READY}' },
   { type: 'highlight', text: '[>>>] MODULES READY // OPENING REGISTRATION FORM' },
@@ -19,12 +19,12 @@ const CTF_CODE_STREAM = [
 
 const WEB_CODE_STREAM = [
   { type: 'comment', text: '// SEUSL HASHCORE v0.1 – 2026 // WORKSHOP 02' },
-  { type: 'import',  text: 'import { IdeaToImpact, Prototyping } from "workshop";' },
-  { type: 'info',    text: '$ vite init --template from-idea-to-impact' },
+  { type: 'import', text: 'import { IdeaToImpact, Prototyping } from "workshop";' },
+  { type: 'info', text: '$ vite init --template from-idea-to-impact' },
   { type: 'success', text: '✓ UI/UX & Web Development curriculum loaded' },
-  { type: 'cmd',     text: 'const workshop = new WebDevAwareness();' },
-  { type: 'info',    text: '[topics] Idea Generation, AI-Assisted Tools, Pitching' },
-  { type: 'warn',    text: '[session] 31 October 2026 @ SWT Hall, SEUSL' },
+  { type: 'cmd', text: 'const workshop = new WebDevAwareness();' },
+  { type: 'info', text: '[topics] Idea Generation, AI-Assisted Tools, Pitching' },
+  { type: 'warn', text: '[session] 31 October 2026 @ SWT Hall, SEUSL' },
   { type: 'success', text: '✓ Environment configured: 8:30 AM – 4:30 PM' },
   { type: 'special', text: 'dist/modules/web-dev-impact.js compiled [OK]' },
   { type: 'highlight', text: '[✓] MODULES READY // OPENING REGISTRATION FORM' },
@@ -76,17 +76,17 @@ export default function WelcomeLoader({ track, onComplete }) {
         {/* Rotating # PNG Logo in Center */}
         <div className="hud-logo-wrapper">
           <div className="hud-rotating-ring" />
-          <img 
-            src={hashcoreLogo} 
-            alt="SEUSL HASHCORE Logo" 
-            className="hud-rotating-logo" 
+          <img
+            src={hashcoreLogo}
+            alt="SEUSL HASHCORE Logo"
+            className="hud-rotating-logo"
           />
         </div>
 
         {/* Track Badge & Title */}
         <div className="hud-badge font-mono">
           <span className="hud-pulsing-dot" />
-          <span>{isCTF ? 'WORKSHOP 01 // CTF: FROM AWARENESS TO CHALLENGE' : 'WORKSHOP 02 // FROM IDEA TO IMPACT (WEB DEV)'}</span>
+          <span>{isCTF ? 'WORKSHOP 01 // FROM AWARENESS TO CHALLENGE' : 'WORKSHOP 02 // FROM IDEA TO IMPACT (WEB DEV)'}</span>
         </div>
 
         <h2 className="hud-title">
