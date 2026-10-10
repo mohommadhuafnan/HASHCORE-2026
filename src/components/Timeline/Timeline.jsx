@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES } from '../common/RegistrationCountdown';
+import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES, useRegistrationCountdown } from '../common/RegistrationCountdown';
 import './Timeline.css';
 
 const TIMELINE_DATA = [
@@ -95,6 +95,8 @@ export default function Timeline({ onNavigateRegister }) {
   const trackWrapperRef = useRef(null);
   const beamRef = useRef(null);
   const filteredEvents = TIMELINE_DATA;
+  const ctfCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.CTF);
+  const webCountdown = useRegistrationCountdown(WORKSHOP_UNLOCK_DATES.WEB);
 
   // High-performance 120 FPS Scroll Lighting Animation
   useEffect(() => {
@@ -187,6 +189,8 @@ export default function Timeline({ onNavigateRegister }) {
             {filteredEvents.map((item, index) => {
               const isEven = index % 2 === 0;
               const isCTF = item.track === 'CTF';
+              const countdown = isCTF ? ctfCountdown : webCountdown;
+              const isUnlocked = countdown ? countdown.isUnlocked : false;
 
               return (
                 <div
@@ -253,22 +257,55 @@ export default function Timeline({ onNavigateRegister }) {
                     )}
 
                     <div className="card-footer-action">
-                      <a
-                        href="#register"
-                        className="card-action-btn"
-                        onClick={(e) => {
-                          if (onNavigateRegister) {
+                      {item.statusType === 'event' ? (
+                        <a
+                          href="#details"
+                          className="card-action-btn"
+                          onClick={(e) => {
                             e.preventDefault();
-                            const trackKey = item.track === 'CTF' ? 'CTF' : 'WEB';
-                            onNavigateRegister(trackKey);
-                          }
-                        }}
-                      >
-                        <span>{item.statusType === 'event' ? 'Workshop Details' : 'Register Now'}</span>
-                        <svg viewBox="0 0 24 24" fill="none" className="arrow-icon">
-                          <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </a>
+                            const detailsEl = document.getElementById('details');
+                            if (detailsEl) detailsEl.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                        >
+                          <span>Workshop Details</span>
+                          <svg viewBox="0 0 24 24" fill="none" className="arrow-icon">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      ) : !isUnlocked ? (
+                        <button
+                          type="button"
+                          className="card-action-btn is-locked-btn"
+                          onClick={() => {
+                            alert('Registration opens automatically when the countdown timer reaches zero.');
+                          }}
+                          title="Registration will unlock automatically when the countdown timer completes"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" className="btn-lock-icon">
+                            <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                            <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                            <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                          </svg>
+                          <span>Registration Locked</span>
+                        </button>
+                      ) : (
+                        <a
+                          href="#register"
+                          className="card-action-btn is-unlocked-btn"
+                          onClick={(e) => {
+                            if (onNavigateRegister) {
+                              e.preventDefault();
+                              const trackKey = item.track === 'CTF' ? 'CTF' : 'WEB';
+                              onNavigateRegister(trackKey);
+                            }
+                          }}
+                        >
+                          <span>Register Now</span>
+                          <svg viewBox="0 0 24 24" fill="none" className="arrow-icon">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

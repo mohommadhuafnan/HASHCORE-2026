@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { registerParticipant } from '../../services/apiService';
 import { submitToGoogleForm } from '../../services/googleFormService';
+import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES, useRegistrationCountdown } from '../common/RegistrationCountdown';
 
 /**
  * RegistrationForm:
@@ -18,6 +19,8 @@ import { submitToGoogleForm } from '../../services/googleFormService';
  */
 export default function RegistrationForm({ track, onBackToCategories, onSuccess }) {
   const isCTF = track === 'CTF';
+  const targetUnlockDate = isCTF ? WORKSHOP_UNLOCK_DATES.CTF : WORKSHOP_UNLOCK_DATES.WEB;
+  const countdown = useRegistrationCountdown(targetUnlockDate);
   const competitionValue = isCTF ? 'Workshop 01:From Awareness to Challenge' : 'Workshop 02: From Idea to Impact (Web Dev)';
 
   const [formData, setFormData] = useState({
@@ -55,6 +58,35 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
     '2023/2024',
     '2024/2025',
   ];
+
+  if (!countdown.isUnlocked) {
+    return (
+      <div className="reg-form-card" style={{ textAlign: 'center', padding: '3.5rem 2rem' }}>
+        <div className="form-header-badge" style={{ margin: '0 auto 1.5rem', display: 'inline-flex' }}>
+          <span>REGISTRATION LOCKED // COUNTDOWN ACTIVE</span>
+        </div>
+        <h2 className="form-main-title" style={{ marginBottom: '1rem' }}>
+          Registration Opens Soon
+        </h2>
+        <p className="form-subtitle" style={{ maxWidth: '600px', margin: '0 auto 2rem', color: '#94a3b8' }}>
+          Registration for {isCTF ? 'Workshop 01: From Awareness to Challenge' : 'Workshop 02: From Idea to Impact'} opens automatically when the countdown timer reaches zero.
+        </p>
+
+        <div style={{ maxWidth: '480px', margin: '0 auto 2.5rem' }}>
+          <RegistrationCountdown targetDate={targetUnlockDate} track={isCTF ? 'CTF' : 'WEB'} />
+        </div>
+
+        <button
+          type="button"
+          onClick={onBackToCategories}
+          className="btn-submit-reg"
+          style={{ maxWidth: '300px', margin: '0 auto' }}
+        >
+          <span>Choose Another Workshop</span>
+        </button>
+      </div>
+    );
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

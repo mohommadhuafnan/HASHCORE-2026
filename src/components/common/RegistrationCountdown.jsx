@@ -11,6 +11,14 @@ export const WORKSHOP_UNLOCK_DATES = {
   WEB: new Date('2026-10-16T09:30:00+05:30'),
 };
 
+export function isWorkshopUnlocked(track) {
+  const key = (track || '').toUpperCase();
+  const target = (key === 'CTF' || key.includes('CTF')) ? WORKSHOP_UNLOCK_DATES.CTF : WORKSHOP_UNLOCK_DATES.WEB;
+  if (!target) return false;
+  const targetTime = target instanceof Date ? target.getTime() : new Date(target).getTime();
+  return Date.now() >= targetTime;
+}
+
 export function useRegistrationCountdown(targetDate) {
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
 
