@@ -55,6 +55,13 @@
   pointer-events: none;
 }
 
+/* Disabled in mobile view for performance & clean layout; active on laptop view */
+@media (max-width: 768px) {
+  .hero-smoke-canvas {
+    display: none !important;
+  }
+}
+
 /* ==========================================================================
    Atmospheric Overlays (Soft natural vignette — small dark without color distortion)
    ========================================================================== */
