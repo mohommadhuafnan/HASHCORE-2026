@@ -22,11 +22,9 @@ export default function SmokeCanvas({ scrollVelocityRef }) {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
+    // Mobile view detection: Disable canvas loop on mobile (<= 768px) to optimize battery & mobile smoothness
+    const isMobileView = () => window.innerWidth <= 768;
+    let isRunning = false;
 
     // Wispy smoke particle definition for Left and Right flanks
     const PARTICLE_COUNT = 44; // 22 on left, 22 on right
@@ -66,7 +64,38 @@ export default function SmokeCanvas({ scrollVelocityRef }) {
 
     let smoothedVelocity = 0;
 
+    const stopAnimation = () => {
+      isRunning = false;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      ctx.clearRect(0, 0, width, height);
+    };
+
+    const startAnimation = () => {
+      if (isRunning || isMobileView()) return;
+      isRunning = true;
+      render();
+    };
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      if (isMobileView()) {
+        stopAnimation();
+      } else if (!isRunning) {
+        startAnimation();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
     const render = () => {
+      if (!isRunning || isMobileView()) {
+        stopAnimation();
+        return;
+      }
+
       const rawVelocity = scrollVelocityRef ? scrollVelocityRef.current || 0 : 0;
       smoothedVelocity += (rawVelocity - smoothedVelocity) * 0.14;
 
@@ -140,10 +169,13 @@ export default function SmokeCanvas({ scrollVelocityRef }) {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    // Start only on laptop/desktop view
+    if (!isMobileView()) {
+      startAnimation();
+    }
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      stopAnimation();
       window.removeEventListener('resize', handleResize);
     };
   }, [scrollVelocityRef]);

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import RegistrationCountdown, { WORKSHOP_UNLOCK_DATES } from '../common/RegistrationCountdown';
 import './Timeline.css';
 
@@ -92,14 +92,9 @@ const TIMELINE_DATA = [
 ];
 
 export default function Timeline({ onNavigateRegister }) {
-  const [activeFilter, setActiveFilter] = useState('ALL');
   const trackWrapperRef = useRef(null);
   const beamRef = useRef(null);
-
-  const filteredEvents = useMemo(() => {
-    if (activeFilter === 'ALL') return TIMELINE_DATA;
-    return TIMELINE_DATA.filter((event) => event.track === activeFilter);
-  }, [activeFilter]);
+  const filteredEvents = TIMELINE_DATA;
 
   // High-performance 120 FPS Scroll Lighting Animation
   useEffect(() => {
@@ -149,7 +144,7 @@ export default function Timeline({ onNavigateRegister }) {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [activeFilter]);
+  }, []);
 
   return (
     <section id="timeline" className="timeline-section">
@@ -165,36 +160,6 @@ export default function Timeline({ onNavigateRegister }) {
           <p className="section-desc">
             Track registration deadlines, workshop dates, and key learning milestones for HASHCORE v0.1 – 2026.
           </p>
-
-          {/* Interactive Filter Pills */}
-          <div className="timeline-filter-bar reveal-on-scroll stagger-1">
-            <button
-              type="button"
-              className={`filter-btn ${activeFilter === 'ALL' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('ALL')}
-            >
-              <span>Unified Schedule</span>
-              <span className="filter-count">6</span>
-            </button>
-            <button
-              type="button"
-              className={`filter-btn ctf-tab ${activeFilter === 'CTF' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('CTF')}
-            >
-              <span className="tab-indicator ctf-dot" />
-              <span>From Awareness to Challenge</span>
-              <span className="filter-count">3</span>
-            </button>
-            <button
-              type="button"
-              className={`filter-btn webdev-tab ${activeFilter === 'WEBDEV' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('WEBDEV')}
-            >
-              <span className="tab-indicator webdev-dot" />
-              <span>From Idea to Impact</span>
-              <span className="filter-count">3</span>
-            </button>
-          </div>
         </div>
 
         {/* Timeline Spine & Nodes with Scroll-Driven Lighting */}
