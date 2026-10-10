@@ -405,9 +405,6 @@ export default function Hero({ onNavigateRegister }) {
                   <span>Beginner Roadmap</span>
                 </div>
 
-                {/* Real-Time Registration Countdown */}
-                <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.CTF} track="CTF" />
-
                 <div className="track-card-action">
                   {ctfCountdown.isUnlocked ? (
                     <a
@@ -429,9 +426,9 @@ export default function Hero({ onNavigateRegister }) {
                     <button
                       type="button"
                       className="track-enroll-btn is-locked-cta"
-                      title="Workshop 01 registration unlocks automatically when the countdown completes"
+                      title="Workshop 01 registration is currently locked"
                       onClick={() => {
-                        alert('Registration opens automatically when the countdown timer reaches zero.');
+                        alert('Registration is currently locked. Please stay tuned for announcements.');
                       }}
                     >
                       <svg viewBox="0 0 24 24" fill="none" className="btn-lock-icon">
@@ -470,9 +467,6 @@ export default function Hero({ onNavigateRegister }) {
                   <span>Pitching</span>
                 </div>
 
-                {/* Real-Time Registration Countdown */}
-                <RegistrationCountdown targetDate={WORKSHOP_UNLOCK_DATES.WEB} track="WEB" />
-
                 <div className="track-card-action">
                   {webCountdown.isUnlocked ? (
                     <a
@@ -494,9 +488,9 @@ export default function Hero({ onNavigateRegister }) {
                     <button
                       type="button"
                       className="track-enroll-btn is-locked-cta"
-                      title="Workshop 02 registration unlocks automatically when the countdown completes"
+                      title="Workshop 02 registration is currently locked"
                       onClick={() => {
-                        alert('Registration opens automatically when the countdown timer reaches zero.');
+                        alert('Registration is currently locked. Please stay tuned for announcements.');
                       }}
                     >
                       <svg viewBox="0 0 24 24" fill="none" className="btn-lock-icon">
