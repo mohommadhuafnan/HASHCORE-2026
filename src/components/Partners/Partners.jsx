@@ -108,7 +108,7 @@ export default function Partners() {
           <div className="host-details">
             <span className="host-badge-tag">INSTITUTIONAL HOST & PATRON</span>
             <h4 className="host-title">SOUTH EASTERN UNIVERSITY OF SRI LANKA</h4>
-            <p className="host-campus">Faculty of Technology •Department of ICT, SEUSL</p>
+            <p className="host-campus">Department of ICT, Faculty of Technology South Eastern University of Sri Lanka</p>
           </div>
         </div>
       </div>
