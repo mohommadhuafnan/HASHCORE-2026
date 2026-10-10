@@ -5,6 +5,7 @@ import WelcomeLoader from './WelcomeLoader';
 import RegistrationForm from './RegistrationForm';
 import RegistrationSuccess from './RegistrationSuccess';
 import lastFrameImg from '../../frame/00240.webp';
+import { isWorkshopUnlocked } from '../common/RegistrationCountdown';
 import './RegisterPortal.css';
 
 /**
@@ -36,14 +37,16 @@ export default function RegisterPortal({ onBackToHome, initialStage = 'autoplayi
   // Adjust selectedTrack if initialTrack prop changes
   if (initialTrack !== prevInitialTrack) {
     setPrevInitialTrack(initialTrack);
-    if (initialTrack) {
+    if (initialTrack && isWorkshopUnlocked(initialTrack)) {
       setSelectedTrack(initialTrack);
+    } else {
+      setSelectedTrack(null);
     }
   }
 
   // Handlers
   const handleAutoPlayComplete = () => {
-    if (selectedTrack) {
+    if (selectedTrack && isWorkshopUnlocked(selectedTrack)) {
       setStage('welcome');
     } else {
       setStage('categories');
@@ -51,7 +54,7 @@ export default function RegisterPortal({ onBackToHome, initialStage = 'autoplayi
   };
 
   const handleSkipAutoPlay = () => {
-    if (selectedTrack) {
+    if (selectedTrack && isWorkshopUnlocked(selectedTrack)) {
       setStage('welcome');
     } else {
       setStage('categories');
@@ -61,6 +64,10 @@ export default function RegisterPortal({ onBackToHome, initialStage = 'autoplayi
   const handleSelectTrack = (trackKey) => {
     if (trackKey === 'VIEW_EXISTING') {
       setStage('success');
+      return;
+    }
+    if (!isWorkshopUnlocked(trackKey)) {
+      alert('Registration opens automatically when the countdown timer reaches zero.');
       return;
     }
     setSelectedTrack(trackKey);
