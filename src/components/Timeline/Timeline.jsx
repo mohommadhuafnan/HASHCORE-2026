@@ -482,16 +482,16 @@ export default function Timeline({ onNavigateRegister }) {
               EVENT <span className="title-gradient">APPROACH</span>
             </h2>
             <p className="section-desc">
-              A peer-driven awareness model built to make Network & Security Technologies and Software Technologies accessible, welcoming, and actionable.
+              An interactive awareness initiative built to make Cybersecurity, Network & Security Technologies, and Software Engineering accessible, welcoming, and actionable.
             </p>
           </div>
 
           <div className="approach-grid">
             <div className="approach-card">
               <div className="approach-badge font-mono">PILLAR 01</div>
-              <h3 className="approach-title">Students for Students</h3>
+              <h3 className="approach-title">Interactive Guidance</h3>
               <p className="approach-desc">
-                Learn from peers and real student experiences in an encouraging, practical environment.
+                Gain insights through structured, engaging sessions designed to simplify complex concepts in an encouraging, practical environment.
               </p>
             </div>
 
