@@ -1,0 +1,298 @@
+/* ==========================================================================
+   COMPACT CONTACT COMPONENT STYLES — SEUSL HASHCODE '26
+   Clean, Sleek, Symmetrical Dual-Pill Dock
+   ========================================================================== */
+
+.contact-section {
+  position: relative;
+  width: 100%;
+  padding: 3.5rem 1.5rem 4.5rem;
+  z-index: 10;
+}
+
+/* Minimal Header */
+.contact-header {
+  margin-bottom: 1.8rem;
+}
+
+.contact-mini-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-emerald);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.contact-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Compact Horizontal Grid */
+.contact-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Individual Compact Card */
+.compact-contact-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--liquid-glass-bg);
+  backdrop-filter: var(--liquid-glass-blur);
+  -webkit-backdrop-filter: var(--liquid-glass-blur);
+  border: 1px solid var(--liquid-glass-border);
+  border-radius: 16px;
+  text-decoration: none;
+  box-shadow: 
+    var(--liquid-glass-shadow),
+    0 10px 25px -10px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.compact-contact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.compact-contact-card:hover {
+  transform: translateY(-3px);
+  background: var(--liquid-glass-bg-hover);
+  box-shadow: 
+    var(--liquid-glass-shadow-hover),
+    0 14px 30px -10px rgba(0, 0, 0, 0.8);
+}
+
+.whatsapp-card:hover {
+  border-color: rgba(37, 211, 102, 0.45);
+}
+
+.email-card:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+/* Icon Pill */
+.contact-icon-pill {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.whatsapp-pill {
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  color: #25D366;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.2);
+}
+
+.email-pill {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+}
+
+.compact-contact-card:hover .contact-icon-pill {
+  transform: scale(1.08);
+}
+
+.contact-svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Middle Text Column */
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-label-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.contact-main-text {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+.whatsapp-card:hover .contact-main-text {
+  color: #4efbc1;
+}
+
+.email-card:hover .contact-main-text {
+  color: #7dd3fc;
+}
+
+/* Right Action Buttons Group */
+.contact-action-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.action-pill-btn.whatsapp-action {
+  background: rgba(37, 211, 102, 0.16);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  color: #4efbc1;
+}
+
+.compact-contact-card:hover .action-pill-btn.whatsapp-action {
+  background: #00f59b;
+  border-color: #00f59b;
+  color: #030805;
+  box-shadow: 0 4px 15px rgba(0, 245, 155, 0.4);
+}
+
+.action-pill-btn.email-action {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #7dd3fc;
+}
+
+.compact-contact-card:hover .action-pill-btn.email-action {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #030805;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+}
+
+.arrow-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+}
+
+.compact-contact-card:hover .arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Compact Copy Button */
+.compact-copy-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.compact-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.compact-copy-btn.is-copied {
+  background: rgba(0, 245, 155, 0.2);
+  border-color: rgba(0, 245, 155, 0.6);
+  color: #00f59b;
+}
+
+.btn-svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 860px) {
+  .contact-compact-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 540px) {
+  .contact-section {
+    padding: 2.5rem 1rem 3.5rem;
+  }
+
+  .compact-contact-card {
+    padding: 0.95rem 1.1rem;
+    gap: 0.85rem;
+  }
+
+  .contact-icon-pill {
+    width: 40px;
+    height: 40px;
+  }
+
+  .contact-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .contact-main-text {
+    font-size: 0.9rem;
+  }
+
+  .action-pill-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  .compact-copy-btn {
+    width: 32px;
+    height: 32px;
+  }
+}

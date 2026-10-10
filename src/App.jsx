@@ -4,6 +4,7 @@ import Hero from './components/Hero/Hero';
 import Timeline from './components/Timeline/Timeline';
 import Posters from './components/Posters/Posters';
 import Partners from './components/Partners/Partners';
+import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import './App.css';
 
@@ -210,6 +211,11 @@ function App() {
 
             {/* Organizers (SICT) & Media Partner (Agni Vision) */}
             <Partners />
+
+            <div className="section-cyber-divider" aria-hidden="true" />
+
+            {/* Direct Communication Channels (WhatsApp & Email) */}
+            <Contact />
           </div>
 
           {/* 4. Atmospheric Footer with Animated 00148.png Sentinel Background */}
