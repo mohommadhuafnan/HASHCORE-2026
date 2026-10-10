@@ -154,12 +154,14 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.75s ease,
-              filter 0.75s ease,
-              box-shadow 0.75s ease;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s ease,
+              filter 0.5s ease,
+              box-shadow 0.5s ease;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
   will-change: transform, opacity;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
 }
 
 /* Center Card — Large & Prominent, Borderless with Emerald Ambient Depth */
@@ -635,32 +637,54 @@
 
   .posters-carousel-wrapper {
     padding: 1.5rem 0.25rem 2.5rem;
+    overflow: hidden;
   }
 
   .posters-carousel-stage {
-    height: 470px;
+    height: 480px;
+    perspective: 1000px;
   }
 
   .poster-3d-card {
+    width: 88%;
     max-width: 320px;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
   }
 
   .poster-image-box {
-    height: 320px;
+    height: 330px;
+  }
+
+  .poster-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 
   .poster-3d-card.card-center {
-    transform: translateX(0) scale(1.02) translateZ(40px);
+    transform: translateX(0) scale(1.02) translateZ(0);
+    z-index: 10;
+    opacity: 1;
+    filter: none;
+    visibility: visible;
   }
 
   .poster-3d-card.card-left {
-    transform: translateX(-78%) scale(0.76) rotateY(10deg);
-    opacity: 0.4;
+    transform: translateX(-72%) scale(0.78) translateZ(0);
+    opacity: 0.35;
+    z-index: 5;
+    visibility: visible;
   }
 
   .poster-3d-card.card-right {
-    transform: translateX(78%) scale(0.76) rotateY(-10deg);
-    opacity: 0.4;
+    transform: translateX(72%) scale(0.78) translateZ(0);
+    opacity: 0.35;
+    z-index: 5;
+    visibility: visible;
   }
 
   .carousel-nav-btn {

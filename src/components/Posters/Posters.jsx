@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import posterLaunchImg from '../../assets/posters/poster-launch.jpg';
-import posterTeaserImg from '../../assets/posters/poster-teaser.jpg';
+import posterLaunchImg from '../../assets/posters/poster-launch.webp';
+import posterTeaserImg from '../../assets/posters/poster-teaser.webp';
 import './Posters.css';
 
 // Only official posters (duplicated to enable continuous seamless 3D coverflow carousel)
@@ -39,12 +39,12 @@ export default function Posters() {
   const touchStartXRef = useRef(0);
   const touchEndXRef = useRef(0);
 
-  // Auto-looping carousel with pause on hover
+  // Auto-looping carousel with pause on hover (speeded up for snappier experience)
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % POSTERS_DATA.length);
-    }, 2200);
+    }, 1600);
     return () => clearInterval(interval);
   }, [isPaused]);
 
@@ -58,6 +58,7 @@ export default function Posters() {
 
   const handleTouchStart = (e) => {
     touchStartXRef.current = e.targetTouches[0].clientX;
+    touchEndXRef.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchMove = (e) => {
@@ -74,13 +75,14 @@ export default function Posters() {
   };
 
   const handleDownload = async (imgUrl, filename) => {
+    const ext = imgUrl.includes('.webp') ? 'webp' : 'jpg';
     try {
       const response = await fetch(imgUrl);
       const blob = await response.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = blobUrl;
-      a.download = `${filename}.jpg`;
+      a.download = `${filename}.${ext}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -88,7 +90,7 @@ export default function Posters() {
     } catch {
       const a = document.createElement('a');
       a.href = imgUrl;
-      a.download = `${filename}.jpg`;
+      a.download = `${filename}.${ext}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -188,8 +190,8 @@ export default function Posters() {
                       src={poster.image}
                       alt={poster.title}
                       className="poster-preview-img is-loaded"
-                      loading="lazy"
-                      decoding="async"
+                      loading="eager"
+                      decoding="sync"
                     />
                     <div className="poster-hover-overlay">
                       <div className="zoom-btn-icon">
