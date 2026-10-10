@@ -18,7 +18,7 @@ import { submitToGoogleForm } from '../../services/googleFormService';
  */
 export default function RegistrationForm({ track, onBackToCategories, onSuccess }) {
   const isCTF = track === 'CTF';
-  const competitionValue = isCTF ? 'Workshop 01: CTF: From Awareness to Challenge' : 'Workshop 02: From Idea to Impact (Web Dev)';
+  const competitionValue = isCTF ? 'Workshop 01:From Awareness to Challenge' : 'Workshop 02: From Idea to Impact (Web Dev)';
 
   const [formData, setFormData] = useState({
     initialsWithName: '',
@@ -294,8 +294,8 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                   <div className="transit-ring-inner" />
                   <div className="transit-core-shield">
                     <svg viewBox="0 0 24 24" fill="none" className="transit-shield-icon">
-                      <path d="M12 2L3 7V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V6L12 2Z" stroke="currentColor" strokeWidth="1.8"/>
-                      <path d="M12 7V17M8 11L12 7L16 11" stroke="currentColor" strokeWidth="1.8"/>
+                      <path d="M12 2L3 7V12C3 17.5 6.8 22.3 12 23.5C17.2 22.3 21 17.5 21 12V6L12 2Z" stroke="currentColor" strokeWidth="1.8" />
+                      <path d="M12 7V17M8 11L12 7L16 11" stroke="currentColor" strokeWidth="1.8" />
                     </svg>
                   </div>
                 </div>
@@ -321,9 +321,9 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
 
                 <div className="transit-progress-wrap">
                   <div className="transit-progress-bar">
-                    <div 
-                      className="transit-progress-fill" 
-                      style={{ width: `${currentStepInfo.progress}%` }} 
+                    <div
+                      className="transit-progress-fill"
+                      style={{ width: `${currentStepInfo.progress}%` }}
                     />
                   </div>
                   <div className="transit-progress-info font-mono">
@@ -343,14 +343,14 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
 
       {/* Top Header Bar */}
       <div className="reg-form-nav">
-        <button 
-          type="button" 
-          onClick={onBackToCategories} 
+        <button
+          type="button"
+          onClick={onBackToCategories}
           className="btn-switch-track"
           title="Switch workshop track"
         >
           <svg viewBox="0 0 24 24" fill="none" className="arrow-left">
-            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <span>Change Workshop</span>
         </button>
@@ -377,8 +377,8 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
         {submitError && (
           <div className="submission-error-alert" role="alert">
             <svg viewBox="0 0 24 24" fill="none" className="err-icon">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-              <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+              <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
             <span>{submitError}</span>
           </div>
@@ -448,7 +448,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                 </select>
                 <div className="select-arrow-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                 </select>
                 <div className="select-arrow-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 15V17M6 21H18C19.1 21 20 20.1 20 19V11C20 9.9 19.1 9 18 9H6C4.9 9 4 9.9 4 11V19C4 20.1 4.9 21 6 21ZM16 9V7C16 4.8 14.2 3 12 3C9.8 3 8 4.8 8 7V9H16Z" stroke="currentColor" strokeWidth="1.8"/>
+                    <path d="M12 15V17M6 21H18C19.1 21 20 20.1 20 19V11C20 9.9 19.1 9 18 9H6C4.9 9 4 9.9 4 11V19C4 20.1 4.9 21 6 21ZM16 9V7C16 4.8 14.2 3 12 3C9.8 3 8 4.8 8 7V9H16Z" stroke="currentColor" strokeWidth="1.8" />
                   </svg>
                 </div>
               </div>
@@ -609,7 +609,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                   className="consent-box"
                 />
                 <span className="consent-text">
-                  I have read the pre-workshop preparation guidelines and understand that I am responsible 
+                  I have read the pre-workshop preparation guidelines and understand that I am responsible
                   for setting up my laptop and required software before attending the workshop.
                 </span>
               </label>
@@ -673,7 +673,7 @@ export default function RegistrationForm({ track, onBackToCategories, onSuccess 
                   <>
                     <span>Submit Registration</span>
                     <svg viewBox="0 0 24 24" fill="none" className="submit-arrow">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5 12H19M19 12L12 5M19 12L12 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </>
                 )}

@@ -109,7 +109,7 @@ export default function CategorySelection({ onSelectTrack, onBackToHome, existin
             <div className="cat-track-sub-domain" style={{ color: '#00f59b', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: '600', marginBottom: '6px' }}>
               Cybersecurity · Network & Security Technologies
             </div>
-            <h2 className="cat-track-title">CTF: From Awareness to Challenge</h2>
+            <h2 className="cat-track-title">From Awareness to Challenge</h2>
             <p className="cat-track-desc">
               An introduction to Capture The Flag (CTF) competitions, challenge categories, essential tools, preparation strategies, and hands-on cybersecurity challenges.
             </p>
